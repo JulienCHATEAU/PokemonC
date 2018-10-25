@@ -1,0 +1,218 @@
+10 Ecras'Face|40 100 35 0 0|-1 0 100|-1 0|0|63 Ecrase l'ennemi avec les pattes avant ou la queue, par exemple.
+12 Poing-Karate|50 100 25 1 0|-1 0 100|-1 0|0|56 L'ennemi est tranche violemment. Taux de critique eleve.
+11 Ultimapoing|80 85 20 0 0|-1 0 100|-1 0|0|60 L'ennemi recoit un coup de poing d'une puissance incroyable.
+12 Poing de Feu|75 100 15 9 0|-1 0 100|3 10|0|65 Un coup de poing enflamme vient frapper l'ennemi. Peut le bruler.
+11 Poing-Glace|75 100 15 14 0|-1 0 100|2 10|0|61 Un coup de poing glace vient frapper l'ennemi. Peut le geler.
+12 Poing-Eclair|75 100 15 12 0|-1 0 100|0 10|0|70 Un coup de poing electrique vient frapper l'ennemi. Peut le paralyser.
+6 Griffe|40 100 35 0 0|-1 0 100|-1 0|0|70 Lacere l'ennemi avec des griffes acerees pour lui infliger des degats.
+12 Force Poigne|55 100 30 0 0|-1 0 100|-1 0|0|48 L'ennemi est attrape et compresse par les cotes.
+11 Danse-Lames|0 100 20 0 0|0 2 100|-1 0|1|86 Danse frenetique qui exalte l'esprit combatif. Augmente beaucoup l'Attaque du lanceur.
+5 Coupe|50 95 30 0 0|-1 0 100|-1 0|0|45 Coupe l'ennemi avec des lames ou des griffes.
+7 Tornade|40 100 35 2 0|-1 0 100|-1 0|0|73 Le lanceur bat des ailes pour generer une bourrasque qui blesse l'ennemi.
+8 Cru-Aile|60 100 35 2 0|-1 0 100|-1 0|0|75 L'ennemi est frappe par de larges ailes deployees pour infliger des degats.
+9 Souplesse|80 75 20 0 0|-1 0 100|-1 0|0|83 Fouette l'ennemi avec la queue ou une liane, par exemple, pour infliger des degats.
+12 Fouet Lianes|45 100 25 11 0|-1 0 100|-1 0|0|63 Fouette l'ennemi avec de fines lianes pour infliger des degats.
+10 Ecrasement|65 100 20 0 0|-1 0 100|-1 0|0|58 Ecrase l'ennemi avec un enorme pied. Peut aussi l'apeurer.
+11 Ultimawashi|120 75 5 0 0|-1 0 100|-1 0|0|48 Un coup de pied surpuissant qui frappe l'ennemi.
+12 Mawashi Geri|60 85 15 1 0|-1 0 100|-1 0|0|92 Le lanceur effectue un coup de pied tournoyant et extremement rapide. Peut apeurer l'ennemi.
+12 Jet de Sable|0 100 15 4 0|3 -1 100|-1 0|0|63 Lance du sable au visage de l'ennemi pour baisser sa Precision.
+12 Coup d'Boule|70 100 15 0 0|-1 0 100|-1 0|0|56 Le lanceur donne un coup de tete. Peut apeurer l'ennemi.
+10 Koud'Korne|65 100 25 0 0|-1 0 100|-1 0|0|68 Frappe l'ennemi d'un coup de corne pointue pour infliger des degats.
+6 Charge|40 100 35 0 0|-1 0 100|-1 0|0|59 Le lanceur charge l'ennemi et le percute de tout son poids.
+8 Plaquage|85 100 15 0 0|-1 0 100|0 30|0|84 Le lanceur se laisse tomber sur l'ennemi de tout son poids. Peut aussi le paralyser.
+10 Mimi-Queue|0 100 30 0 0|1 -1 100|-1 0|0|96 Le lanceur remue son adorable queue pour tromper la vigilance de l'ennemi et baisser sa Defense.
+10 Dard-Venin|15 100 35 3 0|-1 0 100|4 30|0|66 Un dard toxique qui transperce l'ennemi. Peut aussi l'empoisonner.
+9 Groz'Yeux|0 100 30 0 0|1 -1 100|-1 0|0|80 Le lanceur fait les gros yeux a l'ennemi pour l'intimider et baisser sa Defense.
+7 Morsure|60 100 25 16 0|-1 0 100|-1 0|0|62 L'ennemi est mordu par de tranchantes canines. Peut l'apeurer.
+11 Rugissement|0 100 40 0 0|0 -1 100|-1 0|0|96 Le lanceur pousse un cri tout mimi pour tromper la vigilance de l'ennemi et baisser son Attaque.
+8 Berceuse|0 55 15 0 0|-1 0 100|1 100|0|53 Une berceuse plonge l'ennemi dans un profond sommeil.
+5 Acide|40 100 30 3 0|1 -1 10|-1 0|0|97 Le lanceur attaque l'ennemi avec un jet d'acide corrosif. Peut aussi baisser sa Defense Speciale.
+9 Flammeche|40 100 25 9 0|-1 0 100|3 10|0|65 L'ennemi est attaque par une faible flamme. Peut aussi le bruler.
+13 Lance-Flammes|90 100 15 9 0|-1 0 100|3 10|0|60 L'ennemi recoit un torrent de flammes. Peut aussi le bruler.
+12 Pistolet a O|40 100 25 10 0|-1 0 100|-1 0|0|46 De l'eau est projetee avec force sur l'ennemi.
+10 Hydrocanon|110 80 5 10 0|-1 0 100|-1 0|0|46 Un puissant jet d'eau est dirige sur l'ennemi.
+4 Surf|90 100 15 10 0|-1 0 100|-1 0|0|108 Une enorme vague s'abat sur le champ de bataille et inflige des degats a tous les Pokemon autour du lanceur.
+11 Laser Glace|90 100 10 14 0|-1 0 100|2 10|0|55 Un rayon de glace frappe l'ennemi. Peut aussi le geler.
+8 Blizzard|110 70 5 14 0|-1 0 100|2 10|0|71 Une violente tempete de neige s'abat sur l'ennemi. Peut aussi le geler.
+10 Rafale Psy|65 100 20 13 0|-1 0 100|5 10|0|62 Un etrange rayon frappe l'ennemi. Peut aussi le rendre confus.
+10 Bulles d'O|65 100 20 10 0|2 -1 10|-1 0|0|84 Des bulles sont envoyees avec puissance sur l'ennemi. Peut aussi baisser sa Vitesse.
+12 Onde Boreale|65 100 20 14 0|0 -1 10|-1 0|0|73 Envoie un rayon arc-en-ciel sur l'ennemi. Peut aussi baisser son Attaque.
+6 Picpic|35 100 35 2 0|-1 0 100|-1 0|0|72 Frappe l'ennemi d'un bec pointu ou d'une corne pour infliger des degats.
+10 Bec Vrille|80 100 20 2 0|-1 0 100|-1 0|0|48 Une attaque utilisant le bec comme une perceuse.
+5 Force|80 100 15 0 0|-1 0 100|-1 0|0|47 Le lanceur cogne l'ennemi de toutes ses forces.
+10 Croissance|0 100 20 0 0|0 1 100|-1 0|1|75 Le corps du lanceur se developpe. Augmente l'Attaque et l'Attaque Speciale.
+12 Tranch'Herbe|55 95 25 11 0|-1 0 100|-1 0|0|85 Des feuilles aiguisees comme des rasoirs entaillent l'ennemi. Taux de critique eleve.
+12 Poudre Toxik|0 75 35 3 0|-1 0 100|4 100|0|39 Une poudre toxique empoisonne l'ennemi.
+10 Para-Spore|0 75 30 11 0|-1 0 100|0 100|0|58 Le lanceur repand sur l'ennemi une poudre qui le paralyse.
+11 Poudre Dodo|0 75 15 11 0|-1 0 100|1 100|0|61 Le lanceur repand une poudre soporifique qui endort la cible.
+9 Secretion|0 95 40 6 0|2 -2 100|-1 0|0|82 Le lanceur crache de la soie pour ligoter l'ennemi et beaucoup baisser sa Vitesse.
+6 Eclair|40 100 30 12 0|-1 0 100|0 10|0|68 Une decharge electrique tombe sur l'ennemi. Peut aussi le paralyser.
+8 Tonnerre|90 100 15 12 0|-1 0 100|0 10|0|75 Une grosse decharge electrique tombe sur l'ennemi. Peut aussi le paralyser.
+11 Cage-Eclair|0 90 20 12 0|-1 0 100|0 100|0|89 Un faible choc electrique frappe l'ennemi. Si l'attaque le touche, celui-ci est paralyse.
+12 Fatal-Foudre|110 70 10 12 0|-1 0 100|0 30|0|83 La foudre tombe sur l'ennemi pour lui infliger des degats. Peut aussi le paralyser.
+11 Jet-Pierres|50 90 15 5 0|-1 0 100|-1 0|0|41 Le lanceur lache une pierre sur l'ennemi.
+6 Seisme|100 100 10 4 0|-1 0 100|-1 0|0|84 Le lanceur provoque un tremblement de terre touchant tous les Pokemon autour de lui.
+5 Toxik|0 90 10 3 0|-1 0 100|4 100|0|81 Empoisonne gravement l'ennemi. Les degats dus au poison augmentent a chaque tour.
+11 Choc Mental|50 100 25 13 0|-1 0 100|5 10|0|88 Une faible vague telekinetique frappe l'ennemi. Peut aussi le plonger dans la confusion.
+5 Psyko|90 100 10 13 0|1 -1 10|-1 0|0|96 Une puissante force telekinetique frappe l'ennemi. Peut aussi faire baisser sa Defense Speciale.
+7 Hypnose|0 60 20 13 0|-1 0 100|1 100|0|70 Le lanceur hypnotise l'ennemi pour le plonger dans un profond sommeil.
+4 Yoga|0 100 40 13 0|0 1 100|-1 0|1|76 Le lanceur medite pour eveiller son pouvoir latent et augmenter son Attaque.
+4 Hate|0 100 30 13 0|2 2 100|-1 0|1|76 Le lanceur se relaxe et allege son corps pour beaucoup augmenter sa Vitesse.
+12 Vive-Attaque|40 100 30 0 1|-1 0 100|-1 0|0|102 Le lanceur fonce sur l'ennemi si rapidement qu'on parvient a peine a le discerner. Frappe en priorite.
+10 Grincement|0 85 40 0 0|1 -2 100|-1 0|0|56 Cri strident qui baisse beaucoup la Defense de l'ennemi.
+6 Armure|0 100 30 0 0|1 1 100|-1 0|1|64 Le lanceur contracte tous ses muscles pour augmenter sa Defense.
+10 Brouillard|0 100 20 0 0|3 -1 100|-1 0|0|82 Le lanceur disperse un nuage d'encre ou de fumee. Reduit la Precision de l'ennemi.
+5 Repli|0 100 40 10 0|1 1 100|-1 0|1|73 Le lanceur se recroqueville dans sa carapace, ce qui augmente sa Defense.
+11 Boul'Armure|0 100 40 0 0|1 1 100|-1 0|1|80 Le lanceur s'enroule pour cacher ses points faibles, ce qui augmente sa Defense.
+8 Bouclier|0 100 20 13 0|1 2 100|-1 0|1|64 Le lanceur erige un mur solide qui augmente beaucoup sa Defense.
+8 Bomb'Œuf|100 75 10 0 0|-1 0 100|-1 0|0|93 De toutes ses forces, le lanceur jette un gros œuf sur l'ennemi pour lui infliger des degats.
+10 Lechouille|30 100 30 7 0|-1 0 100|0 30|0|83 Un grand coup de langue qui inflige des degats a l'ennemi. Peut aussi le paralyser.
+9 Puredpois|30 70 20 3 0|-1 0 100|4 40|0|94 Le lanceur attaque a l'aide d'une eruption de gaz repugnants. Peut aussi empoisonner l'ennemi.
+8 Detritus|65 100 20 3 0|-1 0 100|4 30|0|75 Des detritus toxiques sont projetes sur l'ennemi. Peut aussi l'empoisonner.
+8 Massd'Os|65 85 20 4 0|-1 0 100|-1 0|0|69 Le lanceur frappe l'ennemi a grands coups d'os. Peut aussi l'apeurer.
+12 Deflagration|110 85 5 9 0|-1 0 100|3 10|0|70 Un deluge de flammes ardentes submerge l'ennemi. Peut aussi le bruler.
+7 Cascade|80 100 15 10 0|-1 0 100|-1 0|0|76 Le lanceur charge l'ennemi a une vitesse remarquable, ce qui peut l'apeurer.
+12 Constriction|10 100 35 0 0|2 -1 10|-1 0|0|80 De longs tentacules ou lianes attaquent l'ennemi. Peut aussi baisser sa Vitesse.
+7 Amnesie|0 100 20 13 0|1 2 100|-1 0|1|103 Le lanceur fait le vide dans son esprit pour oublier ses soucis. Augmente beaucoup sa Defense Speciale.
+11 Telekinesie|0 80 15 13 0|3 -1 100|-1 0|0|79 Le lanceur distrait l'ennemi en pliant une cuiller, ce qui baisse sa Precision.
+15 Regard Medusant|0 100 30 0 0|-1 0 100|0 100|0|77 Le lanceur intimide l'ennemi grace a son regard terrifiant pour le paralyser.
+9 Gaz Toxik|0 90 40 3 0|-1 0 100|4 100|0|77 Un nuage de gaz toxique est projete au visage de l'ennemi pour l'empoisonner.
+8 Grobisou|0 75 10 0 0|-1 0 100|1 100|0|84 Le lanceur fait un bisou a l'ennemi en prenant une mine effrayante. Endort l'ennemi.
+5 Ecume|40 100 30 10 0|2 -1 10|-1 0|0|54 Des bulles frappent l'ennemi. Peut reduire sa Vitesse.
+8 Uppercut|70 100 10 0 0|-1 0 100|5 20|0|88 Un enchainement de coups de poing cadences frappe l'ennemi. Peut aussi le rendre confus.
+5 Spore|0 100 15 11 0|-1 0 100|1 100|0|48 Le lanceur repand un nuage de spores qui endort.
+5 Flash|0 100 20 0 0|3 -1 100|-1 0|0|62 Explosion lumineuse qui fait baisser la Precision de l'ennemi.
+10 Acidarmure|0 100 20 3 0|1 2 100|-1 0|1|95 Le lanceur modifie sa structure moleculaire pour se liquefier et beaucoup augmenter sa Defense.
+11 Pince-Masse|100 90 10 10 0|-1 0 100|-1 0|0|58 Une grande pince martele l'ennemi. Taux de critique eleve.
+10 Eboulement|75 90 10 5 0|-1 0 100|-1 0|0|83 Envoie de gros rochers sur l'ennemi pour infliger des degats. Peut aussi l'apeurer.
+12 Croc de Mort|80 90 15 0 0|-1 0 100|-1 0|0|83 Le lanceur mord l'ennemi a l'aide de ses incisives aiguisees. Peut aussi l'apeurer.
+8 Affutage|0 100 30 0 0|0 1 100|-1 0|1|93 Le lanceur reduit son nombre de polygones pour accentuer ses angles et augmenter son Attaque.
+7 Tranche|70 100 20 0 0|-1 0 100|-1 0|0|68 Un coup de griffe ou autre tranche l'ennemi. Taux de critique eleve.
+5 Lutte|50 100 1 0 0|-1 0 100|-1 0|0|93 Une attaque desesperee, utilisee quand le lanceur n'a plus de PP. Le blesse aussi legerement.
+6 Larcin|60 100 25 16 0|-1 0 100|-1 0|0|102 Le lanceur attaque la cible et vole son objet. Le lanceur ne peut rien voler s'il tient deja un objet.
+11 Roue de Feu|60 100 25 9 0|-1 0 100|3 10|0|69 Le lanceur s'entoure de feu et charge l'ennemi. Peut aussi le bruler.
+9 Aeroblast|100 95 5 2 0|-1 0 100|-1 0|0|94 Le lanceur projette une tornade sur l'ennemi pour infliger des degats. Taux de critique eleve.
+11 Spore Coton|0 100 40 11 0|2 -2 100|-1 0|0|96 Le lanceur libere des spores cotonneuses qui collent a l'ennemi et baissent beaucoup sa Vitesse.
+9 Poudreuse|40 100 25 14 0|-1 0 100|2 10|0|69 Le lanceur projette de la neige poudreuse. Peut aussi geler l'ennemi.
+10 Mach Punch|40 100 30 1 1|-1 0 100|-1 0|0|44 Coup de poing fulgurant. Frappe en priorite.
+7 Grimace|0 100 10 0 0|2 -2 100|-1 0|0|63 Une grimace qui effraie l'ennemi et reduit beaucoup sa Vitesse.
+10 Bomb-Beurk|90 100 10 3 0|-1 0 100|4 30|0|75 Des detritus toxiques sont projetes sur l'ennemi. Peut aussi l'empoisonner.
+9 Coud'Boue|20 100 10 4 0|3 -1 100|-1 0|0|100 Le lanceur envoie de la boue au visage de l'ennemi pour infliger des degats et baisser sa Precision.
+9 Octazooka|65 85 10 10 0|3 -1 50|-1 0|0|99 Le lanceur attaque en projetant de l'encre au visage de l'ennemi. Peut aussi baisser sa Precision. 
+8 Elecanon|120 50 5 12 0|-1 0 100|0 100|0|74 Un boulet de canon electrifie qui inflige des degats et paralyse l'ennemi.
+10 Vent Glace|55 95 15 14 0|2 -1 100|-1 0|0|70 Une bourrasque de vent froid blesse l'ennemi. Reduit aussi sa Vitesse.
+6 Charme|0 100 20 17 0|0 -2 100|-1 0|0|83 Le lanceur fait les yeux doux pour berner l'ennemi et beaucoup reduire son Attaque.
+10 Vantardise|0 85 15 0 0|0 2 100|5 100|0|89 Fait enrager la cible et la plonge dans la confusion, mais augmente beaucoup son Attaque.
+9 Etincelle|65 100 20 12 0|-1 0 100|0 30|0|66 Lance une charge electrique sur l'ennemi. Peut aussi le paralyser.
+12 Aile d'Acier|70 90 25 8 0|1 1 10|-1 0|1|94 Le lanceur frappe l'ennemi avec des ailes d'acier. Peut aussi augmenter la Defense du lanceur.
+9 Feu Sacre|100 95 5 9 0|-1 0 100|3 50|0|106 Le lanceur genere un feu mystique d'une intensite redoutable pour attaquer l'ennemi. Peut aussi le bruler.
+11 Dynamopoing|100 50 5 1 0|-1 0 100|5 100|0|94 Le lanceur rassemble ses forces et envoie un coup de poing a l'ennemi. Rend ce dernier confus.
+9 Megacorne|120 85 10 6 0|-1 0 100|-1 0|0|65 Le lanceur utilise ses gigantesques cornes pour charger l'ennemi.
+12 Dracosouffle|60 100 20 15 0|-1 0 100|0 30|0|91 Le lanceur souffle fort sur l'ennemi pour lui infliger des degats. Peut aussi le paralyser.
+9 Poursuite|40 100 20 16 0|-1 0 100|-1 0|0|91 Une attaque qui inflige deux fois plus de degats a un ennemi qui s'apprete a etre remplace.
+12 Queue de Fer|100 75 15 8 0|1 -1 30|-1 0|0|70 Attaque l'ennemi avec une queue de fer. Peut aussi baisser sa Defense.
+12 Griffe Acier|50 95 35 8 0|0 1 10|-1 0|1|76 Attaque avec des griffes d'acier. Peut aussi augmenter l'Attaque du lanceur.
+11 Corps Perdu|70 100 10 1 -1|-1 0 100|-1 0|0|81 Le lanceur porte son coup en dernier. En echange, cette capacite n'echoue jamais.
+10 Coup-Croix|100 80 5 1 0|-1 0 100|-1 0|0|85 Le lanceur delivre un coup double en croisant les avant-bras. Taux de critique eleve.
+7 Ouragan|40 100 20 15 0|-1 0 100|-1 0|0|65 Declenche un terrible ouragan sur l'ennemi. Peut aussi l'apeurer.
+10 Machouille|80 100 15 16 0|1 -1 20|-1 0|0|77 Le lanceur mord l'ennemi de ses crocs pointus. Peut aussi baisser sa Defense.
+15 Vitesse Extreme|80 100 5 0 2|-1 0 100|-1 0|0|64 Le lanceur charge a une vitesse renversante. Frappe en priorite.
+10 Ball'Ombre|80 100 15 7 0|1 -1 20|-1 0|0|85 Projette une grande ombre sur l'ennemi. Peut aussi faire baisser sa Defense Speciale.
+10 Eclate-Roc|40 100 15 1 0|1 -1 50|-1 0|0|62 Porte un coup de poing a l'ennemi qui peut baisser sa Defense.
+5 Bluff|40 100 10 0 3|-1 0 100|-1 0|0|83 Permet de frapper en priorite et apeure l'ennemi. Ne fonctionne qu'au premier tour.
+8 Canicule|95 90 10 9 0|-1 0 100|3 10|0|69 Le lanceur provoque une vague de chaleur. Peut aussi bruler l'ennemi.
+10 Feu Follet|0 85 15 9 0|-1 0 100|3 100|0|80 Lance un bouquet de flammes malefiques a l'ennemi pour lui infliger une brulure.
+6 Facade|70 100 20 0 0|-1 0 100|-1 0|0|90 Une attaque dont la puissance double lorsque le lanceur est empoisonne, paralyse ou brule.
+8 Chargeur|0 100 20 12 0|1 1 100|-1 0|1|99 Le lanceur concentre sa puissance pour sa prochaine attaque Electrik. Augmente sa Defense Speciale.
+12 Surpuissance|120 100 5 1 0|0 -1 100|-1 0|1|74 Une attaque puissante, mais qui baisse l'Attaque et la Defense du lanceur.
+12 Casse-Brique|75 100 15 1 0|-1 0 100|-1 0|0|111 Une attaque avec le tranchant de la main. Permet aussi de briser les barrieres comme Mur Lumiere et Protection.
+8 Sabotage|65 100 20 16 0|-1 0 100|-1 0|0|144 Fait plus de degats aux cibles qui tiennent un objet. De plus, fait tomber cet objet et empeche la cible de l'utiliser jusqu'a la fin du combat.
+8 Eruption|150 100 5 9 0|-1 0 100|-1 0|0|92 Le lanceur laisse exploser sa colere. Plus ses PV sont bas et moins l'attaque est puissante.
+9 Lumiqueue|0 100 20 6 0|0 3 100|-1 0|1|88 Le lanceur regarde un flash lumineux fixement. Augmente enormement son Attaque Speciale.
+10 Lumi-Eclat|70 100 5 13 0|1 -1 50|-1 0|0|89 Le lanceur libere un eclair lumineux. Peut aussi baisser la Defense Speciale de l'ennemi.
+10 Ball'Brume|70 100 5 13 0|0 -1 50|-1 0|0|90 Une bulle de brume inflige des degats a l'ennemi. Peut aussi reduire son Attaque Speciale.
+12 Pied Bruleur|85 90 10 9 0|-1 0 100|3 10|0|88 Le lanceur envoie un coup de pied au taux de critique eleve. Peut aussi bruler la cible.
+10 Poing Dard|60 100 15 11 0|-1 0 100|-1 0|0|83 Le lanceur attaque en fouettant l'ennemi de ses bras epineux. Peut aussi l'apeurer.
+9 Megaphone|90 100 10 0 0|-1 0 100|-1 0|0|94 Le lanceur pousse un cri dont l'echo terrifiant a le pouvoir d'infliger des degats a l'ennemi.
+13 Crochet Venin|50 100 15 3 0|-1 0 100|4 50|0|83 Le lanceur mord l'ennemi de ses crocs toxiques. Peut aussi l'empoisonner gravement.
+13 Eclate Griffe|75 95 10 0 0|1 -1 50|-1 0|0|85 Lacere l'ennemi avec des griffes solides et aiguisees. Peut aussi baisser sa Defense.
+13 Poing Meteore|90 90 10 8 0|0 1 20|-1 0|1|92 Un coup de poing lance a la vitesse d'un meteore. Peut aussi augmenter l'Attaque du lanceur.
+10 Etonnement|30 100 15 7 0|-1 0 100|-1 0|0|80 Le lanceur attaque l'ennemi en poussant un cri terrifiant. Peut aussi l'apeurer.
+11 Croco Larme|0 100 20 16 0|1 -2 100|-1 0|0|99 Le lanceur fait semblant de pleurer pour troubler l'ennemi et beaucoup baisser sa Defense Speciale.
+10 Tranch'Air|60 95 25 2 0|-1 0 100|-1 0|0|86 Le lanceur appelle des vents tranchants qui lacerent l'ennemi. Taux de critique eleve.
+10 Surchauffe|130 90 5 9 0|0 -2 100|-1 0|1|97 Attaque l'ennemi a pleine puissance. Le contrecoup baisse beaucoup l'Attaque Speciale du lanceur.
+10 Tomberoche|60 95 15 5 0|2 -1 100|-1 0|0|55 Des rochers frappent l'ennemi. Reduit aussi sa Vitesse.
+10 Strido-Son|0 85 40 8 0|1 -2 100|-1 0|0|97 Un cri horrible tel un crissement metallique qui reduit beaucoup la Defense Speciale de l'ennemi.
+11 Siffl'Herbe|0 55 15 11 0|-1 0 100|1 100|0|78 Le lanceur joue une douce melodie qui plonge l'ennemi dans un profond sommeil.
+12 Force Cosmik|0 100 20 13 0|1 1 100|-1 0|1|94 Le lanceur absorbe un pouvoir mystique spatial qui augmente sa Defense et sa Defense Speciale.
+12 Rayon Signal|75 100 15 6 0|-1 0 100|5 10|0|84 Le lanceur projette un rayon de lumiere sinistre. Peut aussi rendre l'ennemi confus.
+12 Extrasenseur|80 100 20 13 0|-1 0 100|-1 0|0|85 Le lanceur attaque avec un pouvoir etrange et invisible. Peut aussi apeurer l'ennemi.
+12 Stratopercut|85 90 15 1 0|-1 0 100|-1 0|0|91 Le lanceur attaque avec un uppercut. Il envoie son poing vers le ciel de toutes ses forces.
+7 Ocroupi|90 85 10 10 0|3 -1 30|-1 0|0|94 Le lanceur attaque en projetant de l'eau boueuse. Peut aussi reduire la Precision de l'ennemi.
+10 Mur de Fer|0 100 15 8 0|1 2 100|-1 0|1|84 L'epiderme du lanceur devient dur comme du fer, ce qui augmente beaucoup sa Defense.
+10 Grondement|0 100 40 0 0|0 1 100|-1 0|1|64 Le lanceur grogne pour se rassurer, ce qui augmente son Attaque.
+11 Dracogriffe|80 100 15 15 0|-1 0 100|-1 0|0|60 Le lanceur lacere l'ennemi de ses grandes griffes aiguisees.
+11 Tir de Boue|55 95 15 4 0|2 -1 100|-1 0|0|93 Le lanceur attaque en projetant de la boue sur l'ennemi. Reduit aussi la Vitesse de la cible.
+12 Queue-Poison|50 100 25 3 0|-1 0 100|4 10|0|66 Attaque a taux de critique eleve. Peut aussi empoisonner l'ennemi.
+9 Plenitude|0 100 20 13 0|0 1 100|-1 0|1|115 Le lanceur se concentre et fait le vide dans son esprit pour augmenter son Attaque Speciale et sa Defense Speciale.
+12 Lame-Feuille|90 100 15 11 0|-1 0 100|-1 0|0|78 Une feuille coupante comme une lame entaille l'ennemi. Taux de critique eleve.
+11 Danse Draco|0 100 20 15 0|0 1 100|-1 0|1|86 Une danse mystique dont le rythme effrene augmente l'Attaque et la Vitesse du lanceur.
+8 Vibraqua|60 100 20 10 0|-1 0 100|5 20|0|76 Le lanceur envoie un puissant jet d'eau sur l'ennemi. Peut le rendre confus.
+12 Psycho Boost|140 90 5 13 0|0 -2 100|-1 0|1|97 Attaque l'ennemi a pleine puissance. Le contrecoup baisse beaucoup l'Attaque Speciale du lanceur.
+12 Reveil Force|70 100 10 1 0|-1 0 100|-1 0|0|96 Cette attaque inflige d'importants degats a un Pokemon endormi. Mais elle le reveille egalement.
+11 Marto-Poing|100 90 10 1 0|2 -1 100|-1 0|1|84 Le lanceur donne un puissant coup de poing a l'ennemi. Reduit la Vitesse du lanceur.
+7 Saumure|65 100 10 10 0|-1 0 100|-1 0|0|91 Cette attaque est deux fois plus puissante lorsque l'ennemi a moins de la moitie de ses PV.
+4 Ruse|30 100 10 0 2|-1 0 100|-1 0|0|123 Une attaque capable de toucher un ennemi qui utilise une capacite comme Detection ou Abri. Annule l'effet de ces capacites.
+6 Picore|60 100 20 2 0|-1 0 100|-1 0|0|107 Le lanceur picore la cible. Si cette derniere tient une Baie, le lanceur la mange et profite de ses effets.
+12 Close Combat|120 100 5 1 0|1 -1 100|-1 0|1|100 Le lanceur combat au corps a corps sans se proteger. Baisse aussi sa Defense et sa Defense Speciale.
+9 Assurance|60 100 10 16 0|-1 0 100|-1 0|0|87 Cette attaque est deux fois plus efficace si l'ennemi a deja ete blesse durant ce tour.
+11 Forte-Paume|60 100 10 1 0|-1 0 100|0 30|0|64 Une onde de choc frappe l'ennemi. Peut aussi paralyser la cible.
+10 Aurasphere|80 100 20 1 0|-1 0 100|-1 0|0|69 Le lanceur degage une aura et projette de l'energie. N'echoue jamais.
+9 Poliroche|0 100 20 5 0|2 2 100|-1 0|1|93 Le lanceur polit son corps pour diminuer sa resistance au vent. Augmente beaucoup la Vitesse.
+12 Direct Toxik|80 100 20 3 0|-1 0 100|4 30|0|106 Attaque l'ennemi avec un tentacule, un bras, ou un autre membre plein de poison. Peut aussi l'empoisonner.
+10 Vibrobscur|80 100 15 16 0|-1 0 100|-1 0|0|88 Le lanceur degage une horrible aura chargee d'idees noires. Peut aussi apeurer l'ennemi.
+12 Tranche-Nuit|70 100 15 16 0|-1 0 100|-1 0|0|74 Le lanceur lacere l'ennemi a la premiere occasion. Taux de critique eleve.
+10 Hydroqueue|90 90 10 10 0|-1 0 100|-1 0|0|82 Le lanceur attaque en balancant sa queue comme une lame de fond en pleine tempete.
+12 Canon Graine|80 100 15 11 0|-1 0 100|-1 0|0|70 Le lanceur fait pleuvoir un deluge de graines explosives sur l'ennemi.
+10 Lame d'Air|75 95 15 2 0|-1 0 100|-1 0|0|82 Le lanceur attaque avec une lame d'air qui fend tout. Peut aussi apeurer l'ennemi.
+11 Plaie-Croix|80 100 15 6 0|-1 0 100|-1 0|0|93 Le lanceur taillade l'ennemi en utilisant ses faux ou ses griffes comme une paire de ciseaux.
+7 Bourdon|90 100 10 6 0|1 -1 10|-1 0|0|115 Le lanceur fait vibrer son corps pour lancer une vague sonique. Peut aussi baisser la Defense Speciale de l'ennemi.
+9 Dracochoc|85 100 10 15 0|-1 0 100|-1 0|0|77 Le lanceur ouvre la bouche pour envoyer une onde de choc qui frappe l'ennemi.
+11 Dracocharge|100 75 10 15 0|-1 0 100|-1 0|0|76 Le lanceur frappe l'ennemi en prenant un air menacant. Peut aussi l'apeurer.
+11 Rayon Gemme|80 100 20 5 0|-1 0 100|-1 0|0|93 Le lanceur attaque avec un rayon de lumiere qui scintille comme s'il etait compose de gemmes.
+9 Onde Vide|40 100 30 1 1|-1 0 100|-1 0|0|78 Le lanceur agite son poing pour projeter une onde de vide. Frappe en priorite.
+10 Exploforce|120 70 5 1 0|1 -1 10|-1 0|0|114 Le lanceur rassemble ses forces et laisse eclater son pouvoir. Peut aussi baisser la Defense Speciale de l'ennemi.
+10 Eco-Sphere|90 100 10 11 0|1 -1 10|-1 0|0|97 Utilise les pouvoirs de la nature pour attaquer l'ennemi. Peut aussi baisser sa Defense Speciale.
+12 Telluriforce|90 100 10 4 0|1 -1 10|-1 0|0|79 De terribles seismes secouent l'ennemi. Peut aussi baisser sa Defense Speciale.
+11 Machination|0 100 20 16 0|0 2 100|-1 0|1|91 Stimule l'esprit par de mauvaises pensees. Augmente beaucoup l'Attaque Speciale du lanceur.
+11 Pisto-Poing|40 100 30 8 1|-1 0 100|-1 0|0|98 Le lanceur envoie des coups de poing aussi rapides que des balles de revolver. Frappe en priorite.
+12 Eclats Glace|40 100 30 14 1|-1 0 100|-1 0|0|82 Le lanceur cree des eclats de glace qu'il envoie sur l'ennemi. Frappe en priorite.
+12 Griffe Ombre|70 100 15 7 0|-1 0 100|-1 0|0|73 Attaque avec une griffe puissante faite d'ombres. Taux de critique eleve.
+12 Crocs Eclair|65 95 15 12 0|-1 0 100|0 10|0|85 Le lanceur utilise une morsure electrifiee. Peut aussi paralyser ou apeurer l'ennemi.
+11 Crocs Givre|65 95 15 14 0|-1 0 100|2 10|0|78 Le lanceur utilise une morsure glaciale. Peut aussi geler ou apeurer l'ennemi.
+9 Crocs Feu|65 95 15 9 0|-1 0 100|3 10|0|80 Le lanceur utilise une morsure enflammee. Peut aussi bruler ou apeurer l'ennemi.
+12 Ombre Portee|40 100 30 7 1|-1 0 100|-1 0|0|73 Le lanceur etend son ombre pour frapper par-derriere. Frappe en priorite.
+10 Boue-Bombe|65 85 10 4 0|3 -1 30|-1 0|0|104 Le lanceur attaque a l'aide d'une boule de boue solidifiee. Peut aussi baisser la Precision de l'ennemi.
+12 Coupe Psycho|70 100 20 13 0|-1 0 100|-1 0|0|98 Le lanceur entaille l'ennemi grace a des lames faites d'energie psychique. Taux de critique eleve.
+12 Psykoud'Boul|80 90 15 13 0|-1 0 100|-1 0|0|86 Le lanceur concentre sa volonte et donne un coup de tete. Peut aussi apeurer l'ennemi.
+9 Miroi-Tir|65 85 10 8 0|3 -1 30|-1 0|0|97 Le corps poli du lanceur libere un eclair d'energie. Peut aussi baisser la Precision de l'ennemi.
+11 Luminocanon|80 100 10 8 0|1 -1 10|-1 0|0|115 Le lanceur concentre son energie lumineuse et la fait exploser. Peut aussi baisser la Defense Speciale de l'ennemi.
+8 Escalade|90 85 20 0 0|-1 0 100|5 20|0|73 Le lanceur se jette violemment sur l'ennemi. Peut aussi le rendre confus.
+13 Draco Meteore|130 90 5 15 0|0 -2 100|-1 0|1|83 Le lanceur invoque des cometes. Le contrecoup reduit beaucoup son Attaque Speciale.
+10 Coup d'Jus|80 100 15 12 0|-1 0 100|0 30|0|98 Un flamboiement d'electricite frappe tous les Pokemon autour du lanceur. Peut aussi les paralyser.
+10 Ebullilave|80 100 15 9 0|-1 0 100|3 30|0|91 Des boules de feu s'abattent sur tous les Pokemon autour du lanceur. Peut aussi les bruler.
+13 Tempete Verte|130 90 5 11 0|0 -2 100|-1 0|1|101 Invoque une tempete de feuilles acerees. Le contrecoup reduit beaucoup l'Attaque Speciale du lanceur.
+9 Megafouet|120 85 10 11 0|-1 0 100|-1 0|0|90 Le lanceur fait virevolter violemment ses lianes ou ses tentacules pour fouetter l'ennemi.
+12 Poison-Croix|70 100 20 3 0|-1 0 100|4 10|0|72 Un coup tranchant qui peut empoisonner l'ennemi. Taux de critique eleve.
+10 Detricanon|120 80 5 3 0|-1 0 100|4 30|0|70 Le lanceur envoie des detritus sur l'ennemi. Peut aussi l'empoisonner.
+11 Tete de Fer|80 100 15 8 0|-1 0 100|-1 0|0|84 Le lanceur heurte l'ennemi avec sa tete dure comme de l'acier. Peut aussi l'apeurer.
+10 Bombaimant|60 100 20 8 0|-1 0 100|-1 0|0|79 Le lanceur projette des bombes d'acier qui collent a l'ennemi. N'echoue jamais.
+11 Lame de Roc|100 80 5 5 0|-1 0 100|-1 0|0|72 Fait surgir des pierres aiguisees sous l'ennemi. Taux de critique eleve.
+5 Babil|65 100 20 2 0|-1 0 100|5 100|0|93 Attaque avec les ondes sonores assourdissantes qu'il emet en bavardant. Rend l'ennemi confus.
+8 Jugement|100 100 10 0 0|-1 0 100|-1 0|0|103 Le lanceur libere une myriade de rayons de lumiere. Le type varie selon la Plaque que tient le lanceur.
+12 Rayon Charge|50 90 10 12 0|0 1 70|-1 0|1|89 Le lanceur tire un rayon charge d'electricite. Peut aussi augmenter son Attaque Speciale.
+8 Aqua-Jet|40 100 20 10 1|-1 0 100|-1 0|0|102 Le lanceur fonce sur l'ennemi si rapidement qu'on parvient a peine a le discerner. Frappe en priorite.
+13 Appel Attaque|90 100 15 6 0|-1 0 100|-1 0|0|81 Le lanceur appelle ses sous-fifres pour frapper l'ennemi. Taux de critique eleve.
+13 Appel Defense|0 100 10 6 0|1 1 100|-1 0|1|106 Le lanceur appelle ses sous-fifres pour former un bouclier qui augmente sa Defense et sa Defense Speciale.
+11 Hurle-Temps|150 90 5 15 0|-1 0 100|-1 0|0|88 Le lanceur frappe si fort qu'il affecte le cours du temps. Il se repose au tour suivant.
+11 Spatio-Rift|100 95 5 15 0|-1 0 100|-1 0|0|78 Le lanceur dechire l'ennemi et l'espace autour de lui. Taux de critique eleve.

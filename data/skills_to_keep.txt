@@ -1,0 +1,219 @@
+10 Ecras’Face
+12 Poing-Karate
+11 Ultimapoing
+12 Poing de Feu
+11 Poing-Glace
+12 Poing-Eclair
+6 Griffe
+10 Vantardise
+12 Force Poigne
+11 Danse-Lames
+5 Coupe
+7 Tornade
+8 Cru-Aile
+9 Souplesse
+12 Fouet Lianes
+10 Ecrasement
+11 Ultimawashi
+12 Mawashi Geri
+12 Jet de Sable
+12 Coup d’Boule
+10 Koud’Korne
+6 Charge
+8 Plaquage
+10 Mimi-Queue
+10 Dard-Venin
+9 Groz’Yeux
+7 Morsure
+11 Rugissement
+8 Berceuse
+5 Acide
+9 Flammeche
+13 Lance-Flammes
+12 Pistolet a O
+10 Hydrocanon
+4 Surf
+11 Laser Glace
+8 Blizzard
+10 Rafale Psy
+10 Bulles d’O
+12 Onde Boreale
+6 Picpic
+10 Bec Vrille
+5 Force
+10 Croissance
+12 Tranch’Herbe
+12 Poudre Toxik
+10 Para-Spore
+11 Poudre Dodo
+9 Secretion
+6 Eclair
+8 Tonnerre
+11 Cage-Eclair
+12 Fatal-Foudre
+11 Jet-Pierres
+6 Seisme
+5 Toxik
+11 Choc Mental
+5 Psyko
+7 Hypnose
+4 Yoga
+4 Hate
+12 Vive-Attaque
+10 Grincement
+6 Armure
+10 Brouillard
+5 Repli
+11 Boul’Armure
+8 Bouclier
+8 Bomb’Œuf
+10 Lechouille
+9 Puredpois
+8 Detritus
+8 Massd’Os
+12 Deflagration
+7 Cascade
+12 Constriction
+7 Amnesie
+11 Telekinesie
+15 Regard Medusant
+9 Gaz Toxik
+8 Grobisou
+5 Ecume
+8 Uppercut
+5 Spore
+5 Flash
+10 Acidarmure
+11 Pince-Masse
+10 Eboulement
+12 Croc de Mort
+8 Affutage
+7 Tranche
+5 Lutte
+6 Larcin
+11 Roue de Feu
+9 Aeroblast
+11 Spore Coton
+9 Poudreuse
+10 Mach Punch
+7 Grimace
+6 Bomb-Beurk
+10 Coud’Boue
+9 Octazooka
+9 Elecanon
+8 Vent Glace
+10 Charme
+6 Etincelle
+9 Aile d’Acier
+12 Feu Sacre
+9 Dynamopoing
+11 Megacorne
+9 Dracosouffle
+12 Poursuite
+9 Queue de Fer
+12 Griffe Acier
+12 Corps Perdu
+11 Coup-Croix
+10 Ouragan
+7 Machouille
+10 Vitesse Extreme
+15 Ball’Ombre
+10 Eclate-Roc
+10 Bluff
+5 Canicule
+8 Feu Follet
+10 Façade
+6 Chargeur
+8 Surpuissance
+12 Casse-Brique
+12 Sabotage
+8 Eruption
+8 Lumiqueue
+9 Lumi-Eclat
+10 Ball’Brume
+10 Pied Bruleur
+12 Poing Dard
+10 Megaphone
+9 Crochet Venin
+13 Eclate Griffe
+13 Poing Meteore
+13 Etonnement
+10 Croco Larme
+11 Tranch’Air
+10 Surchauffe
+10 Tomberoche
+10 Strido-Son
+10 Siffl’Herbe
+11 Force Cosmik
+12 Rayon Signal
+12 Extrasenseur
+12 Stratopercut
+12 Ocroupi
+7 Mur de Fer
+10 Grondement
+10 Dracogriffe
+11 Tir de Boue
+11 Queue-Poison
+12 Plenitude
+9 Lame-Feuille
+12 Danse Draco
+11 Vibraqua
+8 Psycho Boost
+12 Reveil Force
+12 Marto-Poing
+11 Saumure
+7 Ruse
+4 Picore
+6 Close Combat
+12 Assurance
+9 Forte-Paume
+11 Aurasphere
+10 Poliroche
+9 Direct Toxik
+12 Vibrobscur
+10 Tranche-Nuit
+12 Hydroqueue
+10 Canon Graine
+12 Lame d’Air
+10 Plaie-Croix
+11 Bourdon
+7 Dracochoc
+9 Dracocharge
+11 Rayon Gemme
+11 Onde Vide
+9 Exploforce
+10 Eco-Sphere
+10 Telluriforce
+12 Machination
+11 Pisto-Poing
+11 Eclats Glace
+12 Griffe Ombre
+12 Crocs Eclair
+12 Crocs Givre
+11 Crocs Feu
+9 Ombre Portee
+12 Boue-Bombe
+10 Coupe Psycho
+12 Psykoud’Boul
+12 Miroi-Tir
+9 Luminocanon
+11 Escalade
+8 Draco Meteore
+13 Coup d’Jus
+10 Ebullilave
+10 Tempete Verte
+13 Megafouet
+9 Poison-Croix
+12 Detricanon
+10 Tete de Fer
+11 Bombaimant
+10 Lame de Roc
+11 Babil
+5 Jugement
+8 Rayon Charge
+12 Aqua-Jet
+8 Appel Attaque
+13 Appel Defense
+13 Hurle-Temps
+11 Spatio-Rift
+11 Fulmigraine
