@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-#include "game.h"
+#include "pokemon.h"
+#include "util.h"
+#include "map.h"
 #include "battlePane.h"
 #include "print.h"
 #include "fileManager.h"

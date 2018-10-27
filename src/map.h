@@ -1,5 +1,23 @@
+#include "typedef.h"
+
 #ifndef MAP_H
 #define MAP_H
+
+#define EXIT 1337
+#define LONG_GRASS 'W'
+#define HEAL '#'
+#define TREE '@'
+#define POKEBALL 'o'
+#define MAP_SIZE 178
+#define PRINTABLE_MAP_SIZE 360
+
+#define PLAYER_N '^'
+#define PLAYER_W '<'
+#define PLAYER_S 'v'
+#define PLAYER_E '>'
+
+#define LINE_SEPARATOR 15
+
 
 void waitForEnter();
 void clearConsole();

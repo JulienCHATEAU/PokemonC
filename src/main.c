@@ -3,7 +3,9 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
-#include "game.h"
+#include "pokemon.h"
+#include "util.h"
+#include "map.h"
 #include "battlePane.h"
 #include "print.h"
 #include "accountManager.h"

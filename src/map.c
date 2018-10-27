@@ -1,3 +1,15 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "pokemon.h"
+#include "util.h"
+#include "map.h"
+#include "accountManager.h"
+#include "startMenu.h"
+#include "battle.h"
+#include "ttyraw.h"
+#include "fileManager.h"
+#include "print.h"
+
 /* Waits until the user press the 'Enter' key
 */
 void waitForEnter() {
@@ -57,7 +69,7 @@ void removeInteractiveObject(int x_map, int y_map, Player *player, char *map_str
 */
 void loadMap(int x_map, int y_map, char *map_structure, Player *player) {
   char map_path[20];
-  sprintf(map_path, "data/map%d;%d.txt", x_map, y_map);
+  sprintf(map_path, "maps/map%d;%d.txt", x_map, y_map);
   FILE *map_file = openFile(map_path, "r");
   fread(map_structure, sizeof(char), MAP_SIZE, map_file);
   closeFile(map_file);
@@ -83,7 +95,6 @@ void createPrintableMap(char *printable_map, char *map_structure, Player player)
     }
     printable_map[2*i+4] = ' ';
   }
-
 }
 
 

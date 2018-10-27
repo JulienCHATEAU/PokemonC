@@ -2,7 +2,9 @@
 #include "print.h"
 #include "startMenu.h"
 #include "ttyraw.h"
-#include "game.h"
+#include "pokemon.h"
+#include "util.h"
+#include "map.h"
 
 /**************/
 /* START MENU */

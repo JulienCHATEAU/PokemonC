@@ -3,10 +3,12 @@
 #include <string.h>
 #include "fileManager.h"
 #include "ttyraw.h"
-#include "game.h"
+#include "pokemon.h"
+#include "util.h"
+#include "map.h"
+#include "print.h"
 #include "accountManager.h"
 #define ACCOUNTS_FILE_PATH "save/accounts.txt"
-#define SAVES_FILE_PATH "save/saves.txt"
 
 /* Manages the connexion menu (ask the user his pseudo, his password checking if correct ect...)
 * pseudo : an array to store the pseudo given by the user
@@ -111,7 +113,7 @@ int manageConnexionKeyPressed(char *pseudo, char *password, char key_pressed) {
     int exist = addAccount(pseudo, password);
     if (exist == 0) {
       printf("\n  Création du compte réussi !\n");
-      Player player = createPlayer(pseudo, 156, '^', "Pikachu");
+      Player player = createPlayer(pseudo, 146, '^', "Pikachu");
       savePlayerData(0, 0, &player);
       printf("\n\n\n  ");
       key_pressed_status = 0;

@@ -5,7 +5,9 @@
 #include <time.h>
 #include <string.h>
 #include "fileManager.h"
-#include "game.h"
+#include "pokemon.h"
+#include "util.h"
+#include "map.h"
 #include "startMenu.h"
 #include "print.h"
 #include "battlePane.h"

@@ -1,3 +1,8 @@
+#include <time.h>
+#include "pokemon.h"
+#include "util.h"
+#include "map.h"
+
 /* Waits during n millisecond
 * n : the number of millisecond to wait
 */
@@ -115,7 +120,12 @@ Stats createStats(int hp_max, int att_max, int def_max, int spd_max) {
 * return a Player structure
 */
 Player createPlayer(char *pseudo, int xy, char pos, char *pkmn_name) {
-  Player p = {xy, pos, ' ', 0, fillPokemon(pkmn_name)};
+  Player p;
+  p.xy = xy;
+  p.pos = pos;
+  p.char_at_pos = ' ';
+  p.pokeball_count = 0;
+  p.pkmns[0] = fillPokemon(pkmn_name);
   setPokemonLvl(&p.pkmns[0], 5);
   p.pkmn_count = 1;
   p.money = 0;

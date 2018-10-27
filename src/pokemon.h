@@ -1,7 +1,13 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include "typedef.h"
+
 #ifndef GAME_H
 #define GAME_H
 
-
+#define POKEDEX_LENGTH 151
+#define SKILLS_COUNT 4
+#define AILMENT_LABEL_LENGTH 3
 
 void getRandomPokemonName(char **name);
 void fillSomePokemonData(FILE *file, Pokemon *pkmn);
@@ -22,5 +28,7 @@ void removeFirstAilment(Pokemon *pkmn);
 void setBackHealthToZero(Pokemon *pkmn);
 void resetPokemonStats(Pokemon *pkmn);
 void resetAllPokemonsStats(Player *player);
+Skill fillSkill(int random);
+Pokemon fillPokemon(char *name);
 
 #endif

@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include "pokemonPane.h"
 #include "fileManager.h"
-#include "game.h"
+#include "pokemon.h"
+#include "util.h"
+#include "map.h"
 
 /* Stores the pokemon pane in an array
 * pokemon_pane : the pokemon panel

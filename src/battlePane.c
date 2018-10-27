@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include "game.h"
+#include "pokemon.h"
+#include "util.h"
+#include "map.h"
 #include "fileManager.h"
 #include "ttyraw.h"
 #include "battlePane.h"

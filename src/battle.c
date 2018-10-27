@@ -4,7 +4,9 @@
 #include <string.h>
 #include <math.h>
 #include <time.h>
-#include "game.h"
+#include "pokemon.h"
+#include "util.h"
+#include "map.h"
 #include "print.h"
 #include "fileManager.h"
 #include "battlePane.h"
@@ -517,7 +519,7 @@ void *playTurn(void *p) {
         sprintf(lvl_up, "%s passe au niveau %d", player->pkmns[0].name, player->pkmns[0].lvl);
         addInfoText(lvl_up, level_up_length, " ", 1, battle_pane);
         free(lvl_up);
-        refreshBattlePane(frst_to_play, scd_to_play);
+        refreshBattlePane(*frst_to_play, *scd_to_play, battle_pane);
         clearAndPrintBattlePane(battle_pane);
         waitNMs(WAIT_BETWEEN_ANIM);
       }

@@ -1,10 +1,14 @@
-#include "game.h"
+#include "pokemon.h"
+#include "util.h"
+#include "map.h"
 
 #ifndef PRINT_H
 #define PRINT_H
 
 #define DIALOG_BOX_PATH "data/dialogBox.txt"
 #define DIALOG_BOX_LENGTH 376
+#define DIALOG_BOX_LINE_COUNT 6
+#define DIALOG_BOX_LINE 63
 
 #define POKEBALL_FOUND "Vous avez trouve une pokeball !"
 #define POKEBALL_FOUND_LGTH 31
