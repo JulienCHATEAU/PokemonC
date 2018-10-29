@@ -6,7 +6,7 @@
 #define GAME_H
 
 #define POKEDEX_LENGTH 151
-#define SKILLS_COUNT 4
+#define SKILLS_COUNT 218
 #define AILMENT_LABEL_LENGTH 3
 
 void getRandomPokemonName(char **name);

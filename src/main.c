@@ -13,9 +13,9 @@
 #include "pokemonPane.h"
 
 int main(int argc, char const *argv[]) {
-  // managePokemonPaneMenu();
-  // char pseudo[PSEUDO_MAX_LENGTH];
-  // manageConnexionMenu(pseudo);
+  managePokemonPaneMenu();
+  char pseudo[PSEUDO_MAX_LENGTH];
+  manageConnexionMenu(pseudo);
   if (argc > 1) {
     if (*argv[1] == '1' || *argv[1] == '0') {
       setRawMode(*argv[1]);
@@ -30,8 +30,8 @@ int main(int argc, char const *argv[]) {
   int x_map = 0;
   int y_map = 0;
   Player player;
-  // setPlayerPseudo(pseudo, &player);
-  setPlayerPseudo("Steamy", &player);
+  setPlayerPseudo(pseudo, &player);
+  // setPlayerPseudo("Steamy", &player);
   loadPlayerData(&x_map, &y_map, &player);
   int xy_temp = player.xy;//to check if the player has moved or not
   int pos_temp = player.pos;//to check if the player has changed his orientation or not
