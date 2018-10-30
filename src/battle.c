@@ -428,8 +428,8 @@ Boolean useSkill(Pokemon *skill_user, Pokemon *target, int chosen_skill, char *b
     waitNMs(WAIT_BETWEEN_ANIM);
     free(name_miss_string);
   }
-  if (chosen.pp > 0) {
-    chosen.pp--;
+  if (skill_user->skills[chosen_skill].pp > 0) {
+    skill_user->skills[chosen_skill].pp--;
   }
   return failed;
 }
