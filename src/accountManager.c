@@ -22,7 +22,9 @@ void manageConnexionMenu(char *pseudo) {
     printf("\n\n");
     askPseudo(pseudo);
     askPassword(password);
-    printf("\n\n  1. Connexion     2. Creer le compte\n");
+    printf("\n\n     --------------       --------------------\n");
+    printf("    | 1. Connexion |     | 2. Creer le compte |\n");
+    printf("     --------------       --------------------\n");
     setRawMode('1');
     key_pressed = getchar();
     key_status = manageConnexionKeyPressed(pseudo, password, key_pressed);
@@ -113,7 +115,7 @@ int manageConnexionKeyPressed(char *pseudo, char *password, char key_pressed) {
     int exist = addAccount(pseudo, password);
     if (exist == 0) {
       printf("\n  Création du compte réussi !\n");
-      Player player = createPlayer(pseudo, 146, '^', "Pikachu");
+      Player player = createPlayer(pseudo, 156, '^', "Pikachu");
       savePlayerData(0, 0, &player);
       printf("\n\n\n  ");
       key_pressed_status = 0;

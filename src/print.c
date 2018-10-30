@@ -13,8 +13,10 @@
 */
 void printSkill(Skill skill) {
   printf("    %s : \n", skill.name);
-  printf("      Description : %s\n", skill.description);
-  printf("      Puissance : %d\n      Précision : %d\n      PP : %d / %d\n", skill.power, skill.accuracy_max, skill.pp, skill.pp_max);
+  printf("      Description :   %s\n", skill.description);
+  printf("      Puissance :     %d\n", skill.power);
+  printf("      Précision :     %d\n", skill.accuracy_max);
+  printf("      PP :            %d / %d\n", skill.pp, skill.pp_max);
 }
 
 /* Print stats
@@ -32,16 +34,17 @@ void printStats(Stats stats) {
 */
 void printPokemon(Pokemon pkmn) {
   printf("\n\n    %s : \n\n", pkmn.name);
-  printf("    Niveau : %d\n    Expérience : %d / %d\n", pkmn.lvl, pkmn.xp, getCurrentExperienceStage(pkmn));
+  printf("    Niveau :                  %d\n", pkmn.lvl);
+  printf("    Expérience :              %d / %d\n", pkmn.xp, getCurrentExperienceStage(pkmn));
   char type_string[25];
   getTypesString(pkmn, type_string);
-  printf("    Types : %s\n", type_string);
+  printf("    Types :                   %s\n", type_string);
   char *ailement;
   getAilmentLabel(pkmn, &ailement);
   if (strcmp(ailement, " ") == 0) {
     ailement = "Aucun";
   }
-  printf("    Problème de status : %s\n\n", ailement);
+  printf("    Problème de status :      %s\n\n", ailement);
   printStats(pkmn.stats);
   printf("\n\n");
   for (int i = 0; i < 4; i++) {

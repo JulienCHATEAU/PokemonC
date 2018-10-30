@@ -150,9 +150,13 @@ void printPokemonsPane(Player *player, int targetted_pkmn, int mode) {
     }
   }
   if (mode == 1 || mode == 2) {
-    printf("\n   1. Description     2. Envoyer au combat\n\n\n");
+    printf("\n\n\n    ----------------      ----------------------\n");
+    printf("   | 1. Description |    | 2. Envoyer au combat |\n");
+    printf("    ----------------      ----------------------\n\n\n");
   } else {
-    printf("\n   1. Description     2. Mettre en première place\n\n\n");
+    printf("\n\n\n    ----------------      -----------------------------\n");
+    printf("   | 1. Description |    | 2. Mettre en première place |\n");
+    printf("    ----------------      -----------------------------\n\n\n");
   }
   if (mode != 2) {
     if (targetted_pkmn == player->pkmn_count) {
