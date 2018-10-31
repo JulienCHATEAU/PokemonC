@@ -69,6 +69,11 @@ void addStringToArray(char *string, int string_length, int start, char *array) {
   }
 }
 
+/* Checks if an array contains an integer
+* tab : the array
+* count : the number of elements in the array
+* elem : the integer to find
+*/
 Boolean contains(int *tab, int count, int elem) {
   Boolean trouve = false;
   for (int i = 0; i < count && !trouve; i++) {
@@ -79,6 +84,10 @@ Boolean contains(int *tab, int count, int elem) {
   return trouve;
 }
 
+/* Copy a string into a char array
+* tab : the destination
+* string : the source
+*/
 void setStringToTab(char *tab, char *string) {
   int i = 0;
   Boolean stop = false;

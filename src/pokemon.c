@@ -13,7 +13,9 @@
 #include "battlePane.h"
 #include "ttyraw.h"
 
-
+/* Gets one random pokemon name from the available list
+* name : the adress of a char array where to store the name of the pokemon
+*/
 void getRandomPokemonName(char **name) {
   srand(time(NULL));
   int random = rand()%POKEDEX_LENGTH;
@@ -319,7 +321,10 @@ int gainExperience(Pokemon *winner, Pokemon *loser) {
   return level_up;
 }
 
-
+/* Sets the pseudo of the player
+* pseudo : the pseudo
+/* player : the player
+*/
 void setPlayerPseudo(char *pseudo, Player *player) {
   int i = 0;
   while (pseudo[i] != '\0') {
@@ -349,6 +354,9 @@ void addAilment(Pokemon *pkmn, AilmentEnum ailment) {
   }
 }
 
+/* Removes the first ailment of a pokemon
+* pkmn : the pokemon
+*/
 void removeFirstAilment(Pokemon *pkmn) {
   if (pkmn->crt_ailments[0] == BURN) {
     pkmn->stats.att *= 2;
@@ -360,6 +368,9 @@ void removeFirstAilment(Pokemon *pkmn) {
   pkmn->crt_ailments[1] = NO_AILMENT;
 }
 
+/* Sets the health points of a pokemon to zero if gone negative
+* pkmn : the pokemon
+*/
 void setBackHealthToZero(Pokemon *pkmn) {
   if (pkmn->stats.hp < 0) {
     pkmn->stats.hp = 0;
