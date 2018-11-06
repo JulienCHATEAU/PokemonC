@@ -3,6 +3,8 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+#include <stdbool.h>
+#include <ncurses.h>
 #include "pokemon.h"
 #include "util.h"
 #include "map.h"
@@ -35,7 +37,7 @@ int main(int argc, char const *argv[]) {
   loadPlayerData(&x_map, &y_map, &player);
   int xy_temp = player.xy;//to check if the player has moved or not
   int pos_temp = player.pos;//to check if the player has changed his orientation or not
-  Boolean first_print = true;
+  bool first_print = true;
   char key_pressed = 0;
   char map_structure[MAP_SIZE];
   loadMap(x_map, y_map, map_structure, &player);
@@ -67,7 +69,7 @@ int main(int argc, char const *argv[]) {
 }
 
 // int main(int argc, char const *argv[]) {
-//   Boolean stop = false;
+//   bool stop = false;
 //   while (!stop) {
 //     srand(time(NULL));
 //     char *random_name;

@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <termios.h>
 #include <unistd.h>
@@ -115,7 +116,7 @@ The syntax of a line of the file is :
 Pokemon fillPokemon(char *name) {
   Pokemon pkmn;
   FILE *pkmns_file = openFile(POKEMONS_PATH, "r");
-  Boolean trouve = false;
+  bool trouve = false;
   int fscanf_ret = 0;
   while (!trouve && fscanf_ret != EOF) {
     fscanf_ret = fscanf(pkmns_file, "%d ", &pkmn.name_length);

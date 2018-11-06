@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdbool.h>
 #include <string.h>
 #include <math.h>
 #include <time.h>
@@ -16,7 +17,7 @@
 /* The types table */
 static int types_table[TYPES_TABLE_LGTH];//1 is x1, 2 is x2, 3 is x0.5
 /* A boolean to describe if the type table is filled */
-static Boolean types_table_filled = false;
+static bool types_table_filled = false;
 
 /* Swaps the content of p1 and p2 as pointers on Pokemon
 * p1 : the first pointer
@@ -85,7 +86,7 @@ so that this function only tests if this is true or not (swapping them if not)
 * scd_player_skill : the skill chosen by the second player
 * return true if the pkmn was swapped, false otherwise
 */
-Boolean chosePlayOrder(Pokemon *frst_to_play, Pokemon *scd_to_play, int *frst_player_skill, int *scd_player_skill) {
+bool chosePlayOrder(Pokemon *frst_to_play, Pokemon *scd_to_play, int *frst_player_skill, int *scd_player_skill) {
   int swapped = false;
   int priority1 = frst_to_play->skills[*frst_player_skill].priority;
   int priority2 = scd_to_play->skills[*scd_player_skill].priority;
@@ -120,7 +121,7 @@ Boolean chosePlayOrder(Pokemon *frst_to_play, Pokemon *scd_to_play, int *frst_pl
   4 if the target has 2 type weak against the skill type
 * return the health points count the target will lose
 */
-int hpCountLost(Pokemon *skill_user, Pokemon *target, Skill skill, Boolean crit, double weakness) {
+int hpCountLost(Pokemon *skill_user, Pokemon *target, Skill skill, bool crit, double weakness) {
   double hp_count_lost = 0;
   if (skill.power > 0) {
     double stab = 1.0;
@@ -138,7 +139,7 @@ int hpCountLost(Pokemon *skill_user, Pokemon *target, Skill skill, Boolean crit,
   return (int)round(hp_count_lost);
 }
 
-void ailmentTextAnimation(Pokemon *skill_user, Pokemon *target, Boolean swapped_xor_frst, char *battle_pane, char *frst_ailment_text, int frst_ailment_text_length, char *scd_ailment_text, int scd_ailment_text_length) {
+void ailmentTextAnimation(Pokemon *skill_user, Pokemon *target, bool swapped_xor_frst, char *battle_pane, char *frst_ailment_text, int frst_ailment_text_length, char *scd_ailment_text, int scd_ailment_text_length) {
   int ailment_text_length = skill_user->name_length+frst_ailment_text_length+1;
   char *ailment_text = malloc(sizeof(char) * ailment_text_length);
   sprintf(ailment_text, "%s %s", skill_user->name, frst_ailment_text);
@@ -159,8 +160,8 @@ void ailmentTextAnimation(Pokemon *skill_user, Pokemon *target, Boolean swapped_
   waitNMs(WAIT_BETWEEN_ANIM);
 }
 
-Boolean manageFirstAilment(Pokemon *skill_user, Pokemon *target, Boolean swapped_xor_frst, char *battle_pane) {
-  Boolean play = true;
+bool manageFirstAilment(Pokemon *skill_user, Pokemon *target, bool swapped_xor_frst, char *battle_pane) {
+  bool play = true;
   srand(time(NULL));
   switch (skill_user->crt_ailments[0]) {
     case PARALYSIS:
@@ -222,8 +223,8 @@ Boolean manageFirstAilment(Pokemon *skill_user, Pokemon *target, Boolean swapped
 }
 
 
-Boolean manageAllAilments(Pokemon *skill_user, Pokemon *target, Boolean swapped_xor_frst, char *battle_pane) {
-  Boolean play = manageFirstAilment(skill_user, target, swapped_xor_frst, battle_pane);
+bool manageAllAilments(Pokemon *skill_user, Pokemon *target, bool swapped_xor_frst, char *battle_pane) {
+  bool play = manageFirstAilment(skill_user, target, swapped_xor_frst, battle_pane);
   if (skill_user->crt_ailments[0] == CONFUSION) {
     play = manageFirstAilment(skill_user, target, swapped_xor_frst, battle_pane);
   }
@@ -253,8 +254,8 @@ void manageFirstTextAnimation(Pokemon *skill_user, int chosen_skill, char *battl
 * weakness : the weakness or resistance coefficient
 * return true if something was written, false otherwise
 */
-Boolean manageSecondTextAnimation(char *battle_pane, Boolean crit, double weakness) {
-  Boolean written_something = true;
+bool manageSecondTextAnimation(char *battle_pane, bool crit, double weakness) {
+  bool written_something = true;
   if (!crit && weakness != 1.0) {
     if (weakness > 1.0) {
       addInfoText(SUPER_EFFECTIVE_STRING, SUPER_EFFECTIVE_STRING_LENGTH, " ", 1, battle_pane);
@@ -281,7 +282,7 @@ Boolean manageSecondTextAnimation(char *battle_pane, Boolean crit, double weakne
 * target : the targetted pokemon
 * battle_pane : the battle pane
 */
-Boolean manageEffect(int chosen_skill, Pokemon *skill_user, Pokemon *target, char *battle_pane) {
+bool manageEffect(int chosen_skill, Pokemon *skill_user, Pokemon *target, char *battle_pane) {
   Skill chosen = skill_user->skills[chosen_skill];
   Effect effect = chosen.effect;
   Pokemon *effect_target = skill_user;
@@ -379,12 +380,12 @@ Boolean manageEffect(int chosen_skill, Pokemon *skill_user, Pokemon *target, cha
   this is used to know if the player is pointed by the 'skill_user' parameter or the 'target' one
 * return true if the skill has failed, false otherwise
 */
-Boolean useSkill(Pokemon *skill_user, Pokemon *target, int chosen_skill, char *battle_pane, Boolean swapped_xor_frst) {
+bool useSkill(Pokemon *skill_user, Pokemon *target, int chosen_skill, char *battle_pane, bool swapped_xor_frst) {
   Skill chosen = skill_user->skills[chosen_skill];
   fillTypesTable();
-  Boolean failed = false;
+  bool failed = false;
   if (rand()%100 < chosen.accuracy) {
-    Boolean crit = false;
+    bool crit = false;
     double weakness = getWeakness(chosen.type, target);
     if (rand()%100 < CRIT_PERCENTAGE) {
       crit = true;
@@ -397,7 +398,7 @@ Boolean useSkill(Pokemon *skill_user, Pokemon *target, int chosen_skill, char *b
       crit = false;
       weakness = 1.0;
     }
-    Boolean written_something = manageSecondTextAnimation(battle_pane, crit, weakness);
+    bool written_something = manageSecondTextAnimation(battle_pane, crit, weakness);
     if (rand()%100 < chosen.ailment.accuracy) {
       addAilment(target, chosen.ailment.ailment_enum);
     }
@@ -439,7 +440,7 @@ Boolean useSkill(Pokemon *skill_user, Pokemon *target, int chosen_skill, char *b
 * p2 : the second pokemon
 * return true if on of the two pokemons is KO, false otherwise
 */
-Boolean isAnyKoPokemon(Pokemon *p1, Pokemon *p2) {
+bool isAnyKoPokemon(Pokemon *p1, Pokemon *p2) {
   return p1->stats.hp == 0 || p2->stats.hp == 0;
 }
 
@@ -452,9 +453,9 @@ Boolean isAnyKoPokemon(Pokemon *p1, Pokemon *p2) {
 * battle_pane : the battle pane
 * return true if the skill failed, false otherwise
 */
-Boolean playOnePokemonTurn(Pokemon *skill_user, Pokemon *target, int chosen_skill, Boolean swapped_xor_frst, char *battle_pane) {
+bool playOnePokemonTurn(Pokemon *skill_user, Pokemon *target, int chosen_skill, bool swapped_xor_frst, char *battle_pane) {
   manageFirstTextAnimation(skill_user, chosen_skill, battle_pane);
-  Boolean failed = useSkill(skill_user, target, chosen_skill, battle_pane, swapped_xor_frst);
+  bool failed = useSkill(skill_user, target, chosen_skill, battle_pane, swapped_xor_frst);
   return failed;
 }
 
@@ -468,7 +469,7 @@ void *playTurn(void *p) {
   Pokemon *enemy = params->enemy;
   char *battle_pane = params->battle_pane;
   int *key_pressed_status = params->key_pressed_status;
-  Boolean player_turn = params->player_turn;
+  bool player_turn = params->player_turn;
 
   int res = 0;
   //considering firstly that the player is faster than the enemy
@@ -482,9 +483,9 @@ void *playTurn(void *p) {
     *scd_player_skill = rand()%4;
   }
 
-  Boolean swapped = false;
-  Boolean failed = false;
-  Boolean is_ko = false;
+  bool swapped = false;
+  bool failed = false;
+  bool is_ko = false;
   if (player_turn) {//if the turn of the player is skipped
     swapped = chosePlayOrder(frst_to_play, scd_to_play, frst_player_skill, scd_player_skill);
     if (swapped) {

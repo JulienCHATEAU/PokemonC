@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <time.h>
 #include "pokemon.h"
 #include "util.h"
@@ -18,7 +19,7 @@ void waitNMs(int n) {/*n millisecond*/
 /* Checks if a character is equal to another
 * return : true if the character is a equal to the other one, false otherwise
 */
-Boolean isEqual(char character, char comp) {
+bool isEqual(char character, char comp) {
   return character == comp;
 }
 
@@ -74,8 +75,8 @@ void addStringToArray(char *string, int string_length, int start, char *array) {
 * count : the number of elements in the array
 * elem : the integer to find
 */
-Boolean contains(int *tab, int count, int elem) {
-  Boolean trouve = false;
+bool contains(int *tab, int count, int elem) {
+  bool trouve = false;
   for (int i = 0; i < count && !trouve; i++) {
     if (tab[i] == elem) {
       trouve = true;
@@ -90,7 +91,7 @@ Boolean contains(int *tab, int count, int elem) {
 */
 void setStringToTab(char *tab, char *string) {
   int i = 0;
-  Boolean stop = false;
+  bool stop = false;
   while (!stop) {
     tab[i] = string[i];
     if (string[i] == '\0') {

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <pthread.h>
 #include "pokemon.h"
 #include "util.h"
@@ -45,8 +46,8 @@ int nDigits(unsigned int n) {
 * player : the player
 * return true if the player still has any alive pokemon, false otherwise
 */
-Boolean hasAnyAlivePokemon(Player *player) {
-  Boolean any_alive = false;
+bool hasAnyAlivePokemon(Player *player) {
+  bool any_alive = false;
   int i = 0;
   while (i < player->pkmn_count && !any_alive) {
     if (player->pkmns[i].stats.hp > 0) {
@@ -197,7 +198,7 @@ void addPokemonHpPoint(Pokemon pkmn, char *battle_pane, int pos) {
 * battle_pane : the battle pane
 * pos : the xy coordinate where to start writting the pokemon hp count
 */
-void addAilments(Pokemon pkmn, char *battle_pane, int pos, Boolean left_erase) {
+void addAilments(Pokemon pkmn, char *battle_pane, int pos, bool left_erase) {
   char *ailment_string;
   int label_length = getAilmentLabel(pkmn, &ailment_string);
   if (left_erase) {

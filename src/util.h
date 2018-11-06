@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include "typedef.h"
 
 #ifndef UTIL_H
@@ -8,18 +9,13 @@
 #define MOVE_S 's'
 #define MOVE_D 'd'
 
-typedef enum {
-  false,
-  true,
-} Boolean;
-
 void waitNMs(int n);/*n millisecond*/
-Boolean isEqual(char character, char comp);
+bool isEqual(char character, char comp);
 void addArrow(int arrow_xy, char *battle_pane);
 void removeArrow(int arrow_xy, char *battle_pane);
 void shiftMenuPipes(char *battle_pane, int top_pipe_xy_to_add, int top_pipe_xy_to_erase, int next_line, int pipe_count);
 void addStringToArray(char *string, int string_length, int start, char *array);
-Boolean contains(int *tab, int count, int elem);
+bool contains(int *tab, int count, int elem);
 void setStringToTab(char *tab, char *string);
 void freeSkill(Skill skill);
 void freePlayer(Player player);

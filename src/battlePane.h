@@ -1,3 +1,5 @@
+#include <stdbool.h>
+
 #ifndef BATTLE_PANE_H
 #define BATTLE_PANE_H
 
@@ -44,13 +46,13 @@ typedef struct {
   Pokemon *enemy;
   char *battle_pane;
   int *key_pressed_status;
-  Boolean player_turn;
+  bool player_turn;
 } PlayTurnParameters;
 
 void createThreadNW8(void *function, void *function_params);
 void eraseInfoText();
 int nDigits(unsigned int n);
-Boolean hasAnyAlivePokemon(Player *player);
+bool hasAnyAlivePokemon(Player *player);
 void clearAndPrintBattlePane(char *battle_pane);
 void printBattlePane(char *battle_pane);
 void loadBattlePane(char *battle_pane);
@@ -71,6 +73,6 @@ int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow, char *battle_
 void battle(Player *player);
 void printAndManageBattlePane(char *battle_pane, Player *player, Pokemon *enemy);
 void isBattle(Player *player);
-void addAilments(Pokemon pkmn, char *battle_pane, int pos, Boolean left_erase);
+void addAilments(Pokemon pkmn, char *battle_pane, int pos, bool left_erase);
 
 #endif
