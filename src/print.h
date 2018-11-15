@@ -21,6 +21,7 @@
 #define SCD_LINE_START 192
 #define THRD_LINE_START 255
 
+void printLearningSkillInfo(Skill targetted_skill, Skill new_skill);
 void printSkill(Skill skill);
 void printStats(Stats stats);
 void printPokemon(Pokemon pkmn);

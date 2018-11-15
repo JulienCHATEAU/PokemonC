@@ -140,12 +140,12 @@ int hpCountLost(Pokemon *skill_user, Pokemon *target, Skill skill, bool crit, do
 }
 
 void ailmentTextAnimation(Pokemon *skill_user, Pokemon *target, bool swapped_xor_frst, char *battle_pane, char *frst_ailment_text, int frst_ailment_text_length, char *scd_ailment_text, int scd_ailment_text_length) {
-  int ailment_text_length = skill_user->name_length+frst_ailment_text_length+1;
-  char *ailment_text = malloc(sizeof(char) * ailment_text_length);
+  int ailment_text_length = skill_user->name_length+1+frst_ailment_text_length;
+  char *ailment_text = malloc(sizeof(char) * ailment_text_length+1);
   sprintf(ailment_text, "%s %s", skill_user->name, frst_ailment_text);
 
   int ailment_text_length2 = scd_ailment_text_length;
-  char *ailment_text2 = malloc(sizeof(char) * ailment_text_length2);
+  char *ailment_text2 = malloc(sizeof(char) * ailment_text_length2+1);
   sprintf(ailment_text2, "%s", scd_ailment_text);
 
   addInfoText(ailment_text, ailment_text_length, ailment_text2, ailment_text_length2, battle_pane);
@@ -155,8 +155,10 @@ void ailmentTextAnimation(Pokemon *skill_user, Pokemon *target, bool swapped_xor
     refreshBattlePane(*target, *skill_user, battle_pane);
   }
   clearAndPrintBattlePane(battle_pane);
+  printf("Before ailmentTextAnimation free\n");
   free(ailment_text);
   free(ailment_text2);
+  printf("After ailmentTextAnimation free\n");
   waitNMs(WAIT_BETWEEN_ANIM);
 }
 
@@ -204,13 +206,13 @@ bool manageFirstAilment(Pokemon *skill_user, Pokemon *target, bool swapped_xor_f
     break;
 
     case CONFUSION:
-    if (rand()%100 < 33) {
+    if (rand()%100 < 33) {//not confused yet
       removeFirstAilment(skill_user);
       ailmentTextAnimation(skill_user, target, swapped_xor_frst, battle_pane, CONFUSION1_TEXT, CONFUSION1_TEXT_LENGTH, " ", 1);
-    } else {
+    } else {//keep confused
       ailmentTextAnimation(skill_user, target, swapped_xor_frst, battle_pane, CONFUSION2_TEXT, CONFUSION2_TEXT_LENGTH, " ", 1);
       srand(time(NULL));
-      if (rand()%100 < 50) {
+      if (rand()%100 < 50) {//confusion hurts
         skill_user->stats.hp -= skill_user->stats.hp_max / 8;
         setBackHealthToZero(skill_user);
         play = false;
@@ -239,7 +241,7 @@ bool manageAllAilments(Pokemon *skill_user, Pokemon *target, bool swapped_xor_fr
 void manageFirstTextAnimation(Pokemon *skill_user, int chosen_skill, char *battle_pane) {
   Skill chosen = skill_user->skills[chosen_skill];
   int pkmn_use_skill_length = skill_user->name_length+9+chosen.name_length;
-  char *pkmn_use_skill = malloc(sizeof(char) * pkmn_use_skill_length);
+  char *pkmn_use_skill = malloc(sizeof(char) * pkmn_use_skill_length+1);
   sprintf(pkmn_use_skill, "%s utilise %s", skill_user->name, chosen.name);
   addInfoText(pkmn_use_skill, pkmn_use_skill_length, " ", 1, battle_pane);
   clearAndPrintBattlePane(battle_pane);
@@ -459,6 +461,113 @@ bool playOnePokemonTurn(Pokemon *skill_user, Pokemon *target, int chosen_skill, 
   return failed;
 }
 
+int manageYesNoKeyPressed(char key_pressed, int *yes) {
+  int key_pressed_status = 1;
+  if (key_pressed == MOVE_Z) {
+    *yes = 1;
+  } else if (key_pressed == MOVE_S) {
+    *yes = 0;
+  } else if (key_pressed == 13) {//enter
+    key_pressed_status = 0;
+  } else {//wrong key
+    key_pressed_status = 2;
+  }
+  return key_pressed_status;
+}
+
+void manageYesNoMenu(int *yes, char *battle_pane) {
+  char key_pressed;
+  int key_pressed_status;
+  do {
+    key_pressed = getchar();
+    key_pressed_status = manageYesNoKeyPressed(key_pressed, yes);
+    if (key_pressed_status == 1) {
+      setArrowYesNo(battle_pane, *yes);
+      clearAndPrintBattlePane(battle_pane);
+    }
+  } while(key_pressed_status != 0);//!= enter
+}
+
+void manageLearningSkill(Player *player, char *battle_pane, Pokemon *frst_to_play, Pokemon *scd_to_play) {
+  Pokemon *learner = &player->pkmns[0];
+  srand(time(NULL));
+  int random;
+  do {
+    random = rand()%SKILLS_COUNT;
+  } while (containsSkill(learner->skills, 4, random));
+  Skill new_skill = fillSkill(random);
+  bool leave_learning = false;
+
+  int wants2learn_length = learner->name_length+16+new_skill.name_length;
+  char *wants2learn = malloc(sizeof(char)*(wants2learn_length+1));
+  sprintf(wants2learn, "%s veut apprendre %s", learner->name, new_skill.name);
+
+  int wants2giveup_length = 23+new_skill.name_length+2;
+  char *wants2giveup = malloc(sizeof(char)*(wants2giveup_length+1));
+  sprintf(wants2giveup, "Voulez-vous abandonner %s ?", new_skill.name);
+
+  int replace_length = 4+new_skill.name_length+2;
+  char *replace = malloc(sizeof(char)*(replace_length+1));
+  sprintf(replace, "par %s ?", new_skill.name);
+
+  while(!leave_learning) {//while new skill not learned or given up
+    showYesNoMenu(battle_pane);
+    addInfoText(wants2learn, wants2learn_length, "Voulez-vous lui enseigner ?", 27, battle_pane);
+    clearAndPrintBattlePane(battle_pane);
+    int yes_learn = 1;
+    manageYesNoMenu(&yes_learn, battle_pane);
+    if (yes_learn == 1) {//if user chosed to learn the new skill
+      int yes_coord = CURSOR_FRST_SKILL_LINE-LEFT_SHIFT-MENU_ARROW_LGTH-1;
+      battle_pane[yes_coord-NEXT_LINE-LEFT_SHIFT+1-MENU_ARROW_LGTH] = ' ';
+      battle_pane[yes_coord-NEXT_LINE-LEFT_SHIFT+1-MENU_ARROW_LGTH+3*NEXT_LINE] = '_';
+      addInfoText("Remplacer quel attaque", 22, replace, replace_length, battle_pane);
+      int targetted_skill = switchThenManageSkillMenu(player, battle_pane, NULL, &new_skill, 1);//can be null because state 1
+      if (targetted_skill == 8) {
+        showYesNoMenu(battle_pane);
+      } else {
+        setSkill(learner, new_skill, targetted_skill);
+        leave_learning = true;
+      }
+    } else if (yes_learn == 0) {//if user chosed to give up the new skill
+      int yes_give_up = 1;
+      setArrowYesNo(battle_pane, yes_give_up);
+      addInfoText(wants2giveup, wants2giveup_length, " ", 1, battle_pane);
+      clearAndPrintBattlePane(battle_pane);
+      manageYesNoMenu(&yes_give_up, battle_pane);
+      if (yes_give_up == 1) {//if user confirmed the give up
+        leave_learning = true;
+      } else {//if user refuted the give up
+        yes_learn = 1;
+      }
+    }
+  }
+  free(wants2learn);
+}
+
+void manageLevelUp(Player *player, char *battle_pane, Pokemon *frst_to_play, Pokemon *scd_to_play) {
+  int level_up_length = player->pkmns[0].name_length+17+nDigits(player->pkmns[0].lvl);
+  char *lvl_up = malloc(sizeof(char)*(level_up_length+1));
+  sprintf(lvl_up, "%s passe au niveau %d", player->pkmns[0].name, player->pkmns[0].lvl);
+  addInfoText(lvl_up, level_up_length, " ", 1, battle_pane);
+  free(lvl_up);
+  refreshBattlePane(*frst_to_play, *scd_to_play, battle_pane);
+  clearAndPrintBattlePane(battle_pane);
+  waitNMs(WAIT_BETWEEN_ANIM);
+  if (player->pkmns[0].lvl % PKMN_SKILL_LEARN_FREQU == 0) {
+    manageLearningSkill(player, battle_pane, frst_to_play, scd_to_play);
+  }
+}
+
+void manageKoAnimation(Player *player, char *battle_pane) {
+  int is_ko_length = player->pkmns[0].name_length+9;
+  char *is_ko = malloc(sizeof(char)*(is_ko_length+1));
+  sprintf(is_ko, "%s est K.O.", player->pkmns[0].name);
+  addInfoText(is_ko, is_ko_length, " ", 1, battle_pane);
+  free(is_ko);
+  clearAndPrintBattlePane(battle_pane);
+  waitNMs(WAIT_BETWEEN_ANIM+200);
+}
+
 /* Plays a battle turn (this function is used in a thread)
 * p : p is a PlayTurnParameters structure
 */
@@ -514,29 +623,15 @@ void *playTurn(void *p) {
   if (is_ko) {
     res = 1;
     if (enemy->stats.hp == 0) {
-      if (gainExperience(&player->pkmns[0], enemy) == 1) {
-        int level_up_length = player->pkmns[0].name_length+17+nDigits(player->pkmns[0].lvl);
-        char *lvl_up = malloc(sizeof(char)*level_up_length);
-        sprintf(lvl_up, "%s passe au niveau %d", player->pkmns[0].name, player->pkmns[0].lvl);
-        addInfoText(lvl_up, level_up_length, " ", 1, battle_pane);
-        free(lvl_up);
-        refreshBattlePane(*frst_to_play, *scd_to_play, battle_pane);
-        clearAndPrintBattlePane(battle_pane);
-        waitNMs(WAIT_BETWEEN_ANIM);
-      }
       addInfoText(WIN_STRING, WIN_STRING_LENGTH, " ", 1, battle_pane);
       clearAndPrintBattlePane(battle_pane);
       waitNMs(WAIT_BETWEEN_ANIM);
-      resetPlayerPkmnsStatsAfterBattle(player);
+      if (gainExperience(&player->pkmns[0], enemy) == 1) {
+        manageLevelUp(player, battle_pane, frst_to_play, scd_to_play);
+      }
       player->money += 200 + enemy->lvl + rand()%21;
     } else {//test if the player has lost or has still some alive pokemon
-      int is_ko_length = player->pkmns[0].name_length+9;
-      char *is_ko = malloc(sizeof(char)*is_ko_length);
-      sprintf(is_ko, "%s est K.O.", player->pkmns[0].name);
-      addInfoText(is_ko, is_ko_length, " ", 1, battle_pane);
-      free(is_ko);
-      clearAndPrintBattlePane(battle_pane);
-      waitNMs(WAIT_BETWEEN_ANIM+200);
+      manageKoAnimation(player, battle_pane);
       if (hasAnyAlivePokemon(player)) {
         managePokemonsMenu(player, 2);
         refreshBattlePane(player->pkmns[0], *enemy, battle_pane);
@@ -546,11 +641,10 @@ void *playTurn(void *p) {
         addInfoText(LOST_STRING, LOST_STRING_LENGTH, " ", 1, battle_pane);
         clearAndPrintBattlePane(battle_pane);
         waitNMs(WAIT_BETWEEN_ANIM);
-        resetPlayerPkmnsStatsAfterBattle(player);
         for (int i = 0; i < player->pkmn_count; i++) {
           player->pkmns[i].stats.hp = 1;
         }
-        player->money += 300 + enemy->lvl + rand()%21;
+        player->money -= 300 + enemy->lvl + rand()%21;
         if (player->money < 0) {
           player->money = 0;
         }

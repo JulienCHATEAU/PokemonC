@@ -117,12 +117,26 @@ void createHealthBar(char *health_bar, Pokemon pkmn) {
   }
 }
 
+/* Find and return the maximum length of the text in the current information menu
+* battle_pane : the battle pane
+*/
+int getTextLineMaxLength(char *battle_pane) {
+  int i = FRST_TEXT_LINE_POS+2;
+  int text_line_max_lgth = 0;
+  while (battle_pane[i] != '|') {
+    text_line_max_lgth++;
+    i++;
+  }
+  return text_line_max_lgth;
+}
+
 /* Erases the two lines of information
 * battle_pane : the battle pane
 */
 void eraseInfoText(char *battle_pane) {
-  eraseArrayLine(FRST_TEXT_LINE_POS+TEST_LINE_MAX_LGTH, battle_pane, TEST_LINE_MAX_LGTH+1);
-  eraseArrayLine(SCD_TEXT_LINE_POS+TEST_LINE_MAX_LGTH, battle_pane, TEST_LINE_MAX_LGTH+1);
+  int text_line_max_lgth = getTextLineMaxLength(battle_pane);
+  eraseArrayLine(FRST_TEXT_LINE_POS+text_line_max_lgth, battle_pane, text_line_max_lgth+1);
+  eraseArrayLine(SCD_TEXT_LINE_POS+text_line_max_lgth, battle_pane, text_line_max_lgth+1);
 }
 
 /* Adds a information text to a line
@@ -132,8 +146,9 @@ void eraseInfoText(char *battle_pane) {
 * battle_pane : the battle pane
 */
 void addLineText(char *text, int text_length, int pos, char *battle_pane) {
-  eraseArrayLine(pos+TEST_LINE_MAX_LGTH, battle_pane, TEST_LINE_MAX_LGTH);
-  if (text_length <= TEST_LINE_MAX_LGTH) {
+  int text_line_max_lgth = getTextLineMaxLength(battle_pane);
+  eraseArrayLine(pos+text_line_max_lgth, battle_pane, text_line_max_lgth);
+  if (text_length <= text_line_max_lgth) {
     addStringToArray(text, text_length, pos, battle_pane);
   } else {
     addStringToArray(" ", 1, pos, battle_pane);
@@ -230,6 +245,22 @@ void refreshBattlePane(Pokemon player, Pokemon enemy, char *battle_pane) {
   addAilments(player, battle_pane, PLAYER_HLTH_BAR_STRTNG_POS+HLTH_BAR_LGTH+1, false);
 }
 
+/* Replace the main menu by a yes/no question menu
+* battle_pane : the battle pane
+*/
+void showYesNoMenu(char *battle_pane) {
+  eraseArrayLine(CURSOR_FRST_SKILL_LINE, battle_pane, 50);
+  eraseArrayLine(CURSOR_SCD_SKILL_LINE, battle_pane, 50);
+
+  int yes_length = 3+MENU_ARROW_LGTH+1;
+  int no_length = 3;
+  int yes_coord = CURSOR_FRST_SKILL_LINE-LEFT_SHIFT-MENU_ARROW_LGTH-1;
+  int no_coord = CURSOR_SCD_SKILL_LINE-LEFT_SHIFT;
+  addStringToArray("-> Oui", yes_length, yes_coord, battle_pane);
+  addStringToArray("Non", no_length, no_coord, battle_pane);
+  shiftMenuPipes(battle_pane, yes_coord-NEXT_LINE-LEFT_SHIFT+1-MENU_ARROW_LGTH, FRST_PIPE_MENU, NEXT_LINE, 4);
+}
+
 /* Compare the length of the skills and place them respecting alignment
 * cursor_first_skills_line : the cursor of the first skill line
 * cursor_second_skills_line : the cursor of the second skill line
@@ -283,8 +314,8 @@ void changeMenuToSkillMenu(Player *player, char *battle_pane, int arrows_xys[]) 
   int cursor_first_skills_line = CURSOR_FRST_SKILL_LINE;
   int cursor_second_skills_line = CURSOR_SCD_SKILL_LINE;
 
-  eraseArrayLine(cursor_first_skills_line, battle_pane, 50);
-  eraseArrayLine(cursor_second_skills_line, battle_pane, 50);
+  eraseArrayLine(cursor_first_skills_line, battle_pane, 35);
+  eraseArrayLine(cursor_second_skills_line, battle_pane, 35);
 
   placeTwoSkills(player, battle_pane, 1, &cursor_first_skills_line, &cursor_second_skills_line, arrows_xys);
   placeTwoSkills(player, battle_pane, 0, &cursor_first_skills_line, &cursor_second_skills_line, arrows_xys);
@@ -319,9 +350,12 @@ void setMenuBack(char *battle_pane, int *arrows_xys, MenuArrow arrow) {
 * battle_pane : the battle pane
 * player : the player
 * enemy : the enemy pokemon
-* return 3 to stay in the skills menu, 0 to come back to the main menu, 2 to do nothing, 1 to come back to map
+* state : 0 to trigger a skill, 1 to replace a skill (skill learning)
+* return 3 to stay in the skills menu, 0 to come back to the main menu,
+*        2 to do nothing, 1 to come back to map, 7 to replace the targetted skill (skill learning)
+*        8 to come back to yes/no menu (learning skill)
 */
-int manageSkillMenuKeyPressed(int *targetted_skill, int key_pressed, int arrows_xys[], char *battle_pane, Player *player, Pokemon *enemy) {
+int manageSkillMenuKeyPressed(int *targetted_skill, int key_pressed, int arrows_xys[], char *battle_pane, Player *player, Pokemon *enemy, int state) {
   int key_pressed_status = 3;//stay in skills menu
   if (key_pressed == MOVE_Z) {
     removeArrow(arrows_xys[*targetted_skill], battle_pane);
@@ -356,26 +390,78 @@ int manageSkillMenuKeyPressed(int *targetted_skill, int key_pressed, int arrows_
     }
     addArrow(arrows_xys[*targetted_skill], battle_pane);
   } else if (key_pressed == 13) {
-    setMenuBack(battle_pane, arrows_xys, HIDDEN);
-    clearAndPrintBattlePane(battle_pane);
-    if (player->pkmns[0].skills[*targetted_skill].pp > 0) {
-      PlayTurnParameters play_turn_params = {targetted_skill, player, enemy, battle_pane, &key_pressed_status, true};
-      createThreadNW8(&playTurn, &play_turn_params);
-      addArrow(ATTAQUES, battle_pane);
+    if (state == 0) {// triggers a skill
+      setMenuBack(battle_pane, arrows_xys, HIDDEN);
       clearAndPrintBattlePane(battle_pane);
-    } else {
-      key_pressed_status = 3;
-      //TODO print pp = 0 warning
+      if (player->pkmns[0].skills[*targetted_skill].pp > 0) {
+        PlayTurnParameters play_turn_params = {targetted_skill, player, enemy, battle_pane, &key_pressed_status, true};
+        createThreadNW8(&playTurn, &play_turn_params);
+        addArrow(ATTAQUES, battle_pane);
+        clearAndPrintBattlePane(battle_pane);
+      } else {
+        key_pressed_status = 3;
+        //TODO print pp = 0 warning
+      }
+    } else if (state == 1) {//replace a skill
+      key_pressed_status = 7;//replace a skill
     }
   } else if (key_pressed == 'e') {
     key_pressed_status = 2;//does nothing
     // exit(0);
   } else if (key_pressed == 127) {
     key_pressed_status = 0;//come back to main menu
-    setMenuBack(battle_pane, arrows_xys, ATTAQUES);
-    clearAndPrintBattlePane(battle_pane);
+    if (state == 0) {
+      setMenuBack(battle_pane, arrows_xys, ATTAQUES);
+      clearAndPrintBattlePane(battle_pane);
+    } else if (state == 1) {
+      battle_pane[arrows_xys[0]-3-NEXT_LINE] = ' ';
+      battle_pane[arrows_xys[0]-3-NEXT_LINE+3*NEXT_LINE] = '_';
+      key_pressed_status = 8;//come back to yes/no menu (skill learning)
+    }
   } else {
     key_pressed_status = 2;//does nothing
+  }
+  return key_pressed_status;
+}
+
+/* Changes the position of the arrow of the yes/no menu
+* battle_pane : the battle pane
+* yes : 1 if yes is selected, 0 if no is selected
+*/
+void setArrowYesNo(char *battle_pane, int yes) {
+  int yes_pos = CURSOR_FRST_SKILL_LINE-3-3;//-shift-space-yes_length
+  int no_pos = CURSOR_SCD_SKILL_LINE-3-3;//-shift-space-yes_length
+  if (yes == 1) {
+    int tmp = yes_pos;
+    yes_pos = no_pos;
+    no_pos = tmp;
+  }
+  addStringToArray("  ", 2, yes_pos, battle_pane);
+  addStringToArray("->", 2, no_pos, battle_pane);
+}
+
+/**/
+int switchThenManageSkillMenu(Player *player, char *battle_pane, Pokemon *enemy, Skill *new_skill, int state) {
+  int arrows_xys[4];
+  changeMenuToSkillMenu(player, battle_pane, arrows_xys);
+  clearAndPrintBattlePane(battle_pane);
+  int targetted_skill = 0;
+  int targetted_skill_temp = targetted_skill;
+  char key_pressed;
+  int key_pressed_status = 0;
+  do {
+    if (state == 1) {
+      printLearningSkillInfo(player->pkmns[0].skills[targetted_skill], *new_skill);
+    }
+    key_pressed = getchar();
+    targetted_skill_temp = targetted_skill;
+    key_pressed_status = manageSkillMenuKeyPressed(&targetted_skill, key_pressed, arrows_xys, battle_pane, player, enemy, state);
+    if (key_pressed_status == 3 && targetted_skill_temp != targetted_skill) {//if arrows was moved
+      clearAndPrintBattlePane(battle_pane);
+    }
+  } while (key_pressed_status != 1 && key_pressed_status != 0 && key_pressed_status != 7 && key_pressed_status != 8);//1 if battle finished, 0 if turn finished, 7 if skill to replace chosen (skill learning)
+  if (key_pressed_status == 7) {
+    key_pressed_status = targetted_skill;
   }
   return key_pressed_status;
 }
@@ -392,22 +478,7 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemo
   if (*arrow == FUITE) {
     stop = 1;
   } else if (*arrow == ATTAQUES) {
-    int arrows_xys[4];
-    changeMenuToSkillMenu(player, battle_pane, arrows_xys);
-    clearAndPrintBattlePane(battle_pane);
-    int targetted_skill = 0;
-    int targetted_skill_temp = targetted_skill;
-    char key_pressed;
-    int key_pressed_status = 0;
-    do {
-      key_pressed = getchar();
-      targetted_skill_temp = targetted_skill;
-      key_pressed_status = manageSkillMenuKeyPressed(&targetted_skill, key_pressed, arrows_xys, battle_pane, player, enemy);
-      if (key_pressed_status == 3 && targetted_skill_temp != targetted_skill) {//if arrows was moved
-        clearAndPrintBattlePane(battle_pane);
-      }
-    } while (key_pressed_status != 1 && key_pressed_status != 0);//1 if battle finished, 0 if turn finished
-    stop = key_pressed_status;
+    stop = switchThenManageSkillMenu(player, battle_pane, enemy, NULL, 0);
   } else if (*arrow == POKEMON) {
     int action = managePokemonsMenu(player, 1);
     refreshBattlePane(player->pkmns[0], *enemy, battle_pane);
@@ -526,6 +597,7 @@ void isBattle(Player *player) {
   if (isEqual(player->char_at_pos, LONG_GRASS)) {
     if (rand()%100 < BATTLE_PERCENTAGE) {
       battle(player);
+      resetPlayerPkmnsStatsAfterBattle(player);
     }
   }
 }

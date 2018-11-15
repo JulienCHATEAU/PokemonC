@@ -17,16 +17,17 @@
 #define FRST_TEXT_LINE_POS 1037
 #define SCD_TEXT_LINE_POS 1106
 #define TEST_LINE_MAX_LGTH 34
+#define FRST_DB_POS 966
 
 #define FRST_PIPE_MENU 1004
 #define NEXT_LINE 69
 
 #define CURSOR_FRST_SKILL_LINE 1097
 #define CURSOR_SCD_SKILL_LINE 1166
+#define LEFT_SHIFT 3
 
 #define MENU_ARROW_LGTH 2
 #define HLTH_BAR_LGTH 24 //counting '{' and '}'
-#define TEXT_LINE_MAX_LGTH 34
 #define BATTLE_LINE_LGTH 67
 #define BATTLE_PANE_LGTH 1240
 
@@ -51,6 +52,9 @@ typedef struct {
 
 void createThreadNW8(void *function, void *function_params);
 void eraseInfoText();
+int switchThenManageSkillMenu(Player *player, char *battle_pane, Pokemon *enemy, Skill *new_skill, int state);
+void setArrowYesNo(char *battle_pane, int yes);
+void showYesNoMenu(char *battle_pane);
 int nDigits(unsigned int n);
 bool hasAnyAlivePokemon(Player *player);
 void clearAndPrintBattlePane(char *battle_pane);
@@ -67,7 +71,7 @@ void compareAndPlaceSkills(int *cursor_first_skills_line, int *cursor_second_ski
 void placeTwoSkills(Player *player, char *battle_pane, int i, int *cursor_first_skills_line, int *cursor_second_skills_line, int arrows_xys[]);
 void changeMenuToSkillMenu(Player *player, char *battle_pane, int arrows_xys[]);
 void setMenuBack(char *battle_pane, int *arrows_xys, MenuArrow arrow);
-int manageSkillMenuKeyPressed(int *targetted_skill, int key_pressed, int arrows_xys[], char *battle_pane, Player *player, Pokemon *enemy);
+int manageSkillMenuKeyPressed(int *targetted_skill, int key_pressed, int arrows_xys[], char *battle_pane, Player *player, Pokemon *enemy, int state);
 int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemon *enemy);
 int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow, char *battle_pane, Player *player, Pokemon *enemy);
 void battle(Player *player);

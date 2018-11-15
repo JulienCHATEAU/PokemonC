@@ -138,6 +138,21 @@ Pokemon fillPokemon(char *name) {
 }
 
 
+/* Checks if a an array contains one skill
+* skills : the array
+* skill_count : the number of skills in the array
+* skill_id : the id of the skill to find
+*/
+bool containsSkill(Skill *skills, int skill_count, int skill_id) {
+  bool trouve = false;
+  for (int i = 0; i < skill_count && !trouve; i++) {
+    if (skills[i].id == skill_id) {
+      trouve = true;
+    }
+  }
+  return trouve;
+}
+
 /* Resets some stats of a pokemon (after a battle)
 * pkmn : the concerned pokemon
 */
@@ -167,6 +182,36 @@ void resetPokemonStatsAfterBattle(Pokemon *pkmn) {
 void resetPlayerPkmnsStatsAfterBattle(Player *player) {
   for (int i = 0; i < player->pkmn_count; i++) {
     resetPokemonStatsAfterBattle(&player->pkmns[i]);
+  }
+}
+
+/* Gets the index of the skill in the Pokemon skill array structure comparing the skills name
+* pkmn : the pokemon
+* skill_name : the skill name
+* return the index if present, -1 if not present
+*/
+int getSkillIndex(Pokemon *pkmn, char *skill_name) {
+  int index = -1;
+  int i = 0;
+  bool trouve = false;
+  while (i < 4 && !trouve) {
+    if (strcmp(pkmn->skills[i].name, skill_name) == 0) {
+      index = i;
+      trouve = true;
+    }
+    i++;
+  }
+  return index;
+}
+
+/* Sets a skill to the given index in the pokemon skills array
+* pkmn : the pokemon
+* skill : the skill to set
+* index : the index of the new skill
+*/
+void setSkill(Pokemon *pkmn, Skill skill, int index) {
+  if (index < 4 && index >= 0) {
+    pkmn->skills[index] = skill;
   }
 }
 

@@ -25,20 +25,20 @@ typedef enum {
 
 typedef enum {
   NO_STATENUM = -1,
-  DEF,
-  ATT,
-  SPD,
-  ACC,
+  ATT,//1
+  DEF,//0
+  SPD,//2
+  ACC,//3
 } StatEnum;
 
 typedef enum {
   NO_AILMENT = -1,
-  PARALYSIS,
-  SLEEP,
-  FREEZE,
-  BURN,
-  POISONING,
-  CONFUSION,
+  PARALYSIS,//0
+  SLEEP,//2
+  FREEZE,//3
+  BURN,//4
+  POISONING,//5
+  CONFUSION,//6
 } AilmentEnum;
 
 typedef struct {
@@ -95,6 +95,15 @@ typedef struct {
 } Pokemon;
 
 typedef struct {
+  char *name;
+  int name_length;
+  int id;
+  char *description;
+  int description_length;
+  int count;
+} BagItem;
+
+typedef struct {
   int xy;
   char pos;
   char char_at_pos;
@@ -104,6 +113,7 @@ typedef struct {
   int pkmn_count;
   int pseudo_length;
   int money;
+  BagItem *bag;
 } Player;
 
 #endif

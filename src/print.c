@@ -8,14 +8,30 @@
 #include "fileManager.h"
 #include "ttyraw.h"
 
+/* Prints the information of the targetted skill (to replace by the new_skill)
+   and then the one of the new skill
+* targetted_skill : the targetted skill
+* new_skill : the new skill
+*/
+void printLearningSkillInfo(Skill targetted_skill, Skill new_skill) {
+  tty_reset();
+  printf("\n\n\n\n");
+  printSkill(targetted_skill);
+  printf("\n\n");
+  printSkill(new_skill);
+  setRawMode('1');
+}
+
 /* Print a skill
 * skill : the skill
 */
 void printSkill(Skill skill) {
   printf("    %s : \n", skill.name);
-  printf("      Description :   %s\n", skill.description);
+  char type_string[25];
+  typeEnumToString(skill.type, type_string);
+  printf("      Description :   de type %s. %s\n", type_string, skill.description);
   printf("      Puissance :     %d\n", skill.power);
-  printf("      Précision :     %d\n", skill.accuracy_max);
+  printf("      Précision :     %d / 100\n", skill.accuracy);
   printf("      PP :            %d / %d\n", skill.pp, skill.pp_max);
 }
 
