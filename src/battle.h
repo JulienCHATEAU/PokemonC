@@ -15,6 +15,8 @@
 #define MISS_STRING_LENGTH 19
 #define CRIT_STRING "Coup Critique !"
 #define CRIT_STRING_LENGTH 15
+#define NO_EFFECT_STRING "Cela n'a aucun effet"
+#define NO_EFFECT_STRING_LENGTH 18
 #define SUPER_EFFECTIVE_STRING "C'est super efficace !"
 #define SUPER_EFFECTIVE_STRING_LENGTH 22
 #define NOT_EFFECTIVE_STRING "Ce n'est pas tres efficace..."

@@ -58,7 +58,13 @@ void fillTypesTable() {
 /* Gets the weakness coefficient according to a skill and a pokemon
 * skill_type : the type of the skill
 * target : the pokemon targetted by the skill
-* return a double related to the target weaknesses/resistances against the skill type
+* return a double related to the target weaknesses/resistances against the skill type. values used to be :
+  0     if the target is insensitive to the skill
+  0.25  if the target has 2 types resisting to the skill type
+  0.50  if the target has 1 type resisting to the skill type
+  1     if the target has no type resisting to the skill type
+  2     if the target has 1 type weak against the skill type
+  4     if the target has 2 type weak against the skill type
 */
 double getWeakness(Type skill_type, Pokemon *target) {
   double weakness = 1.0;
@@ -113,12 +119,7 @@ bool chosePlayOrder(Pokemon *frst_to_play, Pokemon *scd_to_play, int *frst_playe
 * target : the targetted pokemon
 * skill : the chosen skill
 * crit : true if the skill is a critical hit, false otherwise
-* weakness : a double related to the target weaknesses/resistances. values used to be :
-  0.25 if the target has 2 types resisting to the skill type
-  0.50 if the target has 1 type resisting to the skill type
-  1 if the target has no type resisting to the skill type
-  2 if the target has 1 type weak against the skill type
-  4 if the target has 2 type weak against the skill type
+* weakness : a double related to the target weaknesses/resistances.
 * return the health points count the target will lose
 */
 int hpCountLost(Pokemon *skill_user, Pokemon *target, Skill skill, bool crit, double weakness) {
@@ -139,6 +140,17 @@ int hpCountLost(Pokemon *skill_user, Pokemon *target, Skill skill, bool crit, do
   return (int)round(hp_count_lost);
 }
 
+/* Shows information in the chat menu about the ailment state of the pokemon
+* skill_user : the pokemon curently triggering a skill
+* target : the target
+* swapped_xor_frst : this boolean describe whether the player's pokemon was swapped or not and whether it's the first to play or not (see playTurn())
+  this is used to know if the player is pointed by the 'skill_user' parameter or the 'target' one
+* battle_pane : the battle_pane
+* frst_ailment_text : the first text about the ailment state of the pokemon
+* frst_ailment_text_length : the length of the first text about the ailment state of the pokemon
+* scd_ailment_text : the second text about the ailment state of the pokemon
+* scd_ailment_text_length : the length of the second text about the ailment state of the pokemon
+*/
 void ailmentTextAnimation(Pokemon *skill_user, Pokemon *target, bool swapped_xor_frst, char *battle_pane, char *frst_ailment_text, int frst_ailment_text_length, char *scd_ailment_text, int scd_ailment_text_length) {
   int ailment_text_length = skill_user->name_length+1+frst_ailment_text_length;
   char *ailment_text = malloc(sizeof(char) * ailment_text_length+1);
@@ -162,6 +174,13 @@ void ailmentTextAnimation(Pokemon *skill_user, Pokemon *target, bool swapped_xor
   waitNMs(WAIT_BETWEEN_ANIM);
 }
 
+/* Manages the effect of the pokemon's first ailment
+* skill_user : the pokemon which is gonna use a skill
+* target : the target
+* swapped_xor_frst : this boolean describe whether the player's pokemon was swapped or not and whether it's the first to play or not (see playTurn())
+  this is used to know if the player is pointed by the 'skill_user' parameter or the 'target' one
+* battle_pane : the battle pane
+*/
 bool manageFirstAilment(Pokemon *skill_user, Pokemon *target, bool swapped_xor_frst, char *battle_pane) {
   bool play = true;
   srand(time(NULL));
@@ -224,7 +243,13 @@ bool manageFirstAilment(Pokemon *skill_user, Pokemon *target, bool swapped_xor_f
   return play;
 }
 
-
+/* Manages the effect of all the pokemon's ailments
+* skill_user : the pokemon which is gonna use a skill
+* target : the target
+* swapped_xor_frst : this boolean describe whether the player's pokemon was swapped or not and whether it's the first to play or not (see playTurn())
+  this is used to know if the player is pointed by the 'skill_user' parameter or the 'target' one
+* battle_pane : the battle pane
+*/
 bool manageAllAilments(Pokemon *skill_user, Pokemon *target, bool swapped_xor_frst, char *battle_pane) {
   bool play = manageFirstAilment(skill_user, target, swapped_xor_frst, battle_pane);
   if (skill_user->crt_ailments[0] == CONFUSION) {
@@ -389,36 +414,42 @@ bool useSkill(Pokemon *skill_user, Pokemon *target, int chosen_skill, char *batt
   if (rand()%100 < chosen.accuracy) {
     bool crit = false;
     double weakness = getWeakness(chosen.type, target);
-    if (rand()%100 < CRIT_PERCENTAGE) {
-      crit = true;
-    }
-    target->stats.hp -= hpCountLost(skill_user, target, chosen, crit, weakness);
-    if (target->stats.hp < 0) {
-      target->stats.hp = 0;
-    }
-    if (chosen.power == 0) {
-      crit = false;
-      weakness = 1.0;
-    }
-    bool written_something = manageSecondTextAnimation(battle_pane, crit, weakness);
-    if (rand()%100 < chosen.ailment.accuracy) {
-      addAilment(target, chosen.ailment.ailment_enum);
-    }
-    if (swapped_xor_frst) {
-      refreshBattlePane(*skill_user, *target, battle_pane);
+    if (weakness != 0.0) {
+      if (rand()%100 < CRIT_PERCENTAGE) {
+        crit = true;
+      }
+      target->stats.hp -= hpCountLost(skill_user, target, chosen, crit, weakness);
+      if (target->stats.hp < 0) {
+        target->stats.hp = 0;
+      }
+      if (chosen.power == 0) {
+        crit = false;
+        weakness = 1.0;
+      }
+      bool written_something = manageSecondTextAnimation(battle_pane, crit, weakness);
+      if (rand()%100 < chosen.ailment.accuracy) {
+        addAilment(target, chosen.ailment.ailment_enum);
+      }
+      if (swapped_xor_frst) {
+        refreshBattlePane(*skill_user, *target, battle_pane);
+      } else {
+        refreshBattlePane(*target, *skill_user, battle_pane);
+      }
+      if (written_something) {
+        clearAndPrintBattlePane(battle_pane);
+        waitNMs(WAIT_BETWEEN_ANIM);
+      }
+      if (!isAnyKoPokemon(skill_user, target)) {
+        written_something = manageEffect(chosen_skill, skill_user, target, battle_pane);
+        eraseInfoText(battle_pane);
+        clearAndPrintBattlePane(battle_pane);
+      }
+      if (!written_something && !isAnyKoPokemon(skill_user, target)) {
+        waitNMs(WAIT_BETWEEN_ANIM);
+      }
     } else {
-      refreshBattlePane(*target, *skill_user, battle_pane);
-    }
-    if (written_something) {
+      addInfoText(NO_EFFECT_STRING, NO_EFFECT_STRING_LENGTH, " ", 1, battle_pane);
       clearAndPrintBattlePane(battle_pane);
-      waitNMs(WAIT_BETWEEN_ANIM);
-    }
-    if (!isAnyKoPokemon(skill_user, target)) {
-      written_something = manageEffect(chosen_skill, skill_user, target, battle_pane);
-      eraseInfoText(battle_pane);
-      clearAndPrintBattlePane(battle_pane);
-    }
-    if (!written_something && !isAnyKoPokemon(skill_user, target)) {
       waitNMs(WAIT_BETWEEN_ANIM);
     }
   } else {
@@ -461,6 +492,10 @@ bool playOnePokemonTurn(Pokemon *skill_user, Pokemon *target, int chosen_skill, 
   return failed;
 }
 
+/* Manages the keys pressed in a yes/no menu
+* key_pressed : the key pressed
+* yes : an integer describing which one of the yes or no field is targetted (1 for yes, 0 for no)
+*/
 int manageYesNoKeyPressed(char key_pressed, int *yes) {
   int key_pressed_status = 1;
   if (key_pressed == MOVE_Z) {
@@ -475,6 +510,10 @@ int manageYesNoKeyPressed(char key_pressed, int *yes) {
   return key_pressed_status;
 }
 
+/* Manages the yes/no menu
+* yes : an integer describing which one of the yes or no field is targetted (1 for yes, 0 for no)
+* battle_pane : the battle pane
+*/
 void manageYesNoMenu(int *yes, char *battle_pane) {
   char key_pressed;
   int key_pressed_status;
@@ -488,6 +527,12 @@ void manageYesNoMenu(int *yes, char *battle_pane) {
   } while(key_pressed_status != 0);//!= enter
 }
 
+/* Manages the time when a pokemon can learn a new skill
+* player : the player
+* battle_pane : the battle pane
+* frst_to_play : the first player to play the turn
+* scd_to_play : the second player to play the turn
+*/
 void manageLearningSkill(Player *player, char *battle_pane, Pokemon *frst_to_play, Pokemon *scd_to_play) {
   Pokemon *learner = &player->pkmns[0];
   srand(time(NULL));
@@ -544,6 +589,12 @@ void manageLearningSkill(Player *player, char *battle_pane, Pokemon *frst_to_pla
   free(wants2learn);
 }
 
+/* Manages the time when a pokemon is level-upping
+* player : the player
+* battle_pane : the battle pane
+* frst_to_play : the first player to play the turn
+* scd_to_play : the second player to play the turn
+*/
 void manageLevelUp(Player *player, char *battle_pane, Pokemon *frst_to_play, Pokemon *scd_to_play) {
   int level_up_length = player->pkmns[0].name_length+17+nDigits(player->pkmns[0].lvl);
   char *lvl_up = malloc(sizeof(char)*(level_up_length+1));
@@ -558,6 +609,10 @@ void manageLevelUp(Player *player, char *battle_pane, Pokemon *frst_to_play, Pok
   }
 }
 
+/* Manages the time when the user's pokemon
+* player : the player
+* battle_pane : the battle pane
+*/
 void manageKoAnimation(Player *player, char *battle_pane) {
   int is_ko_length = player->pkmns[0].name_length+9;
   char *is_ko = malloc(sizeof(char)*(is_ko_length+1));

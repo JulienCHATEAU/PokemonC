@@ -440,7 +440,14 @@ void setArrowYesNo(char *battle_pane, int yes) {
   addStringToArray("->", 2, no_pos, battle_pane);
 }
 
-/**/
+/* Switch from a menu to the skill menu and then manage the key pressed in this menu
+* player : the player
+* battle_pane : the battle pane
+* enemy : the enemy pokemon
+* new_skill : the new skill to teach to the first player's pokemon (only used if state = 1)
+* state : the state of the skill menu (0 to trigger a skill, 1 to replace a skill by the new one)
+* return 1 to end the battle, 0 to come back to main menu
+*/
 int switchThenManageSkillMenu(Player *player, char *battle_pane, Pokemon *enemy, Skill *new_skill, int state) {
   int arrows_xys[4];
   changeMenuToSkillMenu(player, battle_pane, arrows_xys);
