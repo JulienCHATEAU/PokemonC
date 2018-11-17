@@ -228,14 +228,22 @@ FILE *openPlayerNewSaveFile(Player *player, char *mode) {
   return save_file;
 }
 
+/* In a file, skip a number of lines
+* save_file : the concerned file
+* line_count : the line count to skip
+*/
+void skipLines(FILE *save_file, int line_count) {
+  for (int i = 0; i < line_count; i++) {
+    fscanf(save_file, "%*[^\n]\n");
+  }
+}
+
 /* In the file containing the player data, skip the first lines describing the player
 * save_file : the concerned file
 * player : the player
 */
 void skipPlayerData(FILE *save_file, Player *player) {
-  for (int i = 0; i < player->pkmn_count+1; i++) {
-    fscanf(save_file, "%*[^\n]\n");
-  }
+  skipLines(save_file, player->pkmn_count+1);
 }
 
 /* In the file containing the player data, read one pokemon line storing the data in the given Pokemon structure

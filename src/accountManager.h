@@ -11,6 +11,8 @@ typedef enum {
 } Check;
 
 void manageConnexionMenu(char *pseudo);
+void skipLines(FILE *save_file, int line_count);
+void skipLines(FILE *save_file, int line_count);
 int isPseudoValid(char *pseudo, int max_length);
 int isPasswordValid(char *password, int max_length);
 void askPseudoOrPw(char *array, int array_max_length);

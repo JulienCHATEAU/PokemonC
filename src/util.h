@@ -9,6 +9,8 @@
 #define MOVE_S 's'
 #define MOVE_D 'd'
 
+#define BAG_ITEM_PATH "bag_items.txt"
+
 void waitNMs(int n);/*n millisecond*/
 bool isEqual(char character, char comp);
 void addArrow(int arrow_xy, char *battle_pane);
@@ -20,6 +22,9 @@ void setStringToTab(char *tab, char *string);
 void freeSkill(Skill skill);
 void freePlayer(Player player);
 void freePokemon(Pokemon pkmn);
+int possessBagItem(Player *player, BagItem item);
+BagItem createPokeball();
+void addPokeballPlayer(Player *player, int count);
 Effect createEffect(int stat_to_change, int change_value, int accuracy);
 Stats createStats(int hp_max, int att_max, int def_max, int spd_max);
 Player createPlayer(char *pseudo, int xy, char pos, char *pkmn_name);

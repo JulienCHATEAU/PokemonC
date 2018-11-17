@@ -52,6 +52,10 @@ def type_to_int(type):
 NUMBER_OF_PERSO = 152
 FR_LINK = "http://ray0.be/pokeapi/pokemon-row/fr/"
 
+# API link
+REQUEST_URL = "https://pokeapi.co/api/v2/"
+data = "pokemon/" # 808/
+evo = "evolution-chain/" # 808/
 
 def getLine (id, data) :
     """
@@ -63,6 +67,10 @@ def getLine (id, data) :
     url = FR_LINK + str(id) + "/"
     # Get the value of the page
     r = requests.get(url).json()
+
+    url = REQUEST_URL + evo + str(id) + "/"
+    # Get the value of the page
+    json_evo = requests.get(url).json()
 
 
     name = r["data"]["nom_fr"]
@@ -97,12 +105,6 @@ def getLine (id, data) :
     print(str(id) + ": "+ line)
     return line
 
-
-
-
-# API link
-REQUEST_URL = "https://pokeapi.co/api/v2/"
-data = "pokemon/" # 808/
 
 
 # Open the file on write mode

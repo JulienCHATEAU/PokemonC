@@ -1,6 +1,8 @@
 #ifndef TYPEDEF_H
 #define TYPEDEF_H
 
+#define BAG_SIZE 50
+
 typedef enum {
   NO_TYPE = -1,
   NORMAL,//0
@@ -113,7 +115,8 @@ typedef struct {
   int pkmn_count;
   int pseudo_length;
   int money;
-  BagItem *bag;
+  BagItem bag[BAG_SIZE];
+  int bag_item_count;
 } Player;
 
 #endif

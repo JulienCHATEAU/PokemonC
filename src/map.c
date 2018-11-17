@@ -189,7 +189,7 @@ int checkIfInteractionPossible(Player *player, char *printable_map, char *dialog
   char char_ifo_player = printable_map[xy_ifo_player];
   if (char_ifo_player == POKEBALL) {
     saveMapSpecificData(player, *x_map, *y_map, (xy_ifo_player-3)/2);
-    player->pokeball_count++;
+    addPokeballPlayer(player, 1);
     printable_map[xy_ifo_player] = ' ';
     addTextInDialogBox(FRST_LINE_START, POKEBALL_FOUND, POKEBALL_FOUND_LGTH, dialog_box);
   } else {

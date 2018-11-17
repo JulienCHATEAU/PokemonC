@@ -1,0 +1,1 @@
+8|Pokeball|42|Une pokeball permet de capturer un pokemon|1|
