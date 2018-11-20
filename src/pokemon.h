@@ -26,7 +26,6 @@ void swapPokemon(Player *player, int src, int dest);
 int getCurrentExperienceStage(Pokemon pkmn);
 void upLevel(Pokemon *pkmn);
 int gainExperience(Pokemon *winner, Pokemon *loser);
-void setPlayerPseudo(char *pseudo, Player *player);
 void addAilment(Pokemon *pkmn, AilmentEnum ailment);
 void removeFirstAilment(Pokemon *pkmn);
 void setBackHealthToZero(Pokemon *pkmn);

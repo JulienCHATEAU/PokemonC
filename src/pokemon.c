@@ -367,19 +367,6 @@ int gainExperience(Pokemon *winner, Pokemon *loser) {
   return level_up;
 }
 
-/* Sets the pseudo of the player
-* pseudo : the pseudo
-/* player : the player
-*/
-void setPlayerPseudo(char *pseudo, Player *player) {
-  int i = 0;
-  while (pseudo[i] != '\0') {
-    player->pseudo[i] = pseudo[i];
-    i++;
-  }
-  player->pseudo_length = i;
-}
-
 
 /* Adds an ailment to the pokemon
 * pkmn : the pokemon

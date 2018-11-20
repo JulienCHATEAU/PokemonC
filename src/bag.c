@@ -56,13 +56,15 @@ int possessBagItem(Player *player, int id) {
 * count : the item count to add
 */
 void addBagItemPlayer(Player *player, int id, int count) {
-  int index = possessBagItem(player, id);
-  if (index == -1) {
-    BagItem bag_item = createBagItem(id);
-    player->bag[id] = bag_item;
-    player->bag[id].count = count;
-    player->bag_item_count++;
-  } else {
-    player->bag[id].count += count;
+  if (count > 0) {
+    int index = possessBagItem(player, id);
+    if (index == -1) {
+      BagItem bag_item = createBagItem(id);
+      player->bag[id] = bag_item;
+      player->bag[id].count = count;
+      player->bag_item_count++;
+    } else {
+      player->bag[id].count += count;
+    }
   }
 }

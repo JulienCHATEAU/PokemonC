@@ -88,14 +88,14 @@ void askPseudoOrPw(char *array, int array_max_length) {
 * array : an array to store the pseudo
 */
 void askPseudo(char *array) {
-  return askPseudoOrPw(array, PSEUDO_MAX_LENGTH);
+  askPseudoOrPw(array, PSEUDO_MAX_LENGTH);
 }
 
 /* Asks the user provide a password
 * array : an array to store the password
 */
 void askPassword(char *array) {
-  return askPseudoOrPw(array, PASSWORD_MAX_LENGTH);
+  askPseudoOrPw(array, PASSWORD_MAX_LENGTH);
 }
 
 /* Manages the key pressed by the user when he has to chose between creating an account or connection to his one
@@ -223,7 +223,7 @@ FILE *openPlayerSaveFile(Player *player, char *mode) {
 * mode : the oppening mode
 */
 FILE *openPlayerNewSaveFile(Player *player, char *mode) {
-  char *save_file_path = malloc(sizeof(char) * (13+player->pseudo_length+1));//9 -> 'save/.txt' length
+  char *save_file_path = malloc(sizeof(char) * (13+player->pseudo_length+1));//13 -> 'save/_new.txt' length
   sprintf(save_file_path, "save/%s_new.txt", player->pseudo);
   FILE *save_file = openFile(save_file_path, mode);
   free(save_file_path);
@@ -282,10 +282,7 @@ void loadPlayerData(int *x_map, int *y_map, Player *player) {
   /*Temporaire*/
   player->bag_item_count = 0;
   addBagItemPlayer(player, 0, player->pokeball_count);
-  addBagItemPlayer(player, 1, 3);
   /*Temporaire*/
-
-  printf("bag_item_count : %d\n", player->bag_item_count);
 
   for (int i = 0; i < player->pkmn_count; i++) {
     readOnePokemonLine(save_file, &player->pkmns[i]);

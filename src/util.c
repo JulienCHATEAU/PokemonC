@@ -124,6 +124,20 @@ Stats createStats(int hp_max, int att_max, int def_max, int spd_max) {
   return stats;
 }
 
+/* Sets the pseudo of the player
+* pseudo : the pseudo
+* player : the player
+*/
+void setPlayerPseudo(char *pseudo, Player *player) {
+  int i = 0;
+  while (pseudo[i] != '\0') {
+    player->pseudo[i] = pseudo[i];
+    i++;
+  }
+  player->pseudo[i] = '\0';
+  player->pseudo_length = i;
+}
+
 /* Instantiates a Player structure
 * pseudo : the player's pseudo
 * xy : the player's position in the map
