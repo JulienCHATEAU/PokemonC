@@ -50,7 +50,7 @@ int manageSmEnterKeyPressed(Player *player, int *targetted_menu, char *dialog_bo
   if (*targetted_menu == SM_POKEMONS_ID) {
     managePokemonsMenu(player, 0);
   } else if (*targetted_menu == SM_SAC_ID) {
-
+    manageBagMenu(player);
   } else if (*targetted_menu == SM_QUITTER_ID) {
     key_pressed_status = 1337;
   } else if (*targetted_menu == SM_ANNULER_ID) {
@@ -231,7 +231,7 @@ int managePmKeyPressed(Player *player, char key_pressed, int *targetted_pkmn, in
     if (*targetted_pkmn != player->pkmn_count) {
       printPokemonDescripton(player->pkmns[*targetted_pkmn]);
       char key_pressed = 0;
-      while (key_pressed != 13 && key_pressed != 127) {//13 ->'Enter' | 127 -> 'Return'
+      while (key_pressed != ENTER && key_pressed != DELETE) {//13 ->'Enter' | 127 -> 'Return'
         key_pressed = getchar();
       }
     } else {
@@ -253,5 +253,59 @@ int managePmKeyPressed(Player *player, char key_pressed, int *targetted_pkmn, in
   } else {
     key_pressed_status = 2;
   }
+  return key_pressed_status;
+}
+
+
+/*******/
+/* BAG */
+/*******/
+
+/* Prints the bag pane
+* player : the player
+*/
+void printBagPane(Player *player) {
+  tty_reset();
+  clearConsole();
+  printf("\n\n          Votre Sac :\n\n\n");
+  int printed_item_count = 0;
+  int i = 0;
+  while (printed_item_count < player->bag_item_count && i < BAG_SIZE) {
+    if (player->bag[i].id != -1) {
+      printf("      %s : x%d\n", player->bag[i].name, player->bag[i].count);
+      printf("        Description : %s\n\n", player->bag[i].description);
+      printed_item_count++;
+    }
+    i++;
+  }
+
+  if (player->bag_item_count == 0) {
+    printf("      Vide\n\n");
+  }
+
+  // if (mode == 1 || mode == 2) {
+  //   printf("\n\n\n    ----------------      ----------------------\n");
+  //   printf("   | 1. Description |    | 2. Envoyer au combat |\n");
+  //   printf("    ----------------      ----------------------\n\n\n");
+  // } else {
+  //   printf("\n\n\n    ----------------      -----------------------------\n");
+  //   printf("   | 1. Description |    | 2. Mettre en première place |\n");
+  //   printf("    ----------------      -----------------------------\n\n\n");
+  // }
+
+  printf("\n  ->  Annuler\n");
+  setRawMode('1');
+}
+
+/* Manages the bag menu
+* player : the player
+*/
+int manageBagMenu(Player *player) {
+  char key_pressed = 0;
+  int key_pressed_status = 0;
+  printBagPane(player);
+  do {
+    key_pressed = getchar();
+  } while(key_pressed != ENTER && key_pressed != DELETE);
   return key_pressed_status;
 }

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "pokemon.h"
 #include "util.h"
+#include "bag.h"
 #include "map.h"
 #include "accountManager.h"
 #include "startMenu.h"
@@ -189,7 +190,7 @@ int checkIfInteractionPossible(Player *player, char *printable_map, char *dialog
   char char_ifo_player = printable_map[xy_ifo_player];
   if (char_ifo_player == POKEBALL) {
     saveMapSpecificData(player, *x_map, *y_map, (xy_ifo_player-3)/2);
-    addPokeballPlayer(player, 1);
+    addBagItemPlayer(player, 0, 1);//pokeball
     printable_map[xy_ifo_player] = ' ';
     addTextInDialogBox(FRST_LINE_START, POKEBALL_FOUND, POKEBALL_FOUND_LGTH, dialog_box);
   } else {

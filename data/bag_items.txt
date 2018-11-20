@@ -1,1 +1,2 @@
-8|Pokeball|42|Une pokeball permet de capturer un pokemon|1|
+8|Pokeball|42|Une pokeball permet de capturer un pokemon|
+6|Potion|48|Une potion redonne 20 points de vie a un pokemon|

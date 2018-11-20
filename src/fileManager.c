@@ -27,3 +27,13 @@ int closeFile(FILE *file) {
   }
   return 0;
 }
+
+/* In a file, skip a number of lines
+* save_file : the concerned file
+* line_count : the line count to skip
+*/
+void skipLines(FILE *save_file, int line_count) {
+  for (int i = 0; i < line_count; i++) {
+    fscanf(save_file, "%*[^\n]\n");
+  }
+}

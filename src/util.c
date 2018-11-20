@@ -134,6 +134,7 @@ Stats createStats(int hp_max, int att_max, int def_max, int spd_max) {
 Player createPlayer(char *pseudo, int xy, char pos, char *pkmn_name) {
   Player p;
   BagItem bi;
+  bi.id = -1;//empty bag item
   p.xy = xy;
   p.pos = pos;
   p.char_at_pos = ' ';
@@ -144,50 +145,9 @@ Player createPlayer(char *pseudo, int xy, char pos, char *pkmn_name) {
   for (int i = 0; i < BAG_SIZE; i++) {
     p.bag[i] = bi;
   }
+  p.bag_item_count = 0;
   setPlayerPseudo(pseudo, &p);
   return p;
-}
-
-void fillBagItem(int id, BagItem *bag_item) {
-  FILE *bag_items = openFile(BAG_ITEM_PATH, "r");
-  skipLines(bag_items, id);
-  fscanf(bag_items, "%d", &bag_item->name_length);
-  bag_item->name = malloc(sizeof(char)*bag_item->name_length+1);
-  fscanf(bag_items, "%[^|]|", bag_item->name);
-  fscanf(bag_items, "%d|", &bag_item->description_length);
-  bag_item->description = malloc(sizeof(char)*bag_item->description_length+1);
-  fscanf(bag_items, "%[^|]|", bag_item->description);
-  fscanf(bag_items, "%d", &bag_item->count);
-  closeFile(bag_items);
-}
-
-BagItem createPokeball() {
-  BagItem pokeball;
-  fillBagItem(0, &pokeball);
-  return pokeball;
-}
-
-int possessBagItem(Player *player, BagItem item) {
-  int i = 0;
-  int index = -1;
-  while (index == -1 && i < player->bag_item_count) {
-    if (player->bag[i].id == item.id) {
-      index = i;
-    }
-    i++;
-  }
-  return index;
-}
-
-void addPokeballPlayer(Player *player, int count) {
-  BagItem pokeball = createPokeball();
-  int index = possessBagItem(player, pokeball);
-  if (index == -1) {
-    player->bag[pokeball.id] = pokeball;
-    player->bag[index].count = count;
-  } else {
-    player->bag[index].count += count;
-  }
 }
 
 /* Frees a Skill structure

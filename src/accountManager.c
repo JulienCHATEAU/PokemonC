@@ -3,11 +3,13 @@
 #include <string.h>
 #include "fileManager.h"
 #include "ttyraw.h"
+#include "bag.h"
 #include "pokemon.h"
 #include "util.h"
 #include "map.h"
 #include "print.h"
 #include "accountManager.h"
+
 #define ACCOUNTS_FILE_PATH "save/accounts.txt"
 
 /* Manages the connexion menu (ask the user his pseudo, his password checking if correct ect...)
@@ -228,16 +230,6 @@ FILE *openPlayerNewSaveFile(Player *player, char *mode) {
   return save_file;
 }
 
-/* In a file, skip a number of lines
-* save_file : the concerned file
-* line_count : the line count to skip
-*/
-void skipLines(FILE *save_file, int line_count) {
-  for (int i = 0; i < line_count; i++) {
-    fscanf(save_file, "%*[^\n]\n");
-  }
-}
-
 /* In the file containing the player data, skip the first lines describing the player
 * save_file : the concerned file
 * player : the player
@@ -286,6 +278,15 @@ void loadPlayerData(int *x_map, int *y_map, Player *player) {
   FILE *save_file = openPlayerSaveFile(player, "r");
   fscanf(save_file, "%d|%d|%d|", x_map, y_map, &player->xy);
   fscanf(save_file, "%c|%c|%d|%d|%d\n", &player->pos, &player->char_at_pos, &player->pokeball_count, &player->pkmn_count, &player->money);
+
+  /*Temporaire*/
+  player->bag_item_count = 0;
+  addBagItemPlayer(player, 0, player->pokeball_count);
+  addBagItemPlayer(player, 1, 3);
+  /*Temporaire*/
+
+  printf("bag_item_count : %d\n", player->bag_item_count);
+
   for (int i = 0; i < player->pkmn_count; i++) {
     readOnePokemonLine(save_file, &player->pkmns[i]);
   }
