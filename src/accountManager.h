@@ -21,7 +21,7 @@ int manageConnexionKeyPressed(char *pseudo, char *password, char key_pressed);
 int pseudoPasswordExists(char *pseudo, char *password, Check mode);
 FILE *openPlayerSaveFile(Player *player, char *mode);
 FILE *openPlayerNewSaveFile(Player *player, char *mode);
-void skipPlayerData(FILE *save_file, Player *player);
+void skipPlayerData(FILE *save_file);
 void readOnePokemonLine(FILE *save_file, Pokemon *pkmn);
 void loadPlayerData(int *x_map, int *y_map, Player *player);
 void saveMapDataFromFile(Player *player);

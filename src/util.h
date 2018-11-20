@@ -23,6 +23,7 @@ void setStringToTab(char *tab, char *string);
 void freeSkill(Skill skill);
 void freePlayer(Player player);
 void freePokemon(Pokemon pkmn);
+void initBag(Player *player);
 Effect createEffect(int stat_to_change, int change_value, int accuracy);
 Stats createStats(int hp_max, int att_max, int def_max, int spd_max);
 void setPlayerPseudo(char *pseudo, Player *player);

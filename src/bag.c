@@ -17,7 +17,7 @@ void fillBagItem(int id, BagItem *bag_item) {
   fscanf(bag_items, "%d|", &bag_item->description_length);
   bag_item->description = malloc(sizeof(char)*bag_item->description_length+1);
   fscanf(bag_items, "%[^|]", bag_item->description);
-  bag_item->count = 1;
+  bag_item->count = 0;
   closeFile(bag_items);
 }
 
@@ -59,12 +59,11 @@ void addBagItemPlayer(Player *player, int id, int count) {
   if (count > 0) {
     int index = possessBagItem(player, id);
     if (index == -1) {
-      BagItem bag_item = createBagItem(id);
-      player->bag[id] = bag_item;
-      player->bag[id].count = count;
+      player->bag[player->bag_item_count] = createBagItem(id);
+      player->bag[player->bag_item_count].count += count;
       player->bag_item_count++;
     } else {
-      player->bag[id].count += count;
+      player->bag[index].count += count;
     }
   }
 }

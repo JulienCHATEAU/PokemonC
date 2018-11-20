@@ -51,7 +51,7 @@ int getXYIfoPlayer(Player *player) {
 void removeInteractiveObject(int x_map, int y_map, Player *player, char *map_structure) {
   FILE *save_file = openPlayerSaveFile(player, "r");
   int scan_status = 0;
-  skipPlayerData(save_file, player);
+  skipPlayerData(save_file);
   int x_map_tmp;
   int y_map_tmp;
   int xy_tmp;

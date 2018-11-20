@@ -232,10 +232,13 @@ FILE *openPlayerNewSaveFile(Player *player, char *mode) {
 
 /* In the file containing the player data, skip the first lines describing the player
 * save_file : the concerned file
-* player : the player
 */
-void skipPlayerData(FILE *save_file, Player *player) {
-  skipLines(save_file, player->pkmn_count+1);
+void skipPlayerData(FILE *save_file) {
+  int pkmn_count = 0;
+  int bag_item_count = 0;
+  fscanf(save_file, "%*d|%*d|%*d|");
+  fscanf(save_file, "%*c|%*c|%d|%d|%*d\n", &bag_item_count, &pkmn_count);
+  skipLines(save_file, pkmn_count+bag_item_count);
 }
 
 /* In the file containing the player data, read one pokemon line storing the data in the given Pokemon structure
@@ -268,25 +271,41 @@ void readOnePokemonLine(FILE *save_file, Pokemon *pkmn) {
   pkmn->stats.hp = pkmn->stats.hp_max;//temporary to test ailments
 }
 
+
+void readOneBagItemLine(FILE *save_file, Player *player) {
+  int item_id = 0;
+  int item_count = 0;
+  fscanf(save_file, "%d|%d\n", &item_id, &item_count);
+  addBagItemPlayer(player, item_id, item_count);
+}
+
 /* Loads the player data from his save file
 * x_map : the x coordinate of the map where the user exited the game
 * y_map : the y coordinate of the map where the user exited the game
 * player : the player structure to fill
 */
 void loadPlayerData(int *x_map, int *y_map, Player *player) {
+  initBag(player);
+  int bag_item_count = 0;
   player->pseudo[player->pseudo_length] = '\0';
+  player->bag_item_count = 0;
   FILE *save_file = openPlayerSaveFile(player, "r");
   fscanf(save_file, "%d|%d|%d|", x_map, y_map, &player->xy);
-  fscanf(save_file, "%c|%c|%d|%d|%d\n", &player->pos, &player->char_at_pos, &player->pokeball_count, &player->pkmn_count, &player->money);
-
-  /*Temporaire*/
-  player->bag_item_count = 0;
-  addBagItemPlayer(player, 0, player->pokeball_count);
-  /*Temporaire*/
+  fscanf(save_file, "%c|%c|%d|%d|%d\n", &player->pos, &player->char_at_pos, &bag_item_count, &player->pkmn_count, &player->money);
 
   for (int i = 0; i < player->pkmn_count; i++) {
     readOnePokemonLine(save_file, &player->pkmns[i]);
   }
+  // printf("Id : %d\n", player->bag[0].id);
+  for (int i = 0; i < bag_item_count; i++) {
+    readOneBagItemLine(save_file, player);
+  }
+
+  // printf("Description : %s\n", player->bag[0].description);
+  printf("Id : %d\n", player->bag[0].id);
+  // printf("Name : %s\n", player->bag[0].name);
+
+
   closeFile(save_file);
 }
 
@@ -301,7 +320,7 @@ void saveMapDataFromFile(Player *player) {
   FILE *save_file = openFile(save_file_path, "r");
   FILE *new_save_file = openFile(new_save_file_path, "a");
 
-  skipPlayerData(save_file, player);
+  skipPlayerData(save_file);
   char tmp_array[20];
   while (fscanf(save_file, "%[^\n]\n", tmp_array) != EOF) {
     fprintf(new_save_file, "%s\n", tmp_array);
@@ -328,6 +347,10 @@ void writeOnePokemonLine(FILE *save_file, Pokemon pkmn) {
   fprintf(save_file, "%d %d %d %d\n", pkmn.stats.hp, pkmn.stats.att, pkmn.stats.def, pkmn.stats.spd);
 }
 
+void writeOneBagItemLine(FILE *save_file, BagItem bag_item) {
+  fprintf(save_file, "%d|%d\n", bag_item.id, bag_item.count);
+}
+
 /* save the player data in his save file
 * x_map : the x coordinate of the map where the user currently is
 * y_map : the y coordinate of the map where the user currently is
@@ -336,9 +359,12 @@ void writeOnePokemonLine(FILE *save_file, Pokemon pkmn) {
 void savePlayerData(int x_map, int y_map, Player *player) {
   FILE *save_file = openPlayerNewSaveFile(player, "w+");
   fprintf(save_file, "%d|%d|%d|", x_map, y_map, player->xy);
-  fprintf(save_file, "%c|%c|%d|%d|%d\n", player->pos, player->char_at_pos, player->pokeball_count, player->pkmn_count, player->money);
+  fprintf(save_file, "%c|%c|%d|%d|%d\n", player->pos, player->char_at_pos, player->bag_item_count, player->pkmn_count, player->money);
   for (int i = 0; i < player->pkmn_count; i++) {
     writeOnePokemonLine(save_file, player->pkmns[i]);
+  }
+  for (int i = 0; i < player->bag_item_count; i++) {
+    writeOneBagItemLine(save_file, player->bag[i]);
   }
   closeFile(save_file);
   saveMapDataFromFile(player);

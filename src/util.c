@@ -138,6 +138,18 @@ void setPlayerPseudo(char *pseudo, Player *player) {
   player->pseudo_length = i;
 }
 
+/* Inits the player bag
+* player : the player
+*/
+void initBag(Player *player) {
+  BagItem bi;
+  for (int i = 0; i < BAG_SIZE; i++) {
+    player->bag[i] = bi;
+    player->bag[i].id = -1;//empty bag item
+    player->bag[i].count = 0;
+  }
+}
+
 /* Instantiates a Player structure
 * pseudo : the player's pseudo
 * xy : the player's position in the map
@@ -147,8 +159,6 @@ void setPlayerPseudo(char *pseudo, Player *player) {
 */
 Player createPlayer(char *pseudo, int xy, char pos, char *pkmn_name) {
   Player p;
-  BagItem bi;
-  bi.id = -1;//empty bag item
   p.xy = xy;
   p.pos = pos;
   p.char_at_pos = ' ';
@@ -156,9 +166,7 @@ Player createPlayer(char *pseudo, int xy, char pos, char *pkmn_name) {
   setPokemonLvl(&p.pkmns[0], 5);
   p.pkmn_count = 1;
   p.money = 0;
-  for (int i = 0; i < BAG_SIZE; i++) {
-    p.bag[i] = bi;
-  }
+  initBag(&p);
   p.bag_item_count = 0;
   setPlayerPseudo(pseudo, &p);
   return p;
