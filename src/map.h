@@ -5,9 +5,13 @@
 
 #define EXIT 1337
 #define LONG_GRASS 'W'
+#define STONE '0'
+#define CUTABLE_TREE 'T'
+#define SHOP '¤'
 #define HEAL '#'
 #define TREE '@'
 #define POKEBALL 'o'
+#define WATER '~'
 #define MAP_SIZE 178
 #define PRINTABLE_MAP_SIZE 360
 
