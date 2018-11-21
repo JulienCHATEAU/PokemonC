@@ -12,7 +12,10 @@
 #define GRATZ_CATCH_LENGTH 26
 #define FAIL_CATCH "de la Pokeball"
 #define FAIL_CATCH_LENGTH 14
-
+#define TO_MUCH_POKEMON1 "Vous ne pouvez pas avoir"
+#define TO_MUCH_POKEMON1_LENGTH 24
+#define TO_MUCH_POKEMON2 "plus de 6 pokemons"
+#define TO_MUCH_POKEMON2_LENGTH 18
 
 #define PLAYER_PKMN_NAME_POS 716
 #define PLAYER_HLTH_BAR_STRTNG_POS 764

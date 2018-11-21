@@ -301,15 +301,6 @@ void printBagPane(Player *player, int targetted_item, int mode) {
   setRawMode('1');
 }
 
-void removeItem(Player *player, int item_index, int count) {
-  player->bag[item_index].count -= count;
-  if (player->bag[item_index].count <= 0) {
-    player->bag[item_index].count = 0;
-    player->bag[item_index].id = -1;
-    player->bag_item_count--;
-  }
-}
-
 int manageBagMenuKeyPressed(char key_pressed, int *targetted_item, Player *player, int mode) {
   int key_pressed_status = 0;//refresh bag menu
   if (key_pressed == MOVE_S) {
@@ -330,7 +321,6 @@ int manageBagMenuKeyPressed(char key_pressed, int *targetted_item, Player *playe
   } else if (key_pressed == '1') {
     if (isItemUsable(mode, (int) player->bag[*targetted_item].usable_time)) {
       key_pressed_status = 3;//use an item
-      removeItem(player, *targetted_item, 1);
     } else {
       key_pressed_status = 2;//does nothing
     }

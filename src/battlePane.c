@@ -10,6 +10,7 @@
 #include "battlePane.h"
 #include "startMenu.h"
 #include "print.h"
+#include "bag.h"
 #include "battle.h"
 
 
@@ -491,6 +492,7 @@ bool isCatchSuccessful(Player *player, Pokemon *enemy) {
 
 int catchPokemon(char *battle_pane, Player *player, Pokemon *enemy) {
   int catched = 0;
+  removeItem(player, possessBagItem(player, 0), 1);
   addInfoText(THROW_POKEBALL, THROW_POKEBALL_LENGTH, " ", 1, battle_pane);
   clearAndPrintBattlePane(battle_pane);
   waitNMs(WAIT_BETWEEN_ANIM*2);
@@ -553,14 +555,21 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemo
     }
   } else if (*arrow == SAC) {
     int used_item_id = manageBagMenu(player, 0);
-    if (used_item_id == 0) {//if pokeball used
+    if (used_item_id == 0 && player->pkmn_count < 6) {//if pokeball used
       removeArrow((int)*arrow, battle_pane);
     }
     clearAndPrintBattlePane(battle_pane);
-    if (used_item_id == 0 && player->pkmn_count < 6) {//if pokeball used
-      stop = catchPokemon(battle_pane, player, enemy);
-      if (stop == 0) {//if catch failed
-        playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
+    if (used_item_id == 0) {//if pokeball used
+      if (player->pkmn_count < 6) {
+        stop = catchPokemon(battle_pane, player, enemy);
+        if (stop == 0) {//if catch failed
+          playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
+        }
+      } else {
+        addInfoText(TO_MUCH_POKEMON1, TO_MUCH_POKEMON1_LENGTH, TO_MUCH_POKEMON2, TO_MUCH_POKEMON2_LENGTH, battle_pane);
+        clearAndPrintBattlePane(battle_pane);
+        waitNMs(WAIT_BETWEEN_ANIM);
+        eraseInfoText(battle_pane);
       }
     }
   }
