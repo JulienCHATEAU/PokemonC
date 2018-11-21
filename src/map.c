@@ -126,7 +126,7 @@ void movePlayer(Player *player, char new_pos, int xy_sub, char *printable_map, c
     resetAllPokemonsStats(player);
     addTextInDialogBox(FRST_LINE_START, HEAL_TEXT, HEAL_TEXT_LGTH, dialog_box);
   }
-  if (isEqual(char_at_new_xy, TREE) || isEqual(char_at_new_xy, POKEBALL)) {
+  if (isEqual(char_at_new_xy, TREE) || isEqual(char_at_new_xy, POKEBALL) || isEqual(char_at_new_xy, CUTABLE_TREE) || isEqual(char_at_new_xy, STONE) || isEqual(char_at_new_xy, WATER)) {
     player->xy = player->xy + xy_sub;
   } else {
     player->char_at_pos = char_at_new_xy;
