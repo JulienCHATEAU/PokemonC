@@ -9,4 +9,6 @@ int possessBagItem(Player *player, int item);
 BagItem createBagItem(int id);
 void fillBagItem(int id, BagItem *bag_item);
 void addBagItemPlayer(Player *player, int id, int count);
+void initBag(Player *player);
+
 #endif

@@ -50,7 +50,7 @@ int manageSmEnterKeyPressed(Player *player, int *targetted_menu, char *dialog_bo
   if (*targetted_menu == SM_POKEMONS_ID) {
     managePokemonsMenu(player, 0);
   } else if (*targetted_menu == SM_SAC_ID) {
-    manageBagMenu(player);
+    manageBagMenu(player, 1);
   } else if (*targetted_menu == SM_QUITTER_ID) {
     key_pressed_status = 1337;
   } else if (*targetted_menu == SM_ANNULER_ID) {
@@ -263,49 +263,101 @@ int managePmKeyPressed(Player *player, char key_pressed, int *targetted_pkmn, in
 
 /* Prints the bag pane
 * player : the player
+* mode : 0 if in battle, 1 if out of battle
 */
-void printBagPane(Player *player) {
+void printBagPane(Player *player, int targetted_item, int mode) {
   tty_reset();
   clearConsole();
   printf("\n\n          Votre Sac :\n\n\n");
-  int printed_item_count = 0;
   int i = 0;
-  while (printed_item_count < player->bag_item_count && i < BAG_SIZE) {
-    if (player->bag[i].id != -1) {
+  while (i < player->bag_item_count) {
+    if (targetted_item == i) {
+      printf("  ->  %s : x%d\n", player->bag[i].name, player->bag[i].count);
+    } else {
       printf("      %s : x%d\n", player->bag[i].name, player->bag[i].count);
-      printf("        Description : %s\n\n", player->bag[i].description);
-      printed_item_count++;
     }
+    printf("        Description : %s\n\n", player->bag[i].description);
     i++;
   }
-
   if (player->bag_item_count == 0) {
     printf("      Vide\n\n");
   }
 
-  // if (mode == 1 || mode == 2) {
-  //   printf("\n\n\n    ----------------      ----------------------\n");
-  //   printf("   | 1. Description |    | 2. Envoyer au combat |\n");
-  //   printf("    ----------------      ----------------------\n\n\n");
-  // } else {
-  //   printf("\n\n\n    ----------------      -----------------------------\n");
-  //   printf("   | 1. Description |    | 2. Mettre en première place |\n");
-  //   printf("    ----------------      -----------------------------\n\n\n");
-  // }
+  int usable_time = (int) player->bag[targetted_item].usable_time;
+  /*if not on Cancel field and if targetted item is currently usable*/
+  if (player->bag_item_count != targetted_item && isItemUsable(mode, usable_time)) {
+    printf("\n\n\n    -------------\n");
+    printf("   | 1. Utiliser |\n");
+    printf("    -------------\n\n\n");
+  } else {
+    printf("\n\n\n\n\n\n\n\n");
+  }
 
-  printf("\n  ->  Annuler\n");
+  if (player->bag_item_count == targetted_item) {
+    printf("\n  ->  Annuler\n");
+  } else {
+    printf("\n      Annuler\n");
+  }
   setRawMode('1');
+}
+
+void removeItem(Player *player, int item_index, int count) {
+  player->bag[item_index].count -= count;
+  if (player->bag[item_index].count <= 0) {
+    player->bag[item_index].count = 0;
+    player->bag[item_index].id = -1;
+    player->bag_item_count--;
+  }
+}
+
+int manageBagMenuKeyPressed(char key_pressed, int *targetted_item, Player *player, int mode) {
+  int key_pressed_status = 0;//refresh bag menu
+  if (key_pressed == MOVE_S) {
+    *targetted_item = (*targetted_item + 1) % (player->bag_item_count+1);
+  } else if (key_pressed == MOVE_Z) {
+    *targetted_item = *targetted_item - 1;
+    if (*targetted_item == -1) {
+      *targetted_item = player->bag_item_count;
+    }
+  } else if (key_pressed == DELETE) {
+    key_pressed_status = 1;//come back to start menu
+  } else if (key_pressed == ENTER) {
+    if (*targetted_item == player->bag_item_count) {
+      key_pressed_status = 1;//come back to start menu
+    } else {
+      key_pressed_status = 2;//does nothing
+    }
+  } else if (key_pressed == '1') {
+    if (isItemUsable(mode, (int) player->bag[*targetted_item].usable_time)) {
+      key_pressed_status = 3;//use an item
+      removeItem(player, *targetted_item, 1);
+    } else {
+      key_pressed_status = 2;//does nothing
+    }
+  } else {
+    key_pressed_status = 2;//does nothing
+  }
+  return key_pressed_status;
 }
 
 /* Manages the bag menu
 * player : the player
+* mode : 0 if in battle, 1 if out battle
+* return -1 if nothing happened, otherwise the index of the item that was used
 */
-int manageBagMenu(Player *player) {
+int manageBagMenu(Player *player, int mode) {
   char key_pressed = 0;
   int key_pressed_status = 0;
-  printBagPane(player);
+  int targetted_item = 0;
   do {
+    if (key_pressed_status == 0) {
+      printBagPane(player, targetted_item, mode);
+    }
     key_pressed = getchar();
-  } while(key_pressed != ENTER && key_pressed != DELETE);
-  return key_pressed_status;
+    key_pressed_status = manageBagMenuKeyPressed(key_pressed, &targetted_item, player, mode);
+  } while(key_pressed_status != 1 && key_pressed_status != 3);
+  if (targetted_item == player->bag_item_count || key_pressed_status != 3) {//if nothing happened
+    targetted_item = -1;
+  }
+  return targetted_item;
 }

@@ -1,10 +1,12 @@
 #include <stdbool.h>
 #include <time.h>
+#include <string.h>
 #include "pokemon.h"
 #include "accountManager.h"
 #include "fileManager.h"
 #include "util.h"
 #include "map.h"
+#include "bag.h"
 
 /* Waits during n millisecond
 * n : the number of millisecond to wait
@@ -138,18 +140,6 @@ void setPlayerPseudo(char *pseudo, Player *player) {
   player->pseudo_length = i;
 }
 
-/* Inits the player bag
-* player : the player
-*/
-void initBag(Player *player) {
-  BagItem bi;
-  for (int i = 0; i < BAG_SIZE; i++) {
-    player->bag[i] = bi;
-    player->bag[i].id = -1;//empty bag item
-    player->bag[i].count = 0;
-  }
-}
-
 /* Instantiates a Player structure
 * pseudo : the player's pseudo
 * xy : the player's position in the map
@@ -197,4 +187,35 @@ void freePokemon(Pokemon pkmn) {
   for (size_t i = 0; i < 4; i++) {
     freeSkill(pkmn.skills[i]);
   }
+}
+
+void copyEffect(Effect effect, Effect *copy) {
+ copy->stat_to_change = effect.stat_to_change;
+ copy->change_value = effect.change_value;
+ copy->accuracy = effect.accuracy;
+ copy->target = effect.target;
+}
+
+void copySkill(Skill skill, Skill *copy) {
+  copy->name_length = skill.name_length;
+  copy->name = malloc(sizeof(char)*copy->name_length+1);
+  strcpy(copy->name, skill.name);
+  copy->power = skill.power;
+  copy->accuracy_max = skill.accuracy_max;
+  copy->accuracy = skill.accuracy;
+  copy->pp_max = skill.pp_max;
+  copy->pp = skill.pp;
+  copy->type = skill.type;
+  copy->priority = skill.priority;
+  copyEffect(skill.effect, &copy->effect);
+  copy->ailment.ailment_enum = skill.ailment.ailment_enum;
+  copy->ailment.accuracy = skill.ailment.accuracy;
+  copy->description_length = skill.description_length;
+  copy->description = malloc(sizeof(char)*copy->description_length+1);
+  strcpy(copy->description, skill.description);
+  copy->id = skill.id;
+}
+
+bool isItemUsable(int mode, int usable_time) {
+  return ((mode == 0 && usable_time == 0) || (mode == 1 && (usable_time == 1 || usable_time == 2)));
 }

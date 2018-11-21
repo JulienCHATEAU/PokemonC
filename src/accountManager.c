@@ -271,7 +271,10 @@ void readOnePokemonLine(FILE *save_file, Pokemon *pkmn) {
   pkmn->stats.hp = pkmn->stats.hp_max;//temporary to test ailments
 }
 
-
+/* In the file containing the player data, read one bag item line and add it to the player's bag
+* save_file : the concerned file
+* player : the player
+*/
 void readOneBagItemLine(FILE *save_file, Player *player) {
   int item_id = 0;
   int item_count = 0;
@@ -296,15 +299,9 @@ void loadPlayerData(int *x_map, int *y_map, Player *player) {
   for (int i = 0; i < player->pkmn_count; i++) {
     readOnePokemonLine(save_file, &player->pkmns[i]);
   }
-  // printf("Id : %d\n", player->bag[0].id);
   for (int i = 0; i < bag_item_count; i++) {
     readOneBagItemLine(save_file, player);
   }
-
-  // printf("Description : %s\n", player->bag[0].description);
-  printf("Id : %d\n", player->bag[0].id);
-  // printf("Name : %s\n", player->bag[0].name);
-
 
   closeFile(save_file);
 }
@@ -347,6 +344,10 @@ void writeOnePokemonLine(FILE *save_file, Pokemon pkmn) {
   fprintf(save_file, "%d %d %d %d\n", pkmn.stats.hp, pkmn.stats.att, pkmn.stats.def, pkmn.stats.spd);
 }
 
+/* In the file containing the player data, write one bag item line
+* save_file : the concerned file
+* bag_item : the bag item
+*/
 void writeOneBagItemLine(FILE *save_file, BagItem bag_item) {
   fprintf(save_file, "%d|%d\n", bag_item.id, bag_item.count);
 }

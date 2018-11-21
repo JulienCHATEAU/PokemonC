@@ -30,6 +30,7 @@ void addAilment(Pokemon *pkmn, AilmentEnum ailment);
 void removeFirstAilment(Pokemon *pkmn);
 void setBackHealthToZero(Pokemon *pkmn);
 void resetPokemonStats(Pokemon *pkmn);
+void copyPokemon(Pokemon pkmn, Pokemon *copy);
 void resetAllPokemonsStats(Player *player);
 Skill fillSkill(int random);
 Pokemon fillPokemon(char *name);

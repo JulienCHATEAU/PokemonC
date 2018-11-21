@@ -473,6 +473,64 @@ int switchThenManageSkillMenu(Player *player, char *battle_pane, Pokemon *enemy,
   return key_pressed_status;
 }
 
+bool isCatchSuccessful(Player *player, Pokemon *enemy) {
+  int catch_percentage = 70;
+  catch_percentage += player->pkmns[0].stats.hp/20+10;
+  if (enemy->crt_ailments[0] == POISONING || enemy->crt_ailments[0] == BURN || enemy->crt_ailments[0] == PARALYSIS) {
+    catch_percentage += 6;
+  } else if (enemy->crt_ailments[0] == SLEEP || enemy->crt_ailments[0] == FREEZE) {
+    catch_percentage += 12;
+  }
+  bool catched = false;
+  srand(time(NULL));
+  if (rand()%100 < catch_percentage) {
+    catched = true;
+  }
+  return catched;
+}
+
+int catchPokemon(char *battle_pane, Player *player, Pokemon *enemy) {
+  int catched = 0;
+  addInfoText(THROW_POKEBALL, THROW_POKEBALL_LENGTH, " ", 1, battle_pane);
+  clearAndPrintBattlePane(battle_pane);
+  waitNMs(WAIT_BETWEEN_ANIM*2);
+
+  if (isCatchSuccessful(player, enemy)) {
+    int gratz_catch_length = enemy->name_length+3;
+    char *gratz_catch_string = malloc(sizeof(char)*gratz_catch_length+1);
+    sprintf(gratz_catch_string, "un %s", enemy->name);
+    addInfoText(GRATZ_CATCH, GRATZ_CATCH_LENGTH, gratz_catch_string, gratz_catch_length, battle_pane);
+    clearAndPrintBattlePane(battle_pane);
+    waitNMs(WAIT_BETWEEN_ANIM*2);
+    free(gratz_catch_string);
+    copyPokemon(*enemy, &player->pkmns[player->pkmn_count]);
+    player->pkmn_count++;
+    catched = 1;
+  } else {
+    int fail_catch_length = enemy->name_length+10;
+    char *fail_catch_string = malloc(sizeof(char)*fail_catch_length+1);
+    sprintf(fail_catch_string, "%s est sorti", enemy->name);
+    addInfoText(fail_catch_string, fail_catch_length, FAIL_CATCH, FAIL_CATCH_LENGTH, battle_pane);
+    clearAndPrintBattlePane(battle_pane);
+    waitNMs(WAIT_BETWEEN_ANIM);
+    free(fail_catch_string);
+  }
+  eraseInfoText(battle_pane);
+  clearAndPrintBattlePane(battle_pane);
+  return catched;
+}
+
+void playOnlyEnemyTurn(MenuArrow *arrow, char *battle_pane, Player *player, Pokemon *enemy, int *stop) {
+  int tmp = 0;
+  removeArrow(POKEMON, battle_pane);
+  clearAndPrintBattlePane(battle_pane);
+  PlayTurnParameters play_turn_params = {&tmp, player, enemy, battle_pane, stop, false};
+  createThreadNW8(&playTurn, &play_turn_params);
+  addArrow(ATTAQUES, battle_pane);
+  *arrow = ATTAQUES;
+  clearAndPrintBattlePane(battle_pane);
+}
+
 /* Manages the Enter key pressed to go into a menu
 * arrow : the current position of the arrow in the menu
 * battle_pane : the battle pane
@@ -491,14 +549,19 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemo
     refreshBattlePane(player->pkmns[0], *enemy, battle_pane);
     clearAndPrintBattlePane(battle_pane);
     if (action == 3) {//if the pokemon in the battle was swapped
-      int tmp = 0;
-      removeArrow(POKEMON, battle_pane);
-      clearAndPrintBattlePane(battle_pane);
-      PlayTurnParameters play_turn_params = {&tmp, player, enemy, battle_pane, &stop, false};
-      createThreadNW8(&playTurn, &play_turn_params);
-      addArrow(ATTAQUES, battle_pane);
-      *arrow = ATTAQUES;
-      clearAndPrintBattlePane(battle_pane);
+      playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
+    }
+  } else if (*arrow == SAC) {
+    int used_item_id = manageBagMenu(player, 0);
+    if (used_item_id == 0) {//if pokeball used
+      removeArrow((int)*arrow, battle_pane);
+    }
+    clearAndPrintBattlePane(battle_pane);
+    if (used_item_id == 0 && player->pkmn_count < 6) {//if pokeball used
+      stop = catchPokemon(battle_pane, player, enemy);
+      if (stop == 0) {//if catch failed
+        playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
+      }
     }
   }
   return stop;
@@ -546,7 +609,7 @@ int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow, char *battle_
       *arrow = SAC;
     }
     addArrow((int)*arrow, battle_pane);
-  } else if (key_pressed == 13) {
+  } else if (key_pressed == ENTER) {
     stop = manageMenuChoice(arrow, battle_pane, player, enemy);
   } else if (key_pressed == 'e') {
     stop = 2;//does nothing

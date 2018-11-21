@@ -6,6 +6,14 @@
 #define BATTLE_PANE_PATH "data/battlePane.txt"
 #define TYPE_COUNT 18
 
+#define THROW_POKEBALL "Vous lancez une Pokeball !"
+#define THROW_POKEBALL_LENGTH 26
+#define GRATZ_CATCH "Bravo ! Vous avez capturez"
+#define GRATZ_CATCH_LENGTH 26
+#define FAIL_CATCH "de la Pokeball"
+#define FAIL_CATCH_LENGTH 14
+
+
 #define PLAYER_PKMN_NAME_POS 716
 #define PLAYER_HLTH_BAR_STRTNG_POS 764
 #define PLAYER_HLTH_POINT_POS 854

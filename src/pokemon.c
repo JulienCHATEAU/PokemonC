@@ -137,6 +137,28 @@ Pokemon fillPokemon(char *name) {
   return pkmn;
 }
 
+/**/
+void copyPokemon(Pokemon pkmn, Pokemon *copy) {
+  copy->name_length = pkmn.name_length;
+  copy->lvl = pkmn.lvl;
+  copy->xp = pkmn.xp;
+  copy->base_xp = pkmn.base_xp;
+  copy->stats = pkmn.stats;
+  copy->name = malloc(sizeof(char)*copy->name_length+1);
+  strcpy(copy->name, pkmn.name);
+  for (int i = 0; i < 6; i++) {
+    if (i < 2) {
+      copy->crt_ailments[i] = pkmn.crt_ailments[i];
+      copy->type[i] = pkmn.type[i];
+    }
+    if (i < 4) {
+      copySkill(pkmn.skills[i], &copy->skills[i]);
+    }
+    copy->effect_stage[i] = pkmn.effect_stage[i];
+  }
+}
+
+
 
 /* Checks if a an array contains one skill
 * skills : the array

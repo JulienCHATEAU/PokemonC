@@ -34,7 +34,9 @@ int manageSmKeyPressed(Player *player, char key_pressed, int *targetted_menu, in
 void printPokemonsPane(Player *player, int targetted_pkmn, int mode);
 int managePokemonsMenu(Player *player, int mode);
 int managePmKeyPressed(Player *player, char key_pressed, int *targetted_pkmn, int mode);
-void printBagPane(Player *player);
-int manageBagMenu(Player *player);
+void printBagPane(Player *player, int targetted_item, int mode);
+int manageBagMenuKeyPressed(char key_pressed, int *targetted_item, Player *player, int mode);
+int manageBagMenu(Player *player, int mode);
+void removeItem(Player *player, int item_index, int count);
 
 #endif

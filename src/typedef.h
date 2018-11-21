@@ -96,6 +96,12 @@ typedef struct {
   Stats stats;
 } Pokemon;
 
+typedef enum {
+  IN_BATTLE,//0
+  OUT_BATTLE,//1
+  IN_N_OUT_BATTLE,//2
+} ItemUse;
+
 typedef struct {
   char *name;
   int name_length;
@@ -103,13 +109,13 @@ typedef struct {
   char *description;
   int description_length;
   int count;
+  ItemUse usable_time;//0 if useable in of battle, 1 out battle, 2 both
 } BagItem;
 
 typedef struct {
   int xy;
   char pos;
   char char_at_pos;
-  int pokeball_count;
   Pokemon pkmns[6];
   char pseudo[50];
   int pkmn_count;
