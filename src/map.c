@@ -38,7 +38,7 @@ int getXYIfoPlayer(Player *player) {
   } else if (player->pos == PLAYER_E) {
     xy_in_front_of_player = player->xy*2+5;
   } else if (player->pos == PLAYER_W) {
-    xy_in_front_of_player = player->xy*2-5;
+    xy_in_front_of_player = player->xy*2+1;
   }
   return xy_in_front_of_player;
 }
