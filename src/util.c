@@ -20,6 +20,13 @@ void waitNMs(int n) {/*n millisecond*/
   } while ( msec < n );
 }
 
+void textColor(int attr, int fg) {
+  char command[13];
+	/* Command is the control command to the terminal */
+	sprintf(command, "%c[%d;%d;%dm", 0x1B, attr, fg + 30, BLACK + 40);
+	printf("%s", command);
+}
+
 /* Checks if a character is equal to another
 * return : true if the character is a equal to the other one, false otherwise
 */

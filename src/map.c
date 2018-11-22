@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "pokemon.h"
 #include "util.h"
 #include "bag.h"
@@ -98,6 +99,23 @@ void createPrintableMap(char *printable_map, char *map_structure, Player player)
   }
 }
 
+void printChaine(char *chaine) {
+  for (int i = 0; i < strlen(chaine); i++) {
+    switch (chaine[i]) {
+      case '@':textColor(DIM, GREEN);break;
+      case '~':textColor(BRIGHT, BLUE);break;
+      case 'W':textColor(BRIGHT, GREEN);break;
+      case 'o':textColor(BRIGHT, RED);break;
+      case '0':textColor(DIM, YELLOW);break;
+      case 'T':textColor(DIM, GREEN);break;
+      case '#':textColor(DIM, MAGENTA);break;
+      default:textColor(RESET, WHITE);break;
+    }
+    printf("%c", chaine[i]);
+    textColor(RESET, WHITE);
+  }
+}
+
 
 /* Prints the map on the console
 * printable_map : the array representing a printable map
@@ -105,7 +123,8 @@ void createPrintableMap(char *printable_map, char *map_structure, Player player)
 */
 void clearAndPrintMap(char *printable_map, char *dialog_box) {
   clearConsole();
-  printf("%s\n", printable_map);
+  printChaine(printable_map);
+  printf("\n");
   tty_reset();
   printDialogBox(dialog_box);
   setRawMode('1');
