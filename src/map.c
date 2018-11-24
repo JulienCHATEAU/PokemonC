@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ncurses.h>
 #include "pokemon.h"
 #include "util.h"
 #include "bag.h"
@@ -24,6 +25,7 @@ void waitForEnter() {
 void clearConsole() {
   printf("\e[1;1H\e[2J");
   // system("clear");
+  // window.clrtobot();
 }
 
 /* Gets the xy coordinates of the square ifo the player
@@ -99,20 +101,27 @@ void createPrintableMap(char *printable_map, char *map_structure, Player player)
   }
 }
 
-void printChaine(char *chaine) {
-  for (int i = 0; i < strlen(chaine); i++) {
-    switch (chaine[i]) {
-      case '@':textColor(DIM, GREEN);break;
-      case '~':textColor(BRIGHT, BLUE);break;
-      case 'W':textColor(BRIGHT, GREEN);break;
-      case 'o':textColor(BRIGHT, RED);break;
-      case '0':textColor(DIM, YELLOW);break;
-      case 'T':textColor(DIM, GREEN);break;
-      case '#':textColor(DIM, MAGENTA);break;
-      default:textColor(RESET, WHITE);break;
+void printArray(char *array) {
+  char last_char = ' ';
+  for (int i = 0; i < strlen(array); i++) {
+    if (last_char != array[i]) {
+      switch (array[i]) {
+        case '@':textColor(DIM, GREEN);break;
+        case '~':textColor(BRIGHT, BLUE);break;
+        case 'W':textColor(BRIGHT, GREEN);break;
+        case 'o':textColor(BRIGHT, RED);break;
+        case '0':textColor(DIM, YELLOW);break;
+        case 'O':textColor(DIM, YELLOW);break;
+        case '[':textColor(BRIGHT, BLACK);break;
+        case ']':textColor(BRIGHT, BLACK);break;
+        case '_':textColor(BRIGHT, BLACK);break;
+        case 'T':textColor(DIM, GREEN);break;
+        case '#':textColor(DIM, MAGENTA);break;
+        default:textColor(RESET, WHITE);break;
+      }
     }
-    printf("%c", chaine[i]);
-    textColor(RESET, WHITE);
+    printf("%c", array[i]);
+    last_char = array[i];
   }
 }
 
@@ -123,11 +132,34 @@ void printChaine(char *chaine) {
 */
 void clearAndPrintMap(char *printable_map, char *dialog_box) {
   clearConsole();
-  printChaine(printable_map);
+  printArray(printable_map);
   printf("\n");
   tty_reset();
   printDialogBox(dialog_box);
   setRawMode('1');
+}
+
+bool isObstacle(char char_at_new_xy) {
+  int obstacle_count = 9;
+  char obstacles[obstacle_count];
+  obstacles[0] = TREE;
+  obstacles[1] = POKEBALL;
+  obstacles[2] = CUTABLE_TREE;
+  obstacles[3] = STONE;
+  obstacles[4] = WATER;
+  obstacles[5] = PILAR;
+  obstacles[6] = DOOR_LEFT_PILAR;
+  obstacles[7] = DOOR_RIGHT_PILAR;
+  obstacles[8] = DOOR;
+  bool is_obstacle = false;
+  int i = 0;
+  while (!is_obstacle && i < obstacle_count) {
+    if (obstacles[i] == char_at_new_xy) {
+      is_obstacle = true;
+    }
+    i++;
+  }
+  return is_obstacle;
 }
 
 
@@ -145,7 +177,7 @@ void movePlayer(Player *player, char new_pos, int xy_sub, char *printable_map, c
     resetAllPokemonsStats(player);
     addTextInDialogBox(FRST_LINE_START, HEAL_TEXT, HEAL_TEXT_LGTH, dialog_box);
   }
-  if (isEqual(char_at_new_xy, TREE) || isEqual(char_at_new_xy, POKEBALL) || isEqual(char_at_new_xy, CUTABLE_TREE) || isEqual(char_at_new_xy, STONE) || isEqual(char_at_new_xy, WATER)) {
+  if (isObstacle(char_at_new_xy)) {
     player->xy = player->xy + xy_sub;
   } else {
     player->char_at_pos = char_at_new_xy;
