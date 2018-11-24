@@ -82,7 +82,8 @@ void loadDialogBox(char *dialog_box) {
 * dialog_box : the array describing the dialog box
 */
 void printDialogBox(char *dialog_box) {
-  printf("\n\n%s\n", dialog_box);
+  dialog_box[DIALOG_BOX_LENGTH] = '\0';
+  printf("\n\n%s", dialog_box);
 }
 
 /* Erases a line in the dialog box

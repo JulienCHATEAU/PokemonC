@@ -12,15 +12,18 @@
 #define TREE '@'
 #define POKEBALL 'o'
 #define WATER '~'
-#define MAP_SIZE 178
-#define PRINTABLE_MAP_SIZE 360
+#define MAP_SIZE 167
+#define TO_PRINTABLE_MAP1 2
+#define TO_PRINTABLE_MAP2 2
+#define PRINTABLE_MAP_SIZE MAP_SIZE*2+1
+#define PLAYER_START_POS 146
 
 #define PLAYER_N '^'
 #define PLAYER_W '<'
 #define PLAYER_S 'v'
 #define PLAYER_E '>'
 
-#define LINE_SEPARATOR 15
+#define LINE_SEPARATOR 14
 
 
 void waitForEnter();

@@ -33,7 +33,7 @@ int main(int argc, char const *argv[]) {
   int y_map = 0;
   Player player;
   setPlayerPseudo(pseudo, &player);
-  // setPlayerPseudo("Steamy", &player);
+  // setPlayerPseudo("admin", &player);
   loadPlayerData(&x_map, &y_map, &player);
   int xy_temp = player.xy;//to check if the player has moved or not
   int pos_temp = player.pos;//to check if the player has changed his orientation or not
@@ -69,16 +69,21 @@ int main(int argc, char const *argv[]) {
 }
 
 // int main(int argc, char const *argv[]) {
-//   bool stop = false;
-//   while (!stop) {
-//     srand(time(NULL));
-//     char *random_name;
-//     getRandomPokemonName(&random_name);
-//     if (strcmp(random_name, "Mew") == 0) {
-//       printf("%s\n", random_name);
-//       stop = true;
-//     }
-//     free(random_name);
-//   }
+//   int x_map = 0;
+//   int y_map = 0;
+//   Player player;
+//   char map_structure[MAP_SIZE];
+//   setPlayerPseudo("admin", &player);
+//   loadPlayerData(&x_map, &y_map, &player);
+//   loadMap(x_map, y_map, map_structure, &player);
+//   // for (int i = 0; i < MAP_SIZE; i++) {
+//   //   printf("%d\n", map_structure[i]);
+//   // }
+//   char dialog_box[DIALOG_BOX_LENGTH];
+//   loadDialogBox(dialog_box);
+//   char printable_map[PRINTABLE_MAP_SIZE];
+//   createPrintableMap(printable_map, map_structure, player);
+//   int key_status;
+//   clearAndPrintMap(printable_map, dialog_box);
 //   return 0;
 // }
