@@ -2,8 +2,8 @@
 #define STARTMENU_H
 
 #define SM_ARROW_LEFT_SHIFT 4
-#define SM_FRST_PIPE_POS 88
-#define SM_NEXT_LINE 62
+#define SM_FRST_PIPE_POS 90
+#define SM_NEXT_LINE 63
 
 #define SM_POKEMONS "POKEMONS"
 #define SM_SAC "SAC"
@@ -15,10 +15,10 @@
 #define SM_QUITTER_LGTH 7
 #define SM_ANNULER_LGTH 7
 
-#define SM_POKEMONS_POS 159
-#define SM_SAC_POS 174
-#define SM_QUITTER_POS 283
-#define SM_ANNULER_POS 298
+#define SM_POKEMONS_POS 161
+#define SM_SAC_POS 176
+#define SM_QUITTER_POS 287
+#define SM_ANNULER_POS 302
 
 #define SM_POKEMONS_ID 0
 #define SM_SAC_ID 1

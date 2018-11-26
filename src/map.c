@@ -101,6 +101,7 @@ void createPrintableMap(char *printable_map, char *map_structure, Player player)
   printable_map[PRINTABLE_MAP_SIZE] = '\0';
 }
 
+
 void printArray(char *array) {
   char last_char = ' ';
   for (int i = 0; i < strlen(array); i++) {
@@ -123,6 +124,7 @@ void printArray(char *array) {
     printf("%c", array[i]);
     last_char = array[i];
   }
+  textColor(RESET, WHITE);
 }
 
 
@@ -144,8 +146,8 @@ bool isObstacle(char char_at_new_xy) {
   char obstacles[obstacle_count];
   obstacles[0] = TREE;
   obstacles[1] = POKEBALL;
-  // obstacles[2] = CUTABLE_TREE;
-  // obstacles[3] = STONE;
+  obstacles[2] = CUTABLE_TREE;
+  obstacles[3] = STONE;
   obstacles[4] = WATER;
   obstacles[5] = PILAR;
   obstacles[6] = DOOR_LEFT_PILAR;
@@ -272,7 +274,7 @@ int manageKeyPressed(char key_pressed, Player *player, char *dialog_box, char *p
     }
   } else if (key_pressed == MOVE_Q) {
     if (player->xy % LINE_SEPARATOR == 0) {
-      changeMap(player, x_map, y_map, 1, 0, PLAYER_W, -(LINE_SEPARATOR - 2), printable_map, map_structure);
+      changeMap(player, x_map, y_map, 1, 0, PLAYER_W, -(LINE_SEPARATOR-3), printable_map, map_structure);
     } else {
       movePlayer(player, PLAYER_W, 1, printable_map, dialog_box);
     }
@@ -284,7 +286,7 @@ int manageKeyPressed(char key_pressed, Player *player, char *dialog_box, char *p
     }
   } else if (key_pressed == MOVE_D) {
     if (player->xy % LINE_SEPARATOR == 12) {
-      changeMap(player, x_map, y_map, -1, 0, PLAYER_E, LINE_SEPARATOR-2, printable_map, map_structure);
+      changeMap(player, x_map, y_map, -1, 0, PLAYER_E, LINE_SEPARATOR-3, printable_map, map_structure);
     } else {
       movePlayer(player, PLAYER_E, -1, printable_map, dialog_box);
     }
