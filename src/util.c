@@ -222,7 +222,3 @@ void copySkill(Skill skill, Skill *copy) {
   strcpy(copy->description, skill.description);
   copy->id = skill.id;
 }
-
-bool isItemUsable(int mode, int usable_time) {
-  return ((mode == 0 && usable_time == 0) || (mode == 1 && (usable_time == 1 || usable_time == 2)));
-}

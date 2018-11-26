@@ -3,6 +3,8 @@
 #ifndef MAP_H
 #define MAP_H
 
+#define MAPS_ITEMS_PATH "data/mapsItems.txt"
+
 #define EXIT 1337
 #define LONG_GRASS 'W'
 #define STONE '0'

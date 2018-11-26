@@ -40,7 +40,7 @@ int getXYIfoPlayer(Player *player) {
   } else if (player->pos == PLAYER_E) {
     xy_in_front_of_player = player->xy*2+4;
   } else if (player->pos == PLAYER_W) {
-    xy_in_front_of_player = player->xy*2+1;
+    xy_in_front_of_player = player->xy*2;
   }
   return xy_in_front_of_player;
 }
@@ -229,6 +229,46 @@ void saveMapSpecificData(Player *player, int x_map, int y_map, int xy) {
   closeFile(save_file);
 }
 
+int getMapItemInPokeballID(int *x_map, int *y_map) {
+  FILE *map_items = openFile(MAPS_ITEMS_PATH, "r");
+  bool trouve = false;
+  int x = 100;
+  int y = 100;
+  int item_id = 0;
+  while (fscanf(map_items, "%d;%d", &x, &y) != EOF && !trouve) {
+    if (*x_map == x && *y_map == y) {
+      fscanf(map_items, " %d", &item_id);
+      trouve = true;
+    } else {
+      fscanf(map_items, "%*[^\n]\n");
+    }
+  }
+  closeFile(map_items);
+  return item_id;
+}
+
+void notifyItemFound(char *dialog_box, int item_id) {
+  switch (item_id) {
+    case 0:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Pokeball !", 31, dialog_box);break;
+    case 1:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Potion !", 29, dialog_box);break;
+    case 2:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Canne a peche !", 36, dialog_box);break;
+    case 3:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Cisaille !", 31, dialog_box);break;
+    case 4:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Pioche !", 29, dialog_box);break;
+    case 5:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Clef de Cristal !", 38, dialog_box);break;
+    case 6:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Clef d'Emeraude !", 38, dialog_box);break;
+    case 7:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Clef de Diamand !", 38, dialog_box);break;
+    case 8:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Clef X !", 29, dialog_box);break;
+    case 9:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Clef ?? !", 30, dialog_box);break;
+    case 10:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Fragement de clef !", 40, dialog_box);break;
+  }
+}
+
+void manageItemFound(Player *player, char *dialog_box, int *x_map, int *y_map) {
+  int item_id = getMapItemInPokeballID(x_map, y_map);
+  addBagItemPlayer(player, item_id, 1);//pokeball
+  notifyItemFound(dialog_box, item_id);
+}
+
 /* Check if an interacion is possible
 * player : the player
 * printable_map : the printable map
@@ -242,10 +282,9 @@ int checkIfInteractionPossible(Player *player, char *printable_map, char *dialog
   int xy_ifo_player = getXYIfoPlayer(player);
   char char_ifo_player = printable_map[xy_ifo_player];
   if (char_ifo_player == POKEBALL) {
-    saveMapSpecificData(player, *x_map, *y_map, (xy_ifo_player-3)/2);
-    addBagItemPlayer(player, 0, 1);//pokeball
+    saveMapSpecificData(player, *x_map, *y_map, (xy_ifo_player-TO_PRINTABLE_MAP2)/2);
     printable_map[xy_ifo_player] = ' ';
-    addTextInDialogBox(FRST_LINE_START, POKEBALL_FOUND, POKEBALL_FOUND_LGTH, dialog_box);
+    manageItemFound(player, dialog_box, x_map, y_map);
   } else {
     interaction_found = 0;//do not clear and print
   }

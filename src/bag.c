@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "bag.h"
 #include "typedef.h"
 #include "fileManager.h"
@@ -64,6 +65,10 @@ int possessBagItem(Player *player, int id) {
     i++;
   }
   return index;
+}
+
+bool isItemUsable(int mode, int usable_time) {
+  return ((mode == 0 && usable_time == 0) || (mode == 1 && (usable_time == 1 || usable_time == 2)));
 }
 
 /* Adds a specified count of a bag item to the player bag
