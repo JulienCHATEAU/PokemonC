@@ -116,7 +116,7 @@ void printArray(char *array) {
         case ']':textColor(BRIGHT, BLACK);break;
         case '_':textColor(BRIGHT, BLACK);break;
         case 'T':textColor(DIM, GREEN);break;
-        case '#':textColor(DIM, MAGENTA);break;
+        case '#':textColor(BRIGHT, MAGENTA);break;
         default:textColor(RESET, WHITE);break;
       }
     }
@@ -144,8 +144,8 @@ bool isObstacle(char char_at_new_xy) {
   char obstacles[obstacle_count];
   obstacles[0] = TREE;
   obstacles[1] = POKEBALL;
-  obstacles[2] = CUTABLE_TREE;
-  obstacles[3] = STONE;
+  // obstacles[2] = CUTABLE_TREE;
+  // obstacles[3] = STONE;
   obstacles[4] = WATER;
   obstacles[5] = PILAR;
   obstacles[6] = DOOR_LEFT_PILAR;
