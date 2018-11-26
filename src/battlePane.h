@@ -42,7 +42,7 @@
 #define BATTLE_LINE_LGTH 66
 #define BATTLE_PANE_LGTH 1223
 
-#define BATTLE_PERCENTAGE 12
+#define BATTLE_PERCENTAGE 14
 
 typedef enum {
   HIDDEN = 0,

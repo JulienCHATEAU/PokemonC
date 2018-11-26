@@ -1,8 +1,8 @@
 #include <stdio.h>
+#include "util.h"
 #include "pokemonPane.h"
 #include "fileManager.h"
 #include "pokemon.h"
-#include "util.h"
 #include "map.h"
 
 /* Stores the pokemon pane in an array
@@ -20,7 +20,9 @@ void loadPokemonPane(char *pokemon_pane) {
 void printPokemonPane(char *pokemon_pane) {
   clearConsole();
   printf("\n\n");
+  textColor(BRIGHT, YELLOW);
   printf("%s\n", pokemon_pane);
+  textColor(RESET, WHITE);
 }
 
 /* Manages the pokemon pane menu

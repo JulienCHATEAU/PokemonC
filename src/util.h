@@ -14,6 +14,7 @@
 
 void waitNMs(int n);/*n millisecond*/
 bool isEqual(char character, char comp);
+void textColor(int attr, int fg);
 void addArrow(int arrow_xy, char *battle_pane);
 void removeArrow(int arrow_xy, char *battle_pane);
 void shiftMenuPipes(char *battle_pane, int top_pipe_xy_to_add, int top_pipe_xy_to_erase, int next_line, int pipe_count);

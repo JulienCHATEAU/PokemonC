@@ -7,7 +7,12 @@
 #define LONG_GRASS 'W'
 #define STONE '0'
 #define CUTABLE_TREE 'T'
-#define SHOP '¤'
+#define FINAL_DOOR '-'
+#define SHOP '$'
+#define PILAR 'O'
+#define DOOR_LEFT_PILAR '['
+#define DOOR_RIGHT_PILAR ']'
+#define DOOR '_'
 #define HEAL '#'
 #define TREE '@'
 #define POKEBALL 'o'
@@ -25,6 +30,17 @@
 
 #define LINE_SEPARATOR 14
 
+#define RESET		0
+#define BRIGHT 		1
+#define DIM		2
+
+#define BLACK 		0
+#define RED		1
+#define GREEN		2
+#define YELLOW		3
+#define BLUE		4
+#define MAGENTA		5
+#define	WHITE		7
 
 void waitForEnter();
 void clearConsole();
@@ -33,6 +49,7 @@ void removeInteractiveObject(int x_map, int y_map, Player *player, char *map_str
 void loadMap(int x_map, int y_map, char *map_structure, Player *player);
 void createPrintableMap(char *printable_map, char *map_structure, Player player);
 void clearAndPrintMap(char *printable_map, char *dialog_box);
+void printArray(char *array);
 void movePlayer(Player *player, char new_pos, int xy_sub, char *printable_map, char *dialog_box);
 void changeMap(Player *player, int *x_map, int *y_map, int x_map_sub, int y_map_sub, char new_pos, int xy_player_sub, char *printable_map, char *map_structure);
 void saveMapSpecificData(Player *player, int x_map, int y_map, int xy);
