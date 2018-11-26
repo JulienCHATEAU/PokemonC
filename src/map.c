@@ -132,10 +132,9 @@ void printArray(char *array) {
 */
 void clearAndPrintMap(char *printable_map, char *dialog_box) {
   clearConsole();
+  tty_reset();
   printArray(printable_map);
   printf("\n");
-  tty_reset();
-  printf("%s\n", printable_map);
   printDialogBox(dialog_box);
   setRawMode('1');
 }
