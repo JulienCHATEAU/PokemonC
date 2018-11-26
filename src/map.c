@@ -34,11 +34,11 @@ void clearConsole() {
 int getXYIfoPlayer(Player *player) {
   int xy_in_front_of_player = 0;
   if (player->pos == PLAYER_N) {
-    xy_in_front_of_player = player->xy*2+3-LINE_SEPARATOR*2;
+    xy_in_front_of_player = player->xy*2+2-LINE_SEPARATOR*2;
   } else if (player->pos == PLAYER_S) {
-    xy_in_front_of_player = player->xy*2+3+LINE_SEPARATOR*2;
+    xy_in_front_of_player = player->xy*2+2+LINE_SEPARATOR*2;
   } else if (player->pos == PLAYER_E) {
-    xy_in_front_of_player = player->xy*2+5;
+    xy_in_front_of_player = player->xy*2+4;
   } else if (player->pos == PLAYER_W) {
     xy_in_front_of_player = player->xy*2+1;
   }
@@ -88,17 +88,17 @@ void loadMap(int x_map, int y_map, char *map_structure, Player *player) {
 void createPrintableMap(char *printable_map, char *map_structure, Player player) {
   printable_map[0] = '\n';//first empty line (padding)
   printable_map[1] = ' ';//first space
-  printable_map[2] = ' ';//second space
   int i = 0;
   for (i; i < MAP_SIZE; i++) {
     if (i == player.xy) {//if the player orientation is reached
-      printable_map[2*i+3] = player.pos;
+      printable_map[TO_PRINTABLE_MAP1*i+TO_PRINTABLE_MAP2] = player.pos;
       player.char_at_pos = map_structure[i];
     } else {
-      printable_map[2*i+3] = map_structure[i];
+      printable_map[TO_PRINTABLE_MAP1*i+TO_PRINTABLE_MAP2] = map_structure[i];
     }
-    printable_map[2*i+4] = ' ';
+    printable_map[TO_PRINTABLE_MAP1*i+TO_PRINTABLE_MAP2+1] = ' ';
   }
+  printable_map[PRINTABLE_MAP_SIZE] = '\0';
 }
 
 void printArray(char *array) {
@@ -135,6 +135,7 @@ void clearAndPrintMap(char *printable_map, char *dialog_box) {
   printArray(printable_map);
   printf("\n");
   tty_reset();
+  printf("%s\n", printable_map);
   printDialogBox(dialog_box);
   setRawMode('1');
 }
@@ -172,7 +173,7 @@ bool isObstacle(char char_at_new_xy) {
 void movePlayer(Player *player, char new_pos, int xy_sub, char *printable_map, char *dialog_box) {
   player->pos = new_pos;
   player->xy = player->xy - xy_sub;
-  char char_at_new_xy = printable_map[2*player->xy+3];
+  char char_at_new_xy = printable_map[TO_PRINTABLE_MAP1*player->xy+TO_PRINTABLE_MAP2];
   if (isEqual(char_at_new_xy, HEAL)) {
     resetAllPokemonsStats(player);
     addTextInDialogBox(FRST_LINE_START, HEAL_TEXT, HEAL_TEXT_LGTH, dialog_box);
@@ -262,29 +263,29 @@ int checkIfInteractionPossible(Player *player, char *printable_map, char *dialog
 int manageKeyPressed(char key_pressed, Player *player, char *dialog_box, char *printable_map, int *x_map, int *y_map) {
   int key_status = 1;//arrow moved
   char map_structure[MAP_SIZE];
-  printable_map[2*player->xy+3] = player->char_at_pos;
+  printable_map[TO_PRINTABLE_MAP1*player->xy+TO_PRINTABLE_MAP2] = player->char_at_pos;
 
   if (key_pressed == MOVE_Z) {
     if (player->xy > 0 && player->xy < LINE_SEPARATOR) {
-      changeMap(player, x_map, y_map, 0, -1, PLAYER_N, -(MAP_SIZE - LINE_SEPARATOR + 2), printable_map, map_structure);
+      changeMap(player, x_map, y_map, 0, -1, PLAYER_N, -(11*LINE_SEPARATOR), printable_map, map_structure);
     } else {
       movePlayer(player, PLAYER_N, LINE_SEPARATOR, printable_map, dialog_box);
     }
   } else if (key_pressed == MOVE_Q) {
     if (player->xy % LINE_SEPARATOR == 0) {
-      changeMap(player, x_map, y_map, 1, 0, PLAYER_W, -(LINE_SEPARATOR - 3), printable_map, map_structure);
+      changeMap(player, x_map, y_map, 1, 0, PLAYER_W, -(LINE_SEPARATOR - 2), printable_map, map_structure);
     } else {
       movePlayer(player, PLAYER_W, 1, printable_map, dialog_box);
     }
   } else if (key_pressed == MOVE_S) {
-    if (player->xy < MAP_SIZE && player->xy > (MAP_SIZE-LINE_SEPARATOR)) {
-      changeMap(player, x_map, y_map, 0, 1, PLAYER_S, MAP_SIZE-LINE_SEPARATOR+2, printable_map, map_structure);
+    if (player->xy > (MAP_SIZE-LINE_SEPARATOR) && player->xy < MAP_SIZE) {
+      changeMap(player, x_map, y_map, 0, 1, PLAYER_S, 11*LINE_SEPARATOR, printable_map, map_structure);
     } else {
       movePlayer(player, PLAYER_S, -(LINE_SEPARATOR), printable_map, dialog_box);
     }
   } else if (key_pressed == MOVE_D) {
     if (player->xy % LINE_SEPARATOR == 12) {
-      changeMap(player, x_map, y_map, -1, 0, PLAYER_E, LINE_SEPARATOR-3, printable_map, map_structure);
+      changeMap(player, x_map, y_map, -1, 0, PLAYER_E, LINE_SEPARATOR-2, printable_map, map_structure);
     } else {
       movePlayer(player, PLAYER_E, -1, printable_map, dialog_box);
     }
@@ -298,7 +299,7 @@ int manageKeyPressed(char key_pressed, Player *player, char *dialog_box, char *p
     key_status = 0;//wrong key
   }
 
-  printable_map[2*player->xy+3] = player->pos;
+  printable_map[TO_PRINTABLE_MAP1*player->xy+TO_PRINTABLE_MAP2] = player->pos;
 
   if (key_status == 4) {//start menu pressed
     createStartMenu(dialog_box);

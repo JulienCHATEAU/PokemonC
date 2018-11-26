@@ -88,7 +88,9 @@ void eraseArrayLine(int pos, char *battle_pane, int space_count) {
 * battle_pane : the battle pane
 */
 void printBattlePane(char *battle_pane) {
+  tty_reset();
   printf("%s\n", battle_pane);
+  setRawMode('1');
 }
 
 /* Fills an array with all the character of the battle pane file

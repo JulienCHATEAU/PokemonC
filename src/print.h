@@ -6,9 +6,9 @@
 #define PRINT_H
 
 #define DIALOG_BOX_PATH "data/dialogBox.txt"
-#define DIALOG_BOX_LENGTH 376
+#define DIALOG_BOX_LENGTH 371
 #define DIALOG_BOX_LINE_COUNT 6
-#define DIALOG_BOX_LINE 63
+#define DIALOG_BOX_LINE 62
 
 #define POKEBALL_FOUND "Vous avez trouve une Pokeball !"
 #define POKEBALL_FOUND_LGTH 31
@@ -17,9 +17,9 @@
 #define HEAL_TEXT_LGTH 33
 
 #define TEXT_MAX_LENGTH 55
-#define FRST_LINE_START 129
-#define SCD_LINE_START 192
-#define THRD_LINE_START 255
+#define FRST_LINE_START 127
+#define SCD_LINE_START 189
+#define THRD_LINE_START 251
 
 void printLearningSkillInfo(Skill targetted_skill, Skill new_skill);
 void printSkill(Skill skill);
