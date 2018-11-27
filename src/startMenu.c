@@ -4,6 +4,7 @@
 #include "ttyraw.h"
 #include "pokemon.h"
 #include "util.h"
+#include "bag.h"
 #include "map.h"
 
 /**************/
@@ -354,3 +355,127 @@ int manageBagMenu(Player *player, int mode) {
   }
   return targetted_item;
 }
+
+
+/********/
+/* SHOP */
+/********/
+
+int initShopItems(Player *player, BagItem *shop_items) {
+  int shop_size = 1;
+  shop_items[0] = createBagItem(0);
+  shop_items[0].price = 1500;
+  int index = 1;
+  if (possessBagItem(player, 8) == -1) {
+    shop_items[index] = createBagItem(8);
+    shop_items[index].price = 10000;
+    shop_size++;
+    index++;
+  }
+  if (possessBagItem(player, 9) == -1) {
+    shop_items[index] = createBagItem(9);
+    shop_size++;
+  }
+  return shop_size;
+}
+
+
+void printShopPane(BagItem *shop_items, int shop_size, Player *player, int targetted_item) {
+  tty_reset();
+  clearConsole();
+  printf("\n\n          Boutique :\n\n\n");
+  int i = 0;
+  while (i < shop_size) {
+    if (targetted_item == i) {
+      printf("  ->  %s :\n", shop_items[i].name);
+    } else {
+      printf("      %s :\n", shop_items[i].name);
+    }
+    printf("        Description : %s\n", shop_items[i].description);
+    if (shop_items[i].id == 9) {
+      printf("        Prix : 5 Fragments de Clef\n\n");
+    } else {
+      printf("        Prix : %d\n\n", shop_items[i].price);
+    }
+    i++;
+  }
+
+  printf("\n\n\n    ------------\n");
+  printf("   | 1. Acheter |\n");
+  printf("    ------------\n\n\n");
+
+  printf("\n\n      Argent : %d $\n\n", player->money);
+
+  if (shop_size == targetted_item) {
+    printf("\n  ->  Annuler\n");
+  } else {
+    printf("\n      Annuler\n");
+  }
+  setRawMode('1');
+}
+
+int manageShopMenuKeyPressed(BagItem *shop_items, int shop_size, char key_pressed, int *targetted_item, Player *player) {
+  int key_pressed_status = 0;//refresh bag menu
+  if (key_pressed == MOVE_S) {
+    *targetted_item = (*targetted_item + 1) % (shop_size+1);
+  } else if (key_pressed == MOVE_Z) {
+    *targetted_item = *targetted_item - 1;
+    if (*targetted_item == -1) {
+      *targetted_item = shop_size;
+    }
+  } else if (key_pressed == DELETE) {
+    key_pressed_status = 1;//come back to start menu
+  } else if (key_pressed == ENTER) {
+    if (*targetted_item == shop_size) {
+      key_pressed_status = 1;//come back to start menu
+    } else {
+      key_pressed_status = 2;//does nothing
+    }
+  } else if (key_pressed == '1') {
+    if (*targetted_item == shop_size) {
+      key_pressed_status = 2;//does nothing
+    } else {
+      if (shop_items[*targetted_item].id == 9) {
+        if (itemCount(player, 10) == 5) {
+          removeItem(player, 10, 5);
+          addBagItemPlayer(player, 9, 1);
+          *targetted_item = 0;
+        } else {
+          key_pressed_status = 2;//does nothing
+        }
+      } else {
+        if (shop_items[*targetted_item].price <= player->money) {
+          addBagItemPlayer(player, shop_items[*targetted_item].id, 1);
+          player->money -= shop_items[*targetted_item].price;
+          *targetted_item = 0;
+        }
+      }
+    }
+  } else {
+    key_pressed_status = 2;//does nothing
+  }
+  return key_pressed_status;
+}
+
+
+int manageShopMenu(Player *player) {
+  BagItem shop_items[3];
+  int shop_size = initShopItems(player, shop_items);
+  char key_pressed = 0;
+  int key_pressed_status = 0;
+  int targetted_item = 0;
+  do {
+    if (key_pressed_status == 0) {
+      printShopPane(shop_items, shop_size, player, targetted_item);
+    }
+    key_pressed = getchar();
+    key_pressed_status = manageShopMenuKeyPressed(shop_items, shop_size, key_pressed, &targetted_item, player);
+    shop_size = initShopItems(player, shop_items);
+  } while(key_pressed_status != 1 && key_pressed_status != 3);
+  if (targetted_item == player->bag_item_count || key_pressed_status != 3) {//if nothing happened
+    targetted_item = -1;
+  }
+  return targetted_item;
+}
+
+

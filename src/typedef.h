@@ -110,6 +110,7 @@ typedef struct {
   char *description;
   int description_length;
   int count;
+  int price;
   ItemUse usable_time;//0 if useable in of battle, 1 out battle, 2 both
 } BagItem;
 
