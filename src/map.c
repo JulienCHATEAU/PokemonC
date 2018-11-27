@@ -182,7 +182,7 @@ void movePlayer(Player *player, char new_pos, int xy_sub, char *printable_map, c
     addTextInDialogBox(FRST_LINE_START, HEAL_TEXT, HEAL_TEXT_LGTH, dialog_box);
   }
   if (isEqual(char_at_new_xy, SHOP)) {
-
+    manageShopMenu(player);
   }
   if (isObstacle(char_at_new_xy)) {
     player->xy = player->xy + xy_sub;

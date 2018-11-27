@@ -38,5 +38,6 @@ void printBagPane(Player *player, int targetted_item, int mode);
 int manageBagMenuKeyPressed(char key_pressed, int *targetted_item, Player *player, int mode);
 int manageBagMenu(Player *player, int mode);
 void removeItem(Player *player, int item_index, int count);
+int manageShopMenu(Player *player);
 
 #endif
