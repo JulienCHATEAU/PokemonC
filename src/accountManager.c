@@ -268,7 +268,6 @@ void readOnePokemonLine(FILE *save_file, Pokemon *pkmn) {
   fscanf(save_file, "|%d %d %d %d", &stats[0], &stats[1], &stats[2], &stats[3]);
   pkmn->stats = createStats(stats[0], stats[1], stats[2], stats[3]);
   fscanf(save_file, "%d %d %d %d\n", &pkmn->stats.hp, &pkmn->stats.att, &pkmn->stats.def, &pkmn->stats.spd);
-  pkmn->stats.hp = pkmn->stats.hp_max;//temporary to test ailments
 }
 
 /* In the file containing the player data, read one bag item line and add it to the player's bag

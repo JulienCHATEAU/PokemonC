@@ -173,7 +173,7 @@ bool isObstacle(char char_at_new_xy) {
 * xy_sub : the new position of the player
 * printable_map : the printable map
 */
-void movePlayer(Player *player, char new_pos, int xy_sub, char *printable_map, char *dialog_box) {
+void movePlayer(Player *player, char new_pos, int xy_sub, char *printable_map, char *dialog_box, int *x_map, int *y_map) {
   player->pos = new_pos;
   player->xy = player->xy - xy_sub;
   char char_at_new_xy = printable_map[TO_PRINTABLE_MAP1*player->xy+TO_PRINTABLE_MAP2];
@@ -185,7 +185,7 @@ void movePlayer(Player *player, char new_pos, int xy_sub, char *printable_map, c
     player->xy = player->xy + xy_sub;
   } else {
     player->char_at_pos = char_at_new_xy;
-    isBattle(player);
+    isBattle(player, printable_map, x_map, y_map);
   }
 }
 
@@ -216,7 +216,14 @@ void changeMap(Player *player, int *x_map, int *y_map, int x_map_sub, int y_map_
   player->char_at_pos = char_at_new_xy;
 
   createPrintableMap(printable_map, map_structure, *player);
-  isBattle(player);
+  isBattle(player, printable_map, x_map, y_map);
+}
+
+void comeBackFirstMap(Player *player, char *printable_map,  int *x_map, int *y_map) {
+  char map_structure[MAP_SIZE];
+  *x_map = 0;
+  *y_map = 0;
+  changeMap(player, x_map, y_map, 0, 0, PLAYER_N, player->xy-PLAYER_START_POS, printable_map, map_structure);
 }
 
 /* Save the xy coordinate of an interactive object the player has taken to remember is was taken
@@ -356,7 +363,7 @@ void manageDoorOpenning(Player *player, char *dialog_box, char *printable_map) {
   clearAndPrintMap(printable_map, dialog_box);
 }
 
-void phishing(Player *player, char *printable_map, char *dialog_box) {
+void phishing(Player *player, char *printable_map, char *dialog_box, int *x_map, int *y_map) {
   srand(time(NULL));
   int r = rand()%100;
   if (r < 5 && itemCount(player, 10) == 4) {
@@ -366,14 +373,14 @@ void phishing(Player *player, char *printable_map, char *dialog_box) {
     addBagItemPlayer(player, 0, 1);
     addTextInDialogBox(FRST_LINE_START, "Cela a mordu ! Vous recevez une Pokeball !", 42, dialog_box);
   } else if (r < 60) {
-
+    goForBattle(player, printable_map, x_map, y_map);
   } else {
     addTextInDialogBox(FRST_LINE_START, "Cela ne mord pas...", 19, dialog_box);
   }
   clearAndPrintMap(printable_map, dialog_box);
 }
 
-void managePhishing(Player *player, char *dialog_box, char *printable_map) {
+void managePhishing(Player *player, char *dialog_box, char *printable_map, int *x_map, int *y_map) {
   if (possessBagItem(player, 2) != -1) {
     showDBYesNoMenu(dialog_box);
     addTextInDialogBox(FRST_LINE_START, "Cette eau est d'un bleu etincellant", 35, dialog_box);
@@ -383,7 +390,7 @@ void managePhishing(Player *player, char *dialog_box, char *printable_map) {
     manageDBYesNoMenu(&yes, printable_map, dialog_box);
     eraseDialogBoxLines(dialog_box);
     if (yes == 1) {
-      phishing(player, printable_map, dialog_box);
+      phishing(player, printable_map, dialog_box, x_map, y_map);
     }
   } else {
     addTextInDialogBox(FRST_LINE_START, "Vous appercevez des silhouettes dans l'eau", 42, dialog_box);
@@ -415,7 +422,7 @@ int checkIfInteractionPossible(Player *player, char *printable_map, char *dialog
   } else if (char_ifo_player == DOOR) {
     manageDoorOpenning(player, dialog_box, printable_map);
   } else if (char_ifo_player == WATER) {
-    managePhishing(player, dialog_box, printable_map);
+    managePhishing(player, dialog_box, printable_map, x_map, y_map);
   } else {
     interaction_found = 0;//do not clear and print
   }
@@ -441,25 +448,25 @@ int manageKeyPressed(char key_pressed, Player *player, char *dialog_box, char *p
     if (player->xy > 0 && player->xy < LINE_SEPARATOR) {
       changeMap(player, x_map, y_map, 0, -1, PLAYER_N, -(11*LINE_SEPARATOR), printable_map, map_structure);
     } else {
-      movePlayer(player, PLAYER_N, LINE_SEPARATOR, printable_map, dialog_box);
+      movePlayer(player, PLAYER_N, LINE_SEPARATOR, printable_map, dialog_box, x_map, y_map);
     }
   } else if (key_pressed == MOVE_Q) {
     if (player->xy % LINE_SEPARATOR == 0) {
       changeMap(player, x_map, y_map, 1, 0, PLAYER_W, -(LINE_SEPARATOR-3), printable_map, map_structure);
     } else {
-      movePlayer(player, PLAYER_W, 1, printable_map, dialog_box);
+      movePlayer(player, PLAYER_W, 1, printable_map, dialog_box, x_map, y_map);
     }
   } else if (key_pressed == MOVE_S) {
     if (player->xy > (MAP_SIZE-LINE_SEPARATOR) && player->xy < MAP_SIZE) {
       changeMap(player, x_map, y_map, 0, 1, PLAYER_S, 11*LINE_SEPARATOR, printable_map, map_structure);
     } else {
-      movePlayer(player, PLAYER_S, -(LINE_SEPARATOR), printable_map, dialog_box);
+      movePlayer(player, PLAYER_S, -(LINE_SEPARATOR), printable_map, dialog_box, x_map, y_map);
     }
   } else if (key_pressed == MOVE_D) {
     if (player->xy % LINE_SEPARATOR == 12) {
       changeMap(player, x_map, y_map, -1, 0, PLAYER_E, LINE_SEPARATOR-3, printable_map, map_structure);
     } else {
-      movePlayer(player, PLAYER_E, -1, printable_map, dialog_box);
+      movePlayer(player, PLAYER_E, -1, printable_map, dialog_box, x_map, y_map);
     }
   } else if (key_pressed == 13) {
     key_status = checkIfInteractionPossible(player, printable_map, dialog_box, x_map, y_map);//2 -> interaction found / 0 otherwise

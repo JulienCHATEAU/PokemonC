@@ -671,14 +671,25 @@ void printAndManageBattlePane(char *battle_pane, Player *player, Pokemon *enemy)
   }
 }
 
+void goForBattle(Player *player, char *printable_map, int *x_map, int *y_map) {
+  int money_temp = player->money;
+  battle(player);
+  resetPlayerPkmnsStatsAfterBattle(player);
+  if (player->money < money_temp) {
+    comeBackFirstMap(player, printable_map, x_map, y_map);
+    if (player->money < 0) {
+      player->money = 0;
+    }
+  }
+}
+
 /* Checks if the player triggered a battle
 * player : the player
 */
-void isBattle(Player *player) {
+void isBattle(Player *player, char *printable_map, int *x_map, int *y_map) {
   if (isEqual(player->char_at_pos, LONG_GRASS)) {
     if (rand()%100 < BATTLE_PERCENTAGE) {
-      battle(player);
-      resetPlayerPkmnsStatsAfterBattle(player);
+      goForBattle(player, printable_map, x_map, y_map);
     }
   }
 }

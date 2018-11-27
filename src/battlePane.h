@@ -86,7 +86,8 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemo
 int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow, char *battle_pane, Player *player, Pokemon *enemy);
 void battle(Player *player);
 void printAndManageBattlePane(char *battle_pane, Player *player, Pokemon *enemy);
-void isBattle(Player *player);
+void goForBattle(Player *player, char *printable_map, int *x_map, int *y_map);
+void isBattle(Player *player, char *printable_map, int *x_map, int *y_map);
 void addAilments(Pokemon pkmn, char *battle_pane, int pos, bool left_erase);
 
 #endif
