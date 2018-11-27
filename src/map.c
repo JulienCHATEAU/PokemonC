@@ -181,6 +181,9 @@ void movePlayer(Player *player, char new_pos, int xy_sub, char *printable_map, c
     resetAllPokemonsStats(player);
     addTextInDialogBox(FRST_LINE_START, HEAL_TEXT, HEAL_TEXT_LGTH, dialog_box);
   }
+  if (isEqual(char_at_new_xy, SHOP)) {
+
+  }
   if (isObstacle(char_at_new_xy)) {
     player->xy = player->xy + xy_sub;
   } else {
@@ -363,16 +366,16 @@ void manageDoorOpenning(Player *player, char *dialog_box, char *printable_map) {
   clearAndPrintMap(printable_map, dialog_box);
 }
 
-void phishing(Player *player, char *printable_map, char *dialog_box, int *x_map, int *y_map) {
+void fishing(Player *player, char *printable_map, char *dialog_box, int *x_map, int *y_map) {
   srand(time(NULL));
   int r = rand()%100;
   if (r < 5 && itemCount(player, 10) == 4) {
     addBagItemPlayer(player, 10, 1);
     addTextInDialogBox(FRST_LINE_START, "Enorme prise ! Vous recevez un Fragement de Clef !", 40, dialog_box);
-  } else if (r < 20) {
+  } else if (r < 10) {
     addBagItemPlayer(player, 0, 1);
     addTextInDialogBox(FRST_LINE_START, "Cela a mordu ! Vous recevez une Pokeball !", 42, dialog_box);
-  } else if (r < 60) {
+  } else if (r < 50) {
     goForBattle(player, printable_map, x_map, y_map);
   } else {
     addTextInDialogBox(FRST_LINE_START, "Cela ne mord pas...", 19, dialog_box);
@@ -380,7 +383,7 @@ void phishing(Player *player, char *printable_map, char *dialog_box, int *x_map,
   clearAndPrintMap(printable_map, dialog_box);
 }
 
-void managePhishing(Player *player, char *dialog_box, char *printable_map, int *x_map, int *y_map) {
+void manageFishing(Player *player, char *dialog_box, char *printable_map, int *x_map, int *y_map) {
   if (possessBagItem(player, 2) != -1) {
     showDBYesNoMenu(dialog_box);
     addTextInDialogBox(FRST_LINE_START, "Cette eau est d'un bleu etincellant", 35, dialog_box);
@@ -390,7 +393,7 @@ void managePhishing(Player *player, char *dialog_box, char *printable_map, int *
     manageDBYesNoMenu(&yes, printable_map, dialog_box);
     eraseDialogBoxLines(dialog_box);
     if (yes == 1) {
-      phishing(player, printable_map, dialog_box, x_map, y_map);
+      fishing(player, printable_map, dialog_box, x_map, y_map);
     }
   } else {
     addTextInDialogBox(FRST_LINE_START, "Vous appercevez des silhouettes dans l'eau", 42, dialog_box);
@@ -422,7 +425,7 @@ int checkIfInteractionPossible(Player *player, char *printable_map, char *dialog
   } else if (char_ifo_player == DOOR) {
     manageDoorOpenning(player, dialog_box, printable_map);
   } else if (char_ifo_player == WATER) {
-    managePhishing(player, dialog_box, printable_map, x_map, y_map);
+    manageFishing(player, dialog_box, printable_map, x_map, y_map);
   } else {
     interaction_found = 0;//do not clear and print
   }
