@@ -167,10 +167,8 @@ void ailmentTextAnimation(Pokemon *skill_user, Pokemon *target, bool swapped_xor
     refreshBattlePane(*target, *skill_user, battle_pane);
   }
   clearAndPrintBattlePane(battle_pane);
-  printf("Before ailmentTextAnimation free\n");
   free(ailment_text);
   free(ailment_text2);
-  printf("After ailmentTextAnimation free\n");
   waitNMs(WAIT_BETWEEN_ANIM);
 }
 

@@ -545,7 +545,16 @@ void playOnlyEnemyTurn(MenuArrow *arrow, char *battle_pane, Player *player, Poke
 int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemon *enemy) {
   int stop = 0;
   if (*arrow == FUITE) {
-    stop = 1;
+    srand(time(NULL));
+    if (rand()%100 < 25) {
+      addInfoText(CANT_FLY, CANT_FLY_LENGTH, " ", 1, battle_pane);
+      clearAndPrintBattlePane(battle_pane);
+      waitNMs(WAIT_BETWEEN_ANIM);
+      removeArrow((int)*arrow, battle_pane);
+      playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
+    } else {
+      stop = 1;
+    }
   } else if (*arrow == ATTAQUES) {
     stop = switchThenManageSkillMenu(player, battle_pane, enemy, NULL, 0);
   } else if (*arrow == POKEMON) {

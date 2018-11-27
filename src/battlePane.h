@@ -16,6 +16,8 @@
 #define TO_MUCH_POKEMON1_LENGTH 24
 #define TO_MUCH_POKEMON2 "plus de 6 pokemons"
 #define TO_MUCH_POKEMON2_LENGTH 18
+#define CANT_FLY "Fuite impossible !"
+#define CANT_FLY_LENGTH 18
 
 #define PLAYER_PKMN_NAME_POS 716
 #define PLAYER_HLTH_BAR_STRTNG_POS 764
