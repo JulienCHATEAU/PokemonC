@@ -293,6 +293,9 @@ void printBagPane(Player *player, int targetted_item, int mode) {
     printf("\n\n\n\n\n\n\n\n");
   }
 
+  printf("\n\n      Argent : %d $\n\n", player->money);
+
+
   if (player->bag_item_count == targetted_item) {
     printf("\n  ->  Annuler\n");
   } else {

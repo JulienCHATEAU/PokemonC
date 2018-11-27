@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <stdbool.h>
 #include <string.h>
 #include <ncurses.h>
 #include "pokemon.h"
@@ -265,7 +267,14 @@ void notifyItemFound(char *dialog_box, int item_id) {
 
 void manageItemFound(Player *player, char *dialog_box, int *x_map, int *y_map) {
   int item_id = getMapItemInPokeballID(x_map, y_map);
-  addBagItemPlayer(player, item_id, 1);//pokeball
+  //there are more than one pokeball in the 6;-1 map,
+  //so this set the content of others pokeballs to Pokeball
+  if (item_id == 5) {
+    if (possessBagItem(player, item_id) != -1) {
+      item_id = 0;
+    }
+  }
+  addBagItemPlayer(player, item_id, 1);
   notifyItemFound(dialog_box, item_id);
 }
 
@@ -299,6 +308,89 @@ void manageDBYesNoMenu(int *yes, char *printable_map, char *dialog_box) {
   } while(key_pressed_status != 0);//!= enter
 }
 
+void manageDestroy(Player *player, char *dialog_box, char *printable_map, char destroyed_object, int xy_ifo_player) {
+  int item_id = 4;
+  if (destroyed_object == CUTABLE_TREE) {
+    item_id = 3;
+  }
+  if (possessBagItem(player, item_id) != -1) {
+    showDBYesNoMenu(dialog_box);
+    if (destroyed_object == CUTABLE_TREE) {
+      addTextInDialogBox(FRST_LINE_START, "Cet arbre semble vieux et fragile", 33, dialog_box);
+      addTextInDialogBox(SCD_LINE_START, "Voulez-vous le couper avec votre Cisaille ?", 43, dialog_box);
+    } else {
+      addTextInDialogBox(FRST_LINE_START, "Ce rocher ne semble pas tres solide", 35, dialog_box);
+      addTextInDialogBox(SCD_LINE_START, "Voulez-vous le casser avec votre Pioche ?", 41, dialog_box);
+    }
+    clearAndPrintMap(printable_map, dialog_box);
+    int yes = 1;
+    manageDBYesNoMenu(&yes, printable_map, dialog_box);
+    eraseDialogBoxLines(dialog_box);
+    if (yes == 1) {
+      printable_map[xy_ifo_player] = ' ';
+    }
+  } else {
+    if (destroyed_object == CUTABLE_TREE) {
+      addTextInDialogBox(FRST_LINE_START, "Cet arbre semble vieux et fragile", 33, dialog_box);
+    } else {
+      addTextInDialogBox(FRST_LINE_START, "Ce rocher ne semble pas tres solide", 35, dialog_box);
+    }
+  }
+}
+
+void manageDoorOpenning(Player *player, char *dialog_box, char *printable_map) {
+  if (possessAllKeys(player)) {
+    showDBYesNoMenu(dialog_box);
+    addTextInDialogBox(FRST_LINE_START, "Cette enorme porte est fermee", 29, dialog_box);
+    addTextInDialogBox(SCD_LINE_START, "Voulez-vous l'ouvrir ?", 22, dialog_box);
+    clearAndPrintMap(printable_map, dialog_box);
+    int yes = 1;
+    manageDBYesNoMenu(&yes, printable_map, dialog_box);
+    eraseDialogBoxLines(dialog_box);
+    if (yes == 1) {
+      printable_map[TO_PRINTABLE_MAP1*MIDDLE_DOOR_POS+TO_PRINTABLE_MAP2] = ' ';
+    }
+  } else {
+    addTextInDialogBox(FRST_LINE_START, "Cette enorme porte est fermee mais possede 5 cerrures", 53, dialog_box);
+  }
+  clearAndPrintMap(printable_map, dialog_box);
+}
+
+void phishing(Player *player, char *printable_map, char *dialog_box) {
+  srand(time(NULL));
+  int r = rand()%100;
+  if (r < 5 && itemCount(player, 10) == 4) {
+    addBagItemPlayer(player, 10, 1);
+    addTextInDialogBox(FRST_LINE_START, "Enorme prise ! Vous recevez un Fragement de Clef !", 40, dialog_box);
+  } else if (r < 20) {
+    addBagItemPlayer(player, 0, 1);
+    addTextInDialogBox(FRST_LINE_START, "Cela a mordu ! Vous recevez une Pokeball !", 42, dialog_box);
+  } else if (r < 60) {
+
+  } else {
+    addTextInDialogBox(FRST_LINE_START, "Cela ne mord pas...", 19, dialog_box);
+  }
+  clearAndPrintMap(printable_map, dialog_box);
+}
+
+void managePhishing(Player *player, char *dialog_box, char *printable_map) {
+  if (possessBagItem(player, 2) != -1) {
+    showDBYesNoMenu(dialog_box);
+    addTextInDialogBox(FRST_LINE_START, "Cette eau est d'un bleu etincellant", 35, dialog_box);
+    addTextInDialogBox(SCD_LINE_START, "Voulez-vous pecher ?", 20, dialog_box);
+    clearAndPrintMap(printable_map, dialog_box);
+    int yes = 1;
+    manageDBYesNoMenu(&yes, printable_map, dialog_box);
+    eraseDialogBoxLines(dialog_box);
+    if (yes == 1) {
+      phishing(player, printable_map, dialog_box);
+    }
+  } else {
+    addTextInDialogBox(FRST_LINE_START, "Vous appercevez des silhouettes dans l'eau", 42, dialog_box);
+  }
+  clearAndPrintMap(printable_map, dialog_box);
+}
+
 /* Check if an interacion is possible
 * player : the player
 * printable_map : the printable map
@@ -317,21 +409,13 @@ int checkIfInteractionPossible(Player *player, char *printable_map, char *dialog
     printable_map[xy_ifo_player] = ' ';
     manageItemFound(player, dialog_box, x_map, y_map);
   } else if (char_ifo_player == STONE) {
-    if (possessBagItem(player, 4) != -1) {
-      showDBYesNoMenu(dialog_box);
-      addTextInDialogBox(FRST_LINE_START, "Ce rocher ne semble pas tres solide", 35, dialog_box);
-      addTextInDialogBox(SCD_LINE_START, "Voulez-vous le casser avec votre pioche ?", 41, dialog_box);
-      clearAndPrintMap(printable_map, dialog_box);
-      int yes = 1;
-      manageDBYesNoMenu(&yes, printable_map, dialog_box);
-      eraseDialogBoxLines(dialog_box);
-      if (yes == 1) {
-        printable_map[xy_ifo_player] = ' ';
-      }
-    } else {
-      addTextInDialogBox(FRST_LINE_START, "Ce rocher ne semble pas tres solide", 35, dialog_box);
-      clearAndPrintMap(printable_map, dialog_box);
-    }
+    manageDestroy(player, dialog_box, printable_map, char_ifo_player, xy_ifo_player);
+  } else if (char_ifo_player == CUTABLE_TREE) {
+    manageDestroy(player, dialog_box, printable_map, char_ifo_player, xy_ifo_player);
+  } else if (char_ifo_player == DOOR) {
+    manageDoorOpenning(player, dialog_box, printable_map);
+  } else if (char_ifo_player == WATER) {
+    managePhishing(player, dialog_box, printable_map);
   } else {
     interaction_found = 0;//do not clear and print
   }

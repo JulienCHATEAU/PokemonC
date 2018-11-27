@@ -67,6 +67,26 @@ int possessBagItem(Player *player, int id) {
   return index;
 }
 
+bool possessAllKeys(Player *player) {
+  int count = 0;
+  int i = 0;
+  while (count != 5 && i < player->bag_item_count) {
+    if (player->bag[i].id >= 5 && player->bag[i].id <= 9) {
+      count++;
+    }
+    i++;
+  }
+  return count == 5;
+}
+
+int itemCount(Player *player, int id) {
+  int index = possessBagItem(player, id);
+  if (index != -1) {
+    index = player->bag[index].count;
+  }
+  return index;
+}
+
 bool isItemUsable(int mode, int usable_time) {
   return ((mode == 0 && usable_time == 0) || (mode == 1 && (usable_time == 1 || usable_time == 2)));
 }

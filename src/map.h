@@ -15,6 +15,7 @@
 #define DOOR_LEFT_PILAR '['
 #define DOOR_RIGHT_PILAR ']'
 #define DOOR '_'
+#define MIDDLE_DOOR_POS 6
 #define HEAL '#'
 #define TREE '@'
 #define POKEBALL 'o'
@@ -44,8 +45,8 @@
 #define MAGENTA 5
 #define	WHITE 7
 
-#define DB_YES_POS 177
-#define DB_NO_POS 240
+#define DB_YES_POS 179
+#define DB_NO_POS 242
 
 void waitForEnter();
 void clearConsole();
@@ -60,5 +61,5 @@ void changeMap(Player *player, int *x_map, int *y_map, int x_map_sub, int y_map_
 void saveMapSpecificData(Player *player, int x_map, int y_map, int xy);
 int checkIfInteractionPossible(Player *player, char *printable_map, char *dialog_box, int *x_map, int *y_map);
 int manageKeyPressed(char key_pressed, Player *player, char *dialog_box, char *printable_map, int *x_map, int *y_map);
-
+void manageDoorOpenning(Player *player, char *dialog_box, char *printable_map);
 #endif
