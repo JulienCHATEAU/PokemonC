@@ -269,6 +269,36 @@ void manageItemFound(Player *player, char *dialog_box, int *x_map, int *y_map) {
   notifyItemFound(dialog_box, item_id);
 }
 
+void showDBYesNoMenu(char *dialog_box) {
+  addTextInDialogBox(DB_YES_POS-3, "-> Oui", 6, dialog_box);
+  addTextInDialogBox(DB_NO_POS, "Non", 3, dialog_box);
+}
+
+void setDBArrowYesNo(int *yes, char *dialog_box) {
+  int yes_pos = DB_YES_POS-3;
+  int no_pos = DB_NO_POS-3;
+  if (*yes == 1) {
+    int tmp = yes_pos;
+    yes_pos = no_pos;
+    no_pos = tmp;
+  }
+  addTextInDialogBox(yes_pos, "  ", 2, dialog_box);
+  addTextInDialogBox(no_pos, "->", 2, dialog_box);
+}
+
+void manageDBYesNoMenu(int *yes, char *printable_map, char *dialog_box) {
+  char key_pressed;
+  int key_pressed_status;
+  do {
+    key_pressed = getchar();
+    key_pressed_status = manageYesNoKeyPressed(key_pressed, yes);
+    if (key_pressed_status == 1) {
+      setDBArrowYesNo(yes, dialog_box);
+      clearAndPrintMap(printable_map, dialog_box);
+    }
+  } while(key_pressed_status != 0);//!= enter
+}
+
 /* Check if an interacion is possible
 * player : the player
 * printable_map : the printable map
@@ -278,6 +308,7 @@ void manageItemFound(Player *player, char *dialog_box, int *x_map, int *y_map) {
 * return 2 to clear and print back the map, 0 to do nothing
 */
 int checkIfInteractionPossible(Player *player, char *printable_map, char *dialog_box, int *x_map, int *y_map) {
+  printable_map[TO_PRINTABLE_MAP1*player->xy+TO_PRINTABLE_MAP2] = player->pos;
   int interaction_found = 2;//clear and print
   int xy_ifo_player = getXYIfoPlayer(player);
   char char_ifo_player = printable_map[xy_ifo_player];
@@ -285,9 +316,26 @@ int checkIfInteractionPossible(Player *player, char *printable_map, char *dialog
     saveMapSpecificData(player, *x_map, *y_map, (xy_ifo_player-TO_PRINTABLE_MAP2)/2);
     printable_map[xy_ifo_player] = ' ';
     manageItemFound(player, dialog_box, x_map, y_map);
+  } else if (char_ifo_player == STONE) {
+    if (possessBagItem(player, 4) != -1) {
+      showDBYesNoMenu(dialog_box);
+      addTextInDialogBox(FRST_LINE_START, "Ce rocher ne semble pas tres solide", 35, dialog_box);
+      addTextInDialogBox(SCD_LINE_START, "Voulez-vous le casser avec votre pioche ?", 41, dialog_box);
+      clearAndPrintMap(printable_map, dialog_box);
+      int yes = 1;
+      manageDBYesNoMenu(&yes, printable_map, dialog_box);
+      eraseDialogBoxLines(dialog_box);
+      if (yes == 1) {
+        printable_map[xy_ifo_player] = ' ';
+      }
+    } else {
+      addTextInDialogBox(FRST_LINE_START, "Ce rocher ne semble pas tres solide", 35, dialog_box);
+      clearAndPrintMap(printable_map, dialog_box);
+    }
   } else {
     interaction_found = 0;//do not clear and print
   }
+  printable_map[TO_PRINTABLE_MAP1*player->xy+TO_PRINTABLE_MAP2] = player->char_at_pos;
   return interaction_found;
 }
 

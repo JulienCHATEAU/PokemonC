@@ -32,17 +32,20 @@
 
 #define LINE_SEPARATOR 15
 
-#define RESET		0
-#define BRIGHT 		1
-#define DIM		2
+#define RESET 0
+#define BRIGHT  1
+#define DIM 2
 
-#define BLACK 		0
-#define RED		1
-#define GREEN		2
-#define YELLOW		3
-#define BLUE		4
-#define MAGENTA		5
-#define	WHITE		7
+#define BLACK  0
+#define RED 1
+#define GREEN 2
+#define YELLOW 3
+#define BLUE 4
+#define MAGENTA 5
+#define	WHITE 7
+
+#define DB_YES_POS 177
+#define DB_NO_POS 240
 
 void waitForEnter();
 void clearConsole();
