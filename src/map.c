@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+#include <stdbool.h>
 #include <string.h>
 #include <ncurses.h>
 #include "pokemon.h"
@@ -40,7 +42,7 @@ int getXYIfoPlayer(Player *player) {
   } else if (player->pos == PLAYER_E) {
     xy_in_front_of_player = player->xy*2+4;
   } else if (player->pos == PLAYER_W) {
-    xy_in_front_of_player = player->xy*2+1;
+    xy_in_front_of_player = player->xy*2;
   }
   return xy_in_front_of_player;
 }
@@ -171,7 +173,7 @@ bool isObstacle(char char_at_new_xy) {
 * xy_sub : the new position of the player
 * printable_map : the printable map
 */
-void movePlayer(Player *player, char new_pos, int xy_sub, char *printable_map, char *dialog_box) {
+void movePlayer(Player *player, char new_pos, int xy_sub, char *printable_map, char *dialog_box, int *x_map, int *y_map) {
   player->pos = new_pos;
   player->xy = player->xy - xy_sub;
   char char_at_new_xy = printable_map[TO_PRINTABLE_MAP1*player->xy+TO_PRINTABLE_MAP2];
@@ -179,11 +181,14 @@ void movePlayer(Player *player, char new_pos, int xy_sub, char *printable_map, c
     resetAllPokemonsStats(player);
     addTextInDialogBox(FRST_LINE_START, HEAL_TEXT, HEAL_TEXT_LGTH, dialog_box);
   }
+  if (isEqual(char_at_new_xy, SHOP)) {
+
+  }
   if (isObstacle(char_at_new_xy)) {
     player->xy = player->xy + xy_sub;
   } else {
     player->char_at_pos = char_at_new_xy;
-    isBattle(player);
+    isBattle(player, printable_map, x_map, y_map);
   }
 }
 
@@ -214,7 +219,14 @@ void changeMap(Player *player, int *x_map, int *y_map, int x_map_sub, int y_map_
   player->char_at_pos = char_at_new_xy;
 
   createPrintableMap(printable_map, map_structure, *player);
-  isBattle(player);
+  isBattle(player, printable_map, x_map, y_map);
+}
+
+void comeBackFirstMap(Player *player, char *printable_map,  int *x_map, int *y_map) {
+  char map_structure[MAP_SIZE];
+  *x_map = 0;
+  *y_map = 0;
+  changeMap(player, x_map, y_map, 0, 0, PLAYER_N, player->xy-PLAYER_START_POS, printable_map, map_structure);
 }
 
 /* Save the xy coordinate of an interactive object the player has taken to remember is was taken
@@ -229,6 +241,166 @@ void saveMapSpecificData(Player *player, int x_map, int y_map, int xy) {
   closeFile(save_file);
 }
 
+int getMapItemInPokeballID(int *x_map, int *y_map) {
+  FILE *map_items = openFile(MAPS_ITEMS_PATH, "r");
+  bool trouve = false;
+  int x = 100;
+  int y = 100;
+  int item_id = 0;
+  while (fscanf(map_items, "%d;%d", &x, &y) != EOF && !trouve) {
+    if (*x_map == x && *y_map == y) {
+      fscanf(map_items, " %d", &item_id);
+      trouve = true;
+    } else {
+      fscanf(map_items, "%*[^\n]\n");
+    }
+  }
+  closeFile(map_items);
+  return item_id;
+}
+
+void notifyItemFound(char *dialog_box, int item_id) {
+  switch (item_id) {
+    case 0:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Pokeball !", 31, dialog_box);break;
+    case 1:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Potion !", 29, dialog_box);break;
+    case 2:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Canne a peche !", 36, dialog_box);break;
+    case 3:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Cisaille !", 31, dialog_box);break;
+    case 4:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Pioche !", 29, dialog_box);break;
+    case 5:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Clef de Cristal !", 38, dialog_box);break;
+    case 6:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Clef d'Emeraude !", 38, dialog_box);break;
+    case 7:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Clef de Diamand !", 38, dialog_box);break;
+    case 8:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Clef X !", 29, dialog_box);break;
+    case 9:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Clef ?? !", 30, dialog_box);break;
+    case 10:addTextInDialogBox(FRST_LINE_START, "Vous avez trouve une Fragement de clef !", 40, dialog_box);break;
+  }
+}
+
+void manageItemFound(Player *player, char *dialog_box, int *x_map, int *y_map) {
+  int item_id = getMapItemInPokeballID(x_map, y_map);
+  //there are more than one pokeball in the 6;-1 map,
+  //so this set the content of others pokeballs to Pokeball
+  if (item_id == 5) {
+    if (possessBagItem(player, item_id) != -1) {
+      item_id = 0;
+    }
+  }
+  addBagItemPlayer(player, item_id, 1);
+  notifyItemFound(dialog_box, item_id);
+}
+
+void showDBYesNoMenu(char *dialog_box) {
+  addTextInDialogBox(DB_YES_POS-3, "-> Oui", 6, dialog_box);
+  addTextInDialogBox(DB_NO_POS, "Non", 3, dialog_box);
+}
+
+void setDBArrowYesNo(int *yes, char *dialog_box) {
+  int yes_pos = DB_YES_POS-3;
+  int no_pos = DB_NO_POS-3;
+  if (*yes == 1) {
+    int tmp = yes_pos;
+    yes_pos = no_pos;
+    no_pos = tmp;
+  }
+  addTextInDialogBox(yes_pos, "  ", 2, dialog_box);
+  addTextInDialogBox(no_pos, "->", 2, dialog_box);
+}
+
+void manageDBYesNoMenu(int *yes, char *printable_map, char *dialog_box) {
+  char key_pressed;
+  int key_pressed_status;
+  do {
+    key_pressed = getchar();
+    key_pressed_status = manageYesNoKeyPressed(key_pressed, yes);
+    if (key_pressed_status == 1) {
+      setDBArrowYesNo(yes, dialog_box);
+      clearAndPrintMap(printable_map, dialog_box);
+    }
+  } while(key_pressed_status != 0);//!= enter
+}
+
+void manageDestroy(Player *player, char *dialog_box, char *printable_map, char destroyed_object, int xy_ifo_player) {
+  int item_id = 4;
+  if (destroyed_object == CUTABLE_TREE) {
+    item_id = 3;
+  }
+  if (possessBagItem(player, item_id) != -1) {
+    showDBYesNoMenu(dialog_box);
+    if (destroyed_object == CUTABLE_TREE) {
+      addTextInDialogBox(FRST_LINE_START, "Cet arbre semble vieux et fragile", 33, dialog_box);
+      addTextInDialogBox(SCD_LINE_START, "Voulez-vous le couper avec votre Cisaille ?", 43, dialog_box);
+    } else {
+      addTextInDialogBox(FRST_LINE_START, "Ce rocher ne semble pas tres solide", 35, dialog_box);
+      addTextInDialogBox(SCD_LINE_START, "Voulez-vous le casser avec votre Pioche ?", 41, dialog_box);
+    }
+    clearAndPrintMap(printable_map, dialog_box);
+    int yes = 1;
+    manageDBYesNoMenu(&yes, printable_map, dialog_box);
+    eraseDialogBoxLines(dialog_box);
+    if (yes == 1) {
+      printable_map[xy_ifo_player] = ' ';
+    }
+  } else {
+    if (destroyed_object == CUTABLE_TREE) {
+      addTextInDialogBox(FRST_LINE_START, "Cet arbre semble vieux et fragile", 33, dialog_box);
+    } else {
+      addTextInDialogBox(FRST_LINE_START, "Ce rocher ne semble pas tres solide", 35, dialog_box);
+    }
+  }
+}
+
+void manageDoorOpenning(Player *player, char *dialog_box, char *printable_map) {
+  if (possessAllKeys(player)) {
+    showDBYesNoMenu(dialog_box);
+    addTextInDialogBox(FRST_LINE_START, "Cette enorme porte est fermee", 29, dialog_box);
+    addTextInDialogBox(SCD_LINE_START, "Voulez-vous l'ouvrir ?", 22, dialog_box);
+    clearAndPrintMap(printable_map, dialog_box);
+    int yes = 1;
+    manageDBYesNoMenu(&yes, printable_map, dialog_box);
+    eraseDialogBoxLines(dialog_box);
+    if (yes == 1) {
+      printable_map[TO_PRINTABLE_MAP1*MIDDLE_DOOR_POS+TO_PRINTABLE_MAP2] = ' ';
+    }
+  } else {
+    addTextInDialogBox(FRST_LINE_START, "Cette enorme porte est fermee mais possede 5 cerrures", 53, dialog_box);
+  }
+  clearAndPrintMap(printable_map, dialog_box);
+}
+
+void fishing(Player *player, char *printable_map, char *dialog_box, int *x_map, int *y_map) {
+  srand(time(NULL));
+  int r = rand()%100;
+  if (r < 5 && itemCount(player, 10) == 4) {
+    addBagItemPlayer(player, 10, 1);
+    addTextInDialogBox(FRST_LINE_START, "Enorme prise ! Vous recevez un Fragement de Clef !", 40, dialog_box);
+  } else if (r < 10) {
+    addBagItemPlayer(player, 0, 1);
+    addTextInDialogBox(FRST_LINE_START, "Cela a mordu ! Vous recevez une Pokeball !", 42, dialog_box);
+  } else if (r < 50) {
+    goForBattle(player, printable_map, x_map, y_map);
+  } else {
+    addTextInDialogBox(FRST_LINE_START, "Cela ne mord pas...", 19, dialog_box);
+  }
+  clearAndPrintMap(printable_map, dialog_box);
+}
+
+void manageFishing(Player *player, char *dialog_box, char *printable_map, int *x_map, int *y_map) {
+  if (possessBagItem(player, 2) != -1) {
+    showDBYesNoMenu(dialog_box);
+    addTextInDialogBox(FRST_LINE_START, "Cette eau est d'un bleu etincellant", 35, dialog_box);
+    addTextInDialogBox(SCD_LINE_START, "Voulez-vous pecher ?", 20, dialog_box);
+    clearAndPrintMap(printable_map, dialog_box);
+    int yes = 1;
+    manageDBYesNoMenu(&yes, printable_map, dialog_box);
+    eraseDialogBoxLines(dialog_box);
+    if (yes == 1) {
+      fishing(player, printable_map, dialog_box, x_map, y_map);
+    }
+  } else {
+    addTextInDialogBox(FRST_LINE_START, "Vous appercevez des silhouettes dans l'eau", 42, dialog_box);
+  }
+  clearAndPrintMap(printable_map, dialog_box);
+}
+
 /* Check if an interacion is possible
 * player : the player
 * printable_map : the printable map
@@ -238,17 +410,26 @@ void saveMapSpecificData(Player *player, int x_map, int y_map, int xy) {
 * return 2 to clear and print back the map, 0 to do nothing
 */
 int checkIfInteractionPossible(Player *player, char *printable_map, char *dialog_box, int *x_map, int *y_map) {
+  printable_map[TO_PRINTABLE_MAP1*player->xy+TO_PRINTABLE_MAP2] = player->pos;
   int interaction_found = 2;//clear and print
   int xy_ifo_player = getXYIfoPlayer(player);
   char char_ifo_player = printable_map[xy_ifo_player];
   if (char_ifo_player == POKEBALL) {
-    saveMapSpecificData(player, *x_map, *y_map, (xy_ifo_player-3)/2);
-    addBagItemPlayer(player, 0, 1);//pokeball
+    saveMapSpecificData(player, *x_map, *y_map, (xy_ifo_player-TO_PRINTABLE_MAP2)/2);
     printable_map[xy_ifo_player] = ' ';
-    addTextInDialogBox(FRST_LINE_START, POKEBALL_FOUND, POKEBALL_FOUND_LGTH, dialog_box);
+    manageItemFound(player, dialog_box, x_map, y_map);
+  } else if (char_ifo_player == STONE) {
+    manageDestroy(player, dialog_box, printable_map, char_ifo_player, xy_ifo_player);
+  } else if (char_ifo_player == CUTABLE_TREE) {
+    manageDestroy(player, dialog_box, printable_map, char_ifo_player, xy_ifo_player);
+  } else if (char_ifo_player == DOOR) {
+    manageDoorOpenning(player, dialog_box, printable_map);
+  } else if (char_ifo_player == WATER) {
+    manageFishing(player, dialog_box, printable_map, x_map, y_map);
   } else {
     interaction_found = 0;//do not clear and print
   }
+  printable_map[TO_PRINTABLE_MAP1*player->xy+TO_PRINTABLE_MAP2] = player->char_at_pos;
   return interaction_found;
 }
 
@@ -270,25 +451,25 @@ int manageKeyPressed(char key_pressed, Player *player, char *dialog_box, char *p
     if (player->xy > 0 && player->xy < LINE_SEPARATOR) {
       changeMap(player, x_map, y_map, 0, -1, PLAYER_N, -(11*LINE_SEPARATOR), printable_map, map_structure);
     } else {
-      movePlayer(player, PLAYER_N, LINE_SEPARATOR, printable_map, dialog_box);
+      movePlayer(player, PLAYER_N, LINE_SEPARATOR, printable_map, dialog_box, x_map, y_map);
     }
   } else if (key_pressed == MOVE_Q) {
     if (player->xy % LINE_SEPARATOR == 0) {
       changeMap(player, x_map, y_map, 1, 0, PLAYER_W, -(LINE_SEPARATOR-3), printable_map, map_structure);
     } else {
-      movePlayer(player, PLAYER_W, 1, printable_map, dialog_box);
+      movePlayer(player, PLAYER_W, 1, printable_map, dialog_box, x_map, y_map);
     }
   } else if (key_pressed == MOVE_S) {
     if (player->xy > (MAP_SIZE-LINE_SEPARATOR) && player->xy < MAP_SIZE) {
       changeMap(player, x_map, y_map, 0, 1, PLAYER_S, 11*LINE_SEPARATOR, printable_map, map_structure);
     } else {
-      movePlayer(player, PLAYER_S, -(LINE_SEPARATOR), printable_map, dialog_box);
+      movePlayer(player, PLAYER_S, -(LINE_SEPARATOR), printable_map, dialog_box, x_map, y_map);
     }
   } else if (key_pressed == MOVE_D) {
     if (player->xy % LINE_SEPARATOR == 12) {
       changeMap(player, x_map, y_map, -1, 0, PLAYER_E, LINE_SEPARATOR-3, printable_map, map_structure);
     } else {
-      movePlayer(player, PLAYER_E, -1, printable_map, dialog_box);
+      movePlayer(player, PLAYER_E, -1, printable_map, dialog_box, x_map, y_map);
     }
   } else if (key_pressed == 13) {
     key_status = checkIfInteractionPossible(player, printable_map, dialog_box, x_map, y_map);//2 -> interaction found / 0 otherwise

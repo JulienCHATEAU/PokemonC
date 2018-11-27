@@ -70,4 +70,6 @@ void *playTurn(void *p);
 void ailmentTextAnimation(Pokemon *skill_user, Pokemon *target, bool swapped_xor_frst, char *battle_pane, char *frst_ailment_text, int frst_ailment_text_length, char *scd_ailment_text, int scd_ailment_text_length);
 bool manageFirstAilment(Pokemon *skill_user, Pokemon *target, bool swapped_xor_frst, char *battle_pane);
 bool manageAllAilments(Pokemon *skill_user, Pokemon *target, bool swapped_xor_frst, char *battle_pane);
+int manageYesNoKeyPressed(char key_pressed, int *yes);
+
 #endif

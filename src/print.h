@@ -10,9 +10,6 @@
 #define DIALOG_BOX_LINE_COUNT 6
 #define DIALOG_BOX_LINE 63
 
-#define POKEBALL_FOUND "Vous avez trouve une Pokeball !"
-#define POKEBALL_FOUND_LGTH 31
-
 #define HEAL_TEXT "Vos Pokemons sont en pleine forme"
 #define HEAL_TEXT_LGTH 33
 

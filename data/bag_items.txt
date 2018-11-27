@@ -1,2 +1,11 @@
 8|Pokeball|42|Une pokeball permet de capturer un pokemon|0
 6|Potion|48|Une potion redonne 20 points de vie a un pokemon|2
+13|Canne a peche|77|Avec cette canne a peche vous pourrez pecher dans n'importe quel plan d'eau !|1
+8|Cisaille|59|Cette cisaille peut sans probleme couper de petits arbustes|1
+6|Pioche|73|Un rocher vous derange ? Utiliser cette pioche pour vous en debarrasser !|1
+15|Clef de Cristal|55|Cette clef ornee d'un cristal porte l'inscription : GBc|3
+15|Clef d'Emeraude|65|Cette clef ornee de plusieurs emeraudes porte l'inscription : GBa|3
+15|Clef de Diamand|47|Cette clef en diamand porte l'inscription : DSl|3
+6|Clef X|50|Cette clef en forme de X porte l'inscription : 3DS|3
+7|Clef ??|78|Cette clef est d'une forme extremement bizarre et porte l'inscription : Switch|3
+17|Fragement de clef|66|Le fragment d'une clef cassée pouvant sans doute etre reconstituee|3

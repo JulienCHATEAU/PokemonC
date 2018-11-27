@@ -100,6 +100,7 @@ typedef enum {
   IN_BATTLE,//0
   OUT_BATTLE,//1
   IN_N_OUT_BATTLE,//2
+  NOWHERE,//3
 } ItemUse;
 
 typedef struct {

@@ -110,7 +110,6 @@ void eraseDialogBoxLines(char *dialog_box) {
 * dialog_box : the dialog box
 */
 void addTextInDialogBox(int xy_start, char *text, int text_length, char *dialog_box) {
-  eraseDialogBoxLines(dialog_box);
   if (text_length <= TEXT_MAX_LENGTH) {
     addStringToArray(text, text_length, xy_start, dialog_box);
   }

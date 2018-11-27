@@ -700,9 +700,6 @@ void *playTurn(void *p) {
           player->pkmns[i].stats.hp = 1;
         }
         player->money -= 300 + enemy->lvl + rand()%21;
-        if (player->money < 0) {
-          player->money = 0;
-        }
       }
     }
   }
