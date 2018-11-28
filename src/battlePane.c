@@ -542,11 +542,11 @@ void playOnlyEnemyTurn(MenuArrow *arrow, char *battle_pane, Player *player, Poke
 * enemy : the enemy pokemon
 * return 1 if the battle is finished, 0 to come back to main menu
 */
-int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemon *enemy) {
+int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemon *enemy, bool flee_possible) {
   int stop = 0;
   if (*arrow == FUITE) {
     srand(time(NULL));
-    if (rand()%100 < 25) {
+    if (rand()%100 < 25 || !flee_possible) {
       addInfoText(CANT_FLY, CANT_FLY_LENGTH, " ", 1, battle_pane);
       clearAndPrintBattlePane(battle_pane);
       waitNMs(WAIT_BETWEEN_ANIM);
@@ -564,7 +564,7 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemo
     if (action == 3) {//if the pokemon in the battle was swapped
       playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
     }
-  } else if (*arrow == SAC) {
+  } else if (*arrow == SAC && !flee_possible) {
     int used_item_id = manageBagMenu(player, 0);
     if (used_item_id == 0 && player->pkmn_count < 6) {//if pokeball used
       removeArrow((int)*arrow, battle_pane);
@@ -595,7 +595,7 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemo
 * enemy : the enemy pokemon
 * return 1 if the battle is finished, 0 to come back to main menu, 2 to do nothing
 */
-int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow, char *battle_pane, Player *player, Pokemon *enemy) {
+int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow, char *battle_pane, Player *player, Pokemon *enemy, bool flee_possible) {
   int stop = 0;
   if (key_pressed == MOVE_Z) {
     removeArrow((int)*arrow, battle_pane);
@@ -630,7 +630,7 @@ int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow, char *battle_
     }
     addArrow((int)*arrow, battle_pane);
   } else if (key_pressed == ENTER) {
-    stop = manageMenuChoice(arrow, battle_pane, player, enemy);
+    stop = manageMenuChoice(arrow, battle_pane, player, enemy, flee_possible);
   } else if (key_pressed == 'e') {
     stop = 2;//does nothing
     // exit(0);
@@ -643,7 +643,7 @@ int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow, char *battle_
 /* Manages the battle
 * player : the player
 */
-void battle(Player *player) {
+void battle(Player *player, int *x_map, int *y_map) {
   char battle_pane[BATTLE_PANE_LGTH];
   loadBattlePane(battle_pane);
   char *random_name;
@@ -654,9 +654,12 @@ void battle(Player *player) {
   int average_pkmns_level = getAverageLevel(player);
   int key_count = getKeyCount(player);
   int enemy_lvl = ((rand()%2))+average_pkmns_level+key_count;
+  if (*x_map == 2 && *y_map == -3) {//trapped pokeball
+    enemy_lvl = getMaxLevel(player) + 5;
+  }
   setPokemonLvl(&enemy, enemy_lvl);
   refreshBattlePane(player->pkmns[0], enemy, battle_pane);
-  printAndManageBattlePane(battle_pane, player, &enemy);
+  printAndManageBattlePane(battle_pane, player, &enemy, !(*x_map==2 && *y_map==-3));
   freePokemon(enemy);
 }
 
@@ -666,7 +669,7 @@ void battle(Player *player) {
 * player : the player
 * enemy : the enemy pokemon
 */
-void printAndManageBattlePane(char *battle_pane, Player *player, Pokemon *enemy) {
+void printAndManageBattlePane(char *battle_pane, Player *player, Pokemon *enemy, bool flee_possible) {
   clearAndPrintBattlePane(battle_pane);
   MenuArrow arrow = ATTAQUES;
   MenuArrow arrow_temp = arrow;
@@ -675,23 +678,26 @@ void printAndManageBattlePane(char *battle_pane, Player *player, Pokemon *enemy)
   while (stop != 1) {
     key_pressed = getchar();
     arrow_temp = arrow;
-    stop = manageBattleMenuKeyPressed(key_pressed, &arrow, battle_pane, player, enemy);
+    stop = manageBattleMenuKeyPressed(key_pressed, &arrow, battle_pane, player, enemy, flee_possible);
     if (stop != 2 && arrow_temp != arrow) {
       clearAndPrintBattlePane(battle_pane);
     }
   }
 }
 
-void goForBattle(Player *player, char *printable_map, int *x_map, int *y_map) {
+bool goForBattle(Player *player, char *printable_map, int *x_map, int *y_map) {
+  bool lost = false;
   int money_temp = player->money;
-  battle(player);
+  battle(player, x_map, y_map);
   resetPlayerPkmnsStatsAfterBattle(player);
   if (player->money < money_temp) {
     comeBackFirstMap(player, printable_map, x_map, y_map);
     if (player->money < 0) {
       player->money = 0;
     }
+    lost = true;
   }
+  return lost;
 }
 
 /* Checks if the player triggered a battle

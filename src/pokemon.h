@@ -27,6 +27,7 @@ int getCurrentExperienceStage(Pokemon pkmn);
 void upLevel(Pokemon *pkmn);
 int getAverageLevel(Player *player);
 int getKeyCount(Player *player);
+int getMaxLevel(Player *player);
 int gainExperience(Pokemon *winner, Pokemon *loser);
 void addAilment(Pokemon *pkmn, AilmentEnum ailment);
 void removeFirstAilment(Pokemon *pkmn);

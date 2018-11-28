@@ -84,11 +84,11 @@ void placeTwoSkills(Player *player, char *battle_pane, int i, int *cursor_first_
 void changeMenuToSkillMenu(Player *player, char *battle_pane, int arrows_xys[]);
 void setMenuBack(char *battle_pane, int *arrows_xys, MenuArrow arrow);
 int manageSkillMenuKeyPressed(int *targetted_skill, int key_pressed, int arrows_xys[], char *battle_pane, Player *player, Pokemon *enemy, int state);
-int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemon *enemy);
-int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow, char *battle_pane, Player *player, Pokemon *enemy);
-void battle(Player *player);
-void printAndManageBattlePane(char *battle_pane, Player *player, Pokemon *enemy);
-void goForBattle(Player *player, char *printable_map, int *x_map, int *y_map);
+int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemon *enemy, bool flee_possible);
+int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow, char *battle_pane, Player *player, Pokemon *enemy, bool flee_possible);
+void battle(Player *player, int *x_map, int *y_map);
+void printAndManageBattlePane(char *battle_pane, Player *player, Pokemon *enemy, bool flee_possible);
+bool goForBattle(Player *player, char *printable_map, int *x_map, int *y_map);
 void isBattle(Player *player, char *printable_map, int *x_map, int *y_map);
 void addAilments(Pokemon pkmn, char *battle_pane, int pos, bool left_erase);
 

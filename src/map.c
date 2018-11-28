@@ -415,9 +415,23 @@ int checkIfInteractionPossible(Player *player, char *printable_map, char *dialog
   int xy_ifo_player = getXYIfoPlayer(player);
   char char_ifo_player = printable_map[xy_ifo_player];
   if (char_ifo_player == POKEBALL) {
-    saveMapSpecificData(player, *x_map, *y_map, (xy_ifo_player-TO_PRINTABLE_MAP2)/2);
-    printable_map[xy_ifo_player] = ' ';
-    manageItemFound(player, dialog_box, x_map, y_map);
+    if (*x_map == 2 && *y_map == -3) {//trapped pokeball
+      bool lost = goForBattle(player, printable_map, x_map, y_map);
+      if (!lost) {
+        addTextInDialogBox(FRST_LINE_START, "Le Pokemon s'enfuit en laissant une clef par terre.", 51, dialog_box);
+        addTextInDialogBox(SCD_LINE_START, "Bravo, vous avez obtenu une Clef de Diamand !", 45, dialog_box);
+        addBagItemPlayer(player, 7, 1);
+        clearAndPrintMap(printable_map, dialog_box);
+        saveMapSpecificData(player, *x_map, *y_map, (xy_ifo_player-TO_PRINTABLE_MAP2)/2);
+        printable_map[xy_ifo_player] = ' ';
+      } else {
+        eraseDialogBoxLines(dialog_box);
+      }
+    } else {
+      saveMapSpecificData(player, *x_map, *y_map, (xy_ifo_player-TO_PRINTABLE_MAP2)/2);
+      printable_map[xy_ifo_player] = ' ';
+      manageItemFound(player, dialog_box, x_map, y_map);
+    }
   } else if (char_ifo_player == STONE) {
     manageDestroy(player, dialog_box, printable_map, char_ifo_player, xy_ifo_player);
   } else if (char_ifo_player == CUTABLE_TREE) {

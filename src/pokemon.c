@@ -208,6 +208,16 @@ void resetPlayerPkmnsStatsAfterBattle(Player *player) {
   }
 }
 
+int getMaxLevel(Player *player) {
+  double max = 0;
+  for (int i = 0; i < player->pkmn_count; i++) {
+    if (player->pkmns[i].lvl > max) {
+      max = player->pkmns[i].lvl;
+    }
+  }
+  return max;
+}
+
 int getAverageLevel(Player *player) {
   double sum = 0;
   for (int i = 0; i < player->pkmn_count; i++) {
