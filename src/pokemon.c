@@ -1,5 +1,6 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <math.h>
 #include <termios.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -207,6 +208,25 @@ void resetPlayerPkmnsStatsAfterBattle(Player *player) {
   }
 }
 
+int getAverageLevel(Player *player) {
+  double sum = 0;
+  for (int i = 0; i < player->pkmn_count; i++) {
+    sum += (double) player->pkmns[i].lvl;
+  }
+  double average = sum / (double)player->pkmn_count;
+  return round(average);
+}
+
+int getKeyCount(Player *player) {
+  double key_count = 0;
+  for (int i = 0; i < player->bag_item_count; i++) {
+    if (player->bag[i].id >= 5 && player->bag[i].id <= 9) {
+      key_count++;
+    }
+  }
+  return key_count;
+}
+
 /* Gets the index of the skill in the Pokemon skill array structure comparing the skills name
 * pkmn : the pokemon
 * skill_name : the skill name
@@ -318,6 +338,7 @@ void typeEnumToString(Type type, char *type_string) {
     case DRAGON: setStringToTab(type_string, "DRAGON");break;
     case DARK: setStringToTab(type_string, "TENEBRE");break;
     case FAIRY: setStringToTab(type_string, "FEE");break;
+    default:printf("FAIL\n");break;
   }
 }
 

@@ -424,7 +424,7 @@ int checkIfInteractionPossible(Player *player, char *printable_map, char *dialog
     manageDestroy(player, dialog_box, printable_map, char_ifo_player, xy_ifo_player);
   } else if (char_ifo_player == DOOR) {
     manageDoorOpenning(player, dialog_box, printable_map);
-  } else if (char_ifo_player == WATER) {
+  } else if (char_ifo_player == WATER_) {
     manageFishing(player, dialog_box, printable_map, x_map, y_map);
   } else {
     interaction_found = 0;//do not clear and print

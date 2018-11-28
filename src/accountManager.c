@@ -117,7 +117,9 @@ int manageConnexionKeyPressed(char *pseudo, char *password, char key_pressed) {
     int exist = addAccount(pseudo, password);
     if (exist == 0) {
       printf("\n  Création du compte réussi !\n");
-      Player player = createPlayer(pseudo, PLAYER_START_POS, '^', "Pikachu");
+      char *random_name;
+      getRandomPokemonName(&random_name);
+      Player player = createPlayer(pseudo, PLAYER_START_POS, '^', random_name);
       savePlayerData(0, 0, &player);
       printf("\n\n\n  ");
       key_pressed_status = 0;

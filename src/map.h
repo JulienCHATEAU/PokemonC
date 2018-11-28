@@ -19,7 +19,7 @@
 #define HEAL '#'
 #define TREE '@'
 #define POKEBALL 'o'
-#define WATER '~'
+#define WATER_ '~'
 #define MAP_SIZE 178
 #define TO_PRINTABLE_MAP1 2
 #define TO_PRINTABLE_MAP2 2

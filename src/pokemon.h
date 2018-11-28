@@ -25,6 +25,8 @@ void getTypesString(Pokemon pkmn, char *type_string);
 void swapPokemon(Player *player, int src, int dest);
 int getCurrentExperienceStage(Pokemon pkmn);
 void upLevel(Pokemon *pkmn);
+int getAverageLevel(Player *player);
+int getKeyCount(Player *player);
 int gainExperience(Pokemon *winner, Pokemon *loser);
 void addAilment(Pokemon *pkmn, AilmentEnum ailment);
 void removeFirstAilment(Pokemon *pkmn);

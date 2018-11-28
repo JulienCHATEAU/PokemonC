@@ -477,7 +477,7 @@ int switchThenManageSkillMenu(Player *player, char *battle_pane, Pokemon *enemy,
 }
 
 bool isCatchSuccessful(Player *player, Pokemon *enemy) {
-  int catch_percentage = 70;
+  int catch_percentage = 40;
   catch_percentage += player->pkmns[0].stats.hp/20+10;
   if (enemy->crt_ailments[0] == POISONING || enemy->crt_ailments[0] == BURN || enemy->crt_ailments[0] == PARALYSIS) {
     catch_percentage += 6;
@@ -651,8 +651,10 @@ void battle(Player *player) {
   Pokemon enemy = fillPokemon(random_name);
   free(random_name);
   srand(time(NULL));
-  int random_sub = (rand()%4)+1;
-  setPokemonLvl(&enemy, player->pkmns[0].lvl-random_sub);
+  int average_pkmns_level = getAverageLevel(player);
+  int key_count = getKeyCount(player);
+  int enemy_lvl = ((rand()%2))+average_pkmns_level+key_count;
+  setPokemonLvl(&enemy, enemy_lvl);
   refreshBattlePane(player->pkmns[0], enemy, battle_pane);
   printAndManageBattlePane(battle_pane, player, &enemy);
   freePokemon(enemy);
