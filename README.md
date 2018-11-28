@@ -6,8 +6,8 @@ _Ce document est à lire attentivement et vous permettra de comprendre le foncti
 
 ## Prérequis
 
-Ce jeu est uniquement jouable sur Linux
-Vous devez être en possession du compilateur C : gcc (`sudo apt-get install gcc`)
+- Ce jeu est uniquement jouable sur Linux
+- Vous devez être en possession du compilateur C : gcc (`sudo apt-get install gcc`)
 
 ## L'initialisation et le lancement du jeu
 
@@ -19,7 +19,4 @@ Pour installer le jeu, placer vous dans le répertoire de votre choix et effectu
 
 Pour lancer le jeu effectuez la commande :
 
-1. `make play`
-
-
-## NOW ENJOY
+- `make play`
