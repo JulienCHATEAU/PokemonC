@@ -564,7 +564,7 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemo
     if (action == 3) {//if the pokemon in the battle was swapped
       playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
     }
-  } else if (*arrow == SAC && !flee_possible) {
+  } else if (*arrow == SAC && flee_possible) {
     int used_item_id = manageBagMenu(player, 0);
     if (used_item_id == 0 && player->pkmn_count < 6) {//if pokeball used
       removeArrow((int)*arrow, battle_pane);
