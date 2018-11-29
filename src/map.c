@@ -150,7 +150,7 @@ bool isObstacle(char char_at_new_xy) {
   obstacles[1] = POKEBALL;
   obstacles[2] = CUTABLE_TREE;
   obstacles[3] = STONE;
-  obstacles[4] = WATER;
+  obstacles[4] = WATER_;
   obstacles[5] = PILAR;
   obstacles[6] = DOOR_LEFT_PILAR;
   obstacles[7] = DOOR_RIGHT_PILAR;
