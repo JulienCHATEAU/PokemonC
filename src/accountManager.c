@@ -149,7 +149,7 @@ int addAccount(char *pseudo, char *password) {
   int exist = 0;
   if (!pseudoPasswordExists(pseudo, password, PSEUDO)) {
     if (!pseudoPasswordExists(pseudo, password, PASSWORD)) {
-      FILE *accounts = openFile(ACCOUNTS_FILE_PATH, "a+");
+      FILE *accounts = openFile(ACCOUNTS_FILE_PATH, "a");
       fprintf(accounts, "%s %s\n", pseudo, password);
       char new_file_path[100];
       sprintf(new_file_path, "save/%s.txt", pseudo);
@@ -174,7 +174,7 @@ int pseudoPasswordExists(char *pseudo, char *password, Check mode) {
   int pseudo_exists = 0;
   int password_exists = 0;
   int stop = 0;
-  FILE *accounts = openFile(ACCOUNTS_FILE_PATH, "r+");
+  FILE *accounts = openFile(ACCOUNTS_FILE_PATH, "r");
   char crt_pseudo[PSEUDO_MAX_LENGTH];
   char crt_password[PASSWORD_MAX_LENGTH];
   while (fscanf(accounts, "%s %s\n", crt_pseudo, crt_password) != EOF && !stop) {
