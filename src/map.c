@@ -371,7 +371,7 @@ void fishing(Player *player, char *printable_map, char *dialog_box, int *x_map, 
   int r = rand()%100;
   if (r < 5 && itemCount(player, 10) == 4) {
     addBagItemPlayer(player, 10, 1);
-    addTextInDialogBox(FRST_LINE_START, "Enorme prise ! Vous recevez un Fragement de Clef !", 40, dialog_box);
+    addTextInDialogBox(FRST_LINE_START, "Enorme prise ! Vous recevez un Fragement de Clef !", 50, dialog_box);
   } else if (r < 10) {
     addBagItemPlayer(player, 0, 1);
     addTextInDialogBox(FRST_LINE_START, "Cela a mordu ! Vous recevez une Pokeball !", 42, dialog_box);
