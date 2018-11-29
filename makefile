@@ -1,6 +1,8 @@
 main:
 	@ echo "Création du dossier binaire"
 	@ mkdir -p bin
+	@ echo "Création du dossier de sauvegarde"
+	@ mkdir -p save
 	@ echo "Compilation des fichiers sources..."
 	@ gcc -O0 -g -o bin/main src/*.c -lm -lpthread
 	@ echo "\n"
