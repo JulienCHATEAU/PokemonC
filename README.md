@@ -32,3 +32,4 @@ Pour lancer le jeu effectuez la commande :
 - D : Mouvement vers le bas
 - Space : Menu start
 - Enter : Valider / Intéragir
+- Return : Annuler un action
