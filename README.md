@@ -33,3 +33,5 @@ Pour lancer le jeu effectuez la commande :
 - Space : Menu start
 - Enter : Valider / Intéragir
 - Return : Annuler un action
+
+*PS : Si vous remarquez quelque chose semblant être erroné n'hésitez pas à me contacter, je me ferai un plaisir de le corriger steamygamecontact@gmail.com*
