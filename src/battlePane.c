@@ -176,7 +176,7 @@ void addInfoText(char *top_text, int top_text_length, char *bot_text, int bot_te
 * pos : the xy coordinate where to start writting the pokemon name
 */
 void addPokemonName(Pokemon pkmn, char *battle_pane, int pos) {
-  eraseArrayLine(pos+15, battle_pane, 20);
+  eraseArrayLine(pos+20, battle_pane, 25);
   int lvl_string_length = 6+nDigits(pkmn.lvl);
   int name_n_lvl_length = lvl_string_length+pkmn.name_length;
   char *name_n_lvl = malloc(sizeof(char)*name_n_lvl_length);
@@ -565,13 +565,15 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemo
       playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
     }
   } else if (*arrow == SAC && flee_possible) {
-    int used_item_id = manageBagMenu(player, 0);
-    if (used_item_id == 0 && player->pkmn_count < 6) {//if pokeball used
-      removeArrow((int)*arrow, battle_pane);
+    int used_item_index = manageBagMenu(player, 0);
+    int used_item_id = -1;
+    if (used_item_index != -1) {
+      used_item_id = player->bag[used_item_index].id;
     }
     clearAndPrintBattlePane(battle_pane);
     if (used_item_id == 0) {//if pokeball used
       if (player->pkmn_count < 6) {
+        removeArrow((int)*arrow, battle_pane);
         stop = catchPokemon(battle_pane, player, enemy);
         if (stop == 0) {//if catch failed
           playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
