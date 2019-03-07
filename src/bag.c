@@ -112,8 +112,11 @@ void addBagItemPlayer(Player *player, int id, int count) {
 void removeItem(Player *player, int item_index, int count) {
   player->bag[item_index].count -= count;
   if (player->bag[item_index].count <= 0) {
-    player->bag[item_index].count = 0;
-    player->bag[item_index].id = -1;
+    // player->bag[item_index].count = 0;
+    // player->bag[item_index].id = -1;
+    for (int i = item_index; i < player->bag_item_count-1; i++) {
+        player->bag[item_index] = player->bag[item_index+1];
+    }
     player->bag_item_count--;
   }
 }
