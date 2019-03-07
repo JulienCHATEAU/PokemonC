@@ -361,7 +361,7 @@ void manageDoorOpenning(Player *player, char *dialog_box, char *printable_map) {
       printable_map[TO_PRINTABLE_MAP1*MIDDLE_DOOR_POS+TO_PRINTABLE_MAP2] = ' ';
     }
   } else {
-    addTextInDialogBox(FRST_LINE_START, "Cette enorme porte est fermee mais possede 5 cerrures", 53, dialog_box);
+    addTextInDialogBox(FRST_LINE_START, "Cette enorme porte est fermee mais possede 5 serrures", 53, dialog_box);
   }
   clearAndPrintMap(printable_map, dialog_box);
 }

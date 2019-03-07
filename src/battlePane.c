@@ -564,26 +564,37 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemo
     if (action == 3) {//if the pokemon in the battle was swapped
       playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
     }
-  } else if (*arrow == SAC && flee_possible) {
-    int used_item_index = manageBagMenu(player, 0);
-    int used_item_id = -1;
-    if (used_item_index != -1) {
-      used_item_id = player->bag[used_item_index].id;
-    }
-    clearAndPrintBattlePane(battle_pane);
-    if (used_item_id == 0) {//if pokeball used
-      if (player->pkmn_count < 6) {
-        removeArrow((int)*arrow, battle_pane);
-        stop = catchPokemon(battle_pane, player, enemy);
-        if (stop == 0) {//if catch failed
-          playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
-        }
-      } else {
-        addInfoText(TO_MUCH_POKEMON1, TO_MUCH_POKEMON1_LENGTH, TO_MUCH_POKEMON2, TO_MUCH_POKEMON2_LENGTH, battle_pane);
-        clearAndPrintBattlePane(battle_pane);
-        waitNMs(WAIT_BETWEEN_ANIM);
-        eraseInfoText(battle_pane);
+  } else if (*arrow == SAC) {
+    if (flee_possible) {
+      int used_item_index = manageBagMenu(player, 0);
+      int used_item_id = -1;
+      if (used_item_index != -1) {
+        used_item_id = player->bag[used_item_index].id;
       }
+      clearAndPrintBattlePane(battle_pane);
+      if (used_item_id == 0) {//if pokeball used
+        if (player->pkmn_count < 6) {
+          removeArrow((int)*arrow, battle_pane);
+          stop = catchPokemon(battle_pane, player, enemy);
+          if (stop == 0) {//if catch failed
+            playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
+          }
+        } else {
+          addInfoText(TO_MUCH_POKEMON1, TO_MUCH_POKEMON1_LENGTH, TO_MUCH_POKEMON2, TO_MUCH_POKEMON2_LENGTH, battle_pane);
+          clearAndPrintBattlePane(battle_pane);
+          waitNMs(WAIT_BETWEEN_ANIM);
+          eraseInfoText(battle_pane);
+        }
+      }
+    } else {
+      int cant_use_bag_length = 28;
+      char *cant_use_bag_string = malloc(sizeof(char)*cant_use_bag_length+1);
+      sprintf(cant_use_bag_string, "Impossible d'utiliser le sac");
+      addInfoText(cant_use_bag_string, cant_use_bag_length, " ", 1, battle_pane);
+      clearAndPrintBattlePane(battle_pane);
+      waitNMs(WAIT_BETWEEN_ANIM);
+      eraseInfoText(battle_pane);
+      free(cant_use_bag_string);
     }
   }
   return stop;
@@ -661,7 +672,7 @@ void battle(Player *player, int *x_map, int *y_map) {
   }
   setPokemonLvl(&enemy, enemy_lvl);
   refreshBattlePane(player->pkmns[0], enemy, battle_pane);
-  printAndManageBattlePane(battle_pane, player, &enemy, !(*x_map==2 && *y_map==-3));
+  printAndManageBattlePane(battle_pane, player, &enemy, !(*x_map==2 && *y_map==-3));//x_map==2 && y_map==-3 --> mini-boss map
   freePokemon(enemy);
 }
 
