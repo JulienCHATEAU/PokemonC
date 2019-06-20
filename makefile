@@ -9,6 +9,8 @@ main:
 	@ gcc -O0 -g -o bin/main src/*.c -lm -lpthread
 	@ echo "\n"
 	@ echo "C'est prêt !"
+	@ echo "\n"
+	@ echo "Pour lancer le jeu, tapez la commande : 'make play'"
 
 play:
 	@ echo "Lancement du jeu..."
