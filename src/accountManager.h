@@ -1,14 +1,13 @@
 #ifndef ACCOUNTMANAGER_H
 #define ACCOUNTMANAGER_H
 
+#include "typedef.h"
+#include <stdio.h>
+
 #define PSEUDO_MAX_LENGTH 50
 #define PASSWORD_MAX_LENGTH 40
 
-typedef enum {
-  PSEUDO,
-  PASSWORD,
-  BOTH
-} Check;
+typedef enum { PSEUDO, PASSWORD, BOTH } Check;
 
 void manageConnexionMenu(char *pseudo);
 int isPseudoValid(char *pseudo, int max_length);

@@ -1,4 +1,6 @@
+#include "typedef.h"
 #include <stdbool.h>
+#include <stdio.h>
 
 #ifndef BATTLE_PANE_H
 #define BATTLE_PANE_H
@@ -39,7 +41,7 @@
 #define LEFT_SHIFT 3
 
 #define MENU_ARROW_LGTH 2
-#define HLTH_BAR_LGTH 24 //counting '{' and '}'
+#define HLTH_BAR_LGTH 24 // counting '{' and '}'
 #define BATTLE_LINE_LGTH 67
 #define BATTLE_PANE_LGTH 1240
 
@@ -64,7 +66,8 @@ typedef struct {
 
 void createThreadNW8(void *function, void *function_params);
 void eraseInfoText();
-int switchThenManageSkillMenu(Player *player, char *battle_pane, Pokemon *enemy, Skill *new_skill, int state);
+int switchThenManageSkillMenu(Player *player, char *battle_pane, Pokemon *enemy,
+                              Skill *new_skill, int state);
 void setArrowYesNo(char *battle_pane, int yes);
 void showYesNoMenu(char *battle_pane);
 int nDigits(unsigned int n);
@@ -72,22 +75,33 @@ bool hasAnyAlivePokemon(Player *player);
 void clearAndPrintBattlePane(char *battle_pane);
 void printBattlePane(char *battle_pane);
 void loadBattlePane(char *battle_pane);
-void addInfoText(char *top_text, int top_text_length, char *bot_text, int bot_text_length, char *battle_pane);
+void addInfoText(char *top_text, int top_text_length, char *bot_text,
+                 int bot_text_length, char *battle_pane);
 void createHealthBar(char *health_bar, Pokemon pkmn);
 void addPokemonName(Pokemon pkmn, char *battle_pane, int pos);
 void addPokemonHealthBar(Pokemon pkmn, char *battle_pane, int pos);
 void addPokemonHpPoint(Pokemon pkmn, char *battle_pane, int pos);
 void eraseArrayLine(int pos, char *battle_pane, int space_count);
 void refreshBattlePane(Pokemon player, Pokemon enemy, char *battle_pane);
-void compareAndPlaceSkills(int *cursor_first_skills_line, int *cursor_second_skills_line, int i, Player *player, char *battle_pane);
-void placeTwoSkills(Player *player, char *battle_pane, int i, int *cursor_first_skills_line, int *cursor_second_skills_line, int arrows_xys[]);
+void compareAndPlaceSkills(int *cursor_first_skills_line,
+                           int *cursor_second_skills_line, int i,
+                           Player *player, char *battle_pane);
+void placeTwoSkills(Player *player, char *battle_pane, int i,
+                    int *cursor_first_skills_line,
+                    int *cursor_second_skills_line, int arrows_xys[]);
 void changeMenuToSkillMenu(Player *player, char *battle_pane, int arrows_xys[]);
 void setMenuBack(char *battle_pane, int *arrows_xys, MenuArrow arrow);
-int manageSkillMenuKeyPressed(int *targetted_skill, int key_pressed, int arrows_xys[], char *battle_pane, Player *player, Pokemon *enemy, int state);
-int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemon *enemy, bool flee_possible);
-int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow, char *battle_pane, Player *player, Pokemon *enemy, bool flee_possible);
+int manageSkillMenuKeyPressed(int *targetted_skill, int key_pressed,
+                              int arrows_xys[], char *battle_pane,
+                              Player *player, Pokemon *enemy, int state);
+int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player,
+                     Pokemon *enemy, bool flee_possible);
+int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow,
+                               char *battle_pane, Player *player,
+                               Pokemon *enemy, bool flee_possible);
 void battle(Player *player, int *x_map, int *y_map);
-void printAndManageBattlePane(char *battle_pane, Player *player, Pokemon *enemy, bool flee_possible);
+void printAndManageBattlePane(char *battle_pane, Player *player, Pokemon *enemy,
+                              bool flee_possible);
 bool goForBattle(Player *player, char *printable_map, int *x_map, int *y_map);
 void isBattle(Player *player, char *printable_map, int *x_map, int *y_map);
 void addAilments(Pokemon pkmn, char *battle_pane, int pos, bool left_erase);

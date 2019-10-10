@@ -1,5 +1,5 @@
-#include <stdbool.h>
 #include "battlePane.h"
+#include <stdbool.h>
 
 #ifndef BATTLE_H
 #define BATTLE_H
@@ -9,7 +9,7 @@
 #define WAIT_BETWEEN_ANIM 1300
 
 #define TYPES_TABLE_PATH "data/typesTable.txt"
-#define TYPES_TABLE_LGTH TYPE_COUNT*TYPE_COUNT
+#define TYPES_TABLE_LGTH TYPE_COUNT *TYPE_COUNT
 
 #define MISS_STRING " rate son attaque !"
 #define MISS_STRING_LENGTH 19
@@ -54,22 +54,29 @@
 #define CONFUSION3_TEXT "il se blesse dans sa confusion"
 #define CONFUSION3_TEXT_LENGTH 30
 
-
-
-
 void swapPokemonPointerContent(Pokemon *p1, Pokemon *p2);
 void swapIntPointerContent(int *p1, int *p2);
-bool chosePlayOrder(Pokemon *frst_to_play, Pokemon *scd_to_play, int *frst_player_skill, int *scd_player_skill);
-int hpCountLost(Pokemon *skill_user, Pokemon *target, Skill skill, bool crit, double weakness);
-void manageFirstTextAnimation(Pokemon *skill_user, int chosen_skill, char *battle_pane);
+bool chosePlayOrder(Pokemon *frst_to_play, Pokemon *scd_to_play,
+                    int *frst_player_skill, int *scd_player_skill);
+int hpCountLost(Pokemon *skill_user, Pokemon *target, Skill skill, bool crit,
+                double weakness);
+void manageFirstTextAnimation(Pokemon *skill_user, int chosen_skill,
+                              char *battle_pane);
 bool manageSecondTextAnimation(char *battle_pane, bool crit, double weakness);
-bool useSkill(Pokemon *skill_user, Pokemon *target, int chosen_skill, char *battle_pane, bool swapped_xor_frst);
+bool useSkill(Pokemon *skill_user, Pokemon *target, int chosen_skill,
+              char *battle_pane, bool swapped_xor_frst);
 bool isAnyKoPokemon(Pokemon *p1, Pokemon *p2);
-bool playOnePokemonTurn(Pokemon *skill_user, Pokemon *target, int chosen_skill, bool swapped, char *battle_pane);
+bool playOnePokemonTurn(Pokemon *skill_user, Pokemon *target, int chosen_skill,
+                        bool swapped, char *battle_pane);
 void *playTurn(void *p);
-void ailmentTextAnimation(Pokemon *skill_user, Pokemon *target, bool swapped_xor_frst, char *battle_pane, char *frst_ailment_text, int frst_ailment_text_length, char *scd_ailment_text, int scd_ailment_text_length);
-bool manageFirstAilment(Pokemon *skill_user, Pokemon *target, bool swapped_xor_frst, char *battle_pane);
-bool manageAllAilments(Pokemon *skill_user, Pokemon *target, bool swapped_xor_frst, char *battle_pane);
+void ailmentTextAnimation(Pokemon *skill_user, Pokemon *target,
+                          bool swapped_xor_frst, char *battle_pane,
+                          char *frst_ailment_text, int frst_ailment_text_length,
+                          char *scd_ailment_text, int scd_ailment_text_length);
+bool manageFirstAilment(Pokemon *skill_user, Pokemon *target,
+                        bool swapped_xor_frst, char *battle_pane);
+bool manageAllAilments(Pokemon *skill_user, Pokemon *target,
+                       bool swapped_xor_frst, char *battle_pane);
 int manageYesNoKeyPressed(char key_pressed, int *yes);
 
 #endif
