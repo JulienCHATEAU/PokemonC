@@ -7,18 +7,11 @@ _Ce document est à lire attentivement et vous permettra de comprendre le foncti
 ## Prérequis
 
 * Ce jeu est uniquement jouable sur Linux
-<<<<<<< HEAD
 * Vous devez être en possession :
   * du compilateur C : gcc (`sudo apt-get install gcc`)
   * du logiciel make (`sudo apt-get install make`)
   * du logiciel git (`sudo apt-get install git`)
   * de la librairie ncurses (`sudo apt-get install libncurses5-dev libncursesw5-dev`)
-=======
-* Vous devez être en possession du :
-  * compilateur C : gcc (`sudo apt-get install gcc`)
-  * logiciel make (`sudo apt-get install make`)
-  * logiciel git (`sudo apt-get install git`)
->>>>>>> Update README.md
 
 ## L'initialisation et le lancement du jeu
 
