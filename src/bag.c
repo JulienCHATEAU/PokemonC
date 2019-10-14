@@ -28,8 +28,6 @@ void fillBagItem(int id, BagItem *bag_item) {
 
 /* Creates a bag item depending on its id
 * id : the bag item's id
-*       0 -> pokeball
-*       1 -> potion
 * return the corresponding bag item
 */
 BagItem createBagItem(int id) {

@@ -8,6 +8,8 @@
 #define POKEBALL_ID 0
 #define POTION_ID 1
 
+#define POTION_HEAL 30
+
 int possessBagItem(Player *player, int item);
 BagItem createBagItem(int id);
 void fillBagItem(int id, BagItem *bag_item);

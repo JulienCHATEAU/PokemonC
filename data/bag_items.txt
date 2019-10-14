@@ -1,5 +1,5 @@
 8|Pokeball|42|Une pokeball permet de capturer un pokemon|0
-6|Potion|48|Une potion redonne 20% des points de vie d'un pokemon|2
+6|Potion|48|Une potion redonne 30% des points de vie d'un pokemon|2
 13|Canne a peche|77|Avec cette canne a peche vous pourrez pecher dans n'importe quel plan d'eau !|1
 8|Cisaille|59|Cette cisaille peut sans probleme couper de petits arbustes|1
 6|Pioche|73|Un rocher vous derange ? Utiliser cette pioche pour vous en debarrasser !|1

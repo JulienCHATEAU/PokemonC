@@ -362,10 +362,12 @@ int manageBagMenu(Player *player, int mode) {
 /********/
 
 int initShopItems(Player *player, BagItem *shop_items) {
-  int shop_size = 1;
-  shop_items[0] = createBagItem(0);
+  int shop_size = 2;
+  shop_items[0] = createBagItem(POKEBALL_ID);
   shop_items[0].price = 1500;
-  int index = 1;
+  shop_items[1] = createBagItem(POTION_ID);
+  shop_items[1].price = 1000;
+  int index = 2;
   if (possessBagItem(player, 8) == -1) {
     shop_items[index] = createBagItem(8);
     shop_items[index].price = 10000;
@@ -395,7 +397,7 @@ void printShopPane(BagItem *shop_items, int shop_size, Player *player, int targe
     if (shop_items[i].id == 9) {
       printf("        Prix : 5 Fragments de Clef\n\n");
     } else {
-      printf("        Prix : %d\n\n", shop_items[i].price);
+      printf("        Prix : %d $teamy\n\n", shop_items[i].price);
     }
     i++;
   }
@@ -447,7 +449,7 @@ int manageShopMenuKeyPressed(BagItem *shop_items, int shop_size, char key_presse
         if (shop_items[*targetted_item].price <= player->money) {
           addBagItemPlayer(player, shop_items[*targetted_item].id, 1);
           player->money -= shop_items[*targetted_item].price;
-          *targetted_item = 0;
+          // *targetted_item = 0;
         }
       }
     }
@@ -459,7 +461,8 @@ int manageShopMenuKeyPressed(BagItem *shop_items, int shop_size, char key_presse
 
 
 int manageShopMenu(Player *player) {
-  BagItem shop_items[3];
+  int shop_items_length = 4;
+  BagItem shop_items[shop_items_length];
   int shop_size = initShopItems(player, shop_items);
   char key_pressed = 0;
   int key_pressed_status = 0;
