@@ -536,11 +536,9 @@ int catchPokemon(char *battle_pane, Player *player, Pokemon *enemy) {
 * battle_pane : the battle pane
 * player : the player
 */
-void usePotion(char *battle_pane, Player *player, Pokemon enemy) {
-  removeItem(player, possessBagItem(player, POTION_ID), 1);
+void usePotionInGame(char *battle_pane, Player *player, Pokemon enemy) {
   Pokemon *pkmn_in_battle = &player->pkmns[0];
-  int heal_amount = pkmn_in_battle->stats.hp_max * POTION_HEAL / 100;
-  heal(pkmn_in_battle, heal_amount);
+  int heal_amount = usePotion(player, 0);
   addInfoTextClearAndWait(USE_POTION, USE_POTION_LENGTH, " ", 1, battle_pane, WAIT_BETWEEN_ANIM);
   refreshBattlePane(player->pkmns[0], enemy, battle_pane);
   int potions_heal_length = player->pkmns[0].name_length + 14 + nDigits(heal_amount);
@@ -583,7 +581,8 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemo
   } else if (*arrow == ATTAQUES) {
     stop = switchThenManageSkillMenu(player, battle_pane, enemy, NULL, 0);
   } else if (*arrow == POKEMON) {
-    int action = managePokemonsMenu(player, 1);
+    int targetted_pkmn = 0;
+    int action = managePokemonsMenu(player, 1, &targetted_pkmn);
     refreshBattlePane(player->pkmns[0], *enemy, battle_pane);
     clearAndPrintBattlePane(battle_pane);
     if (action == 3) {//if the pokemon in the battle was swapped
@@ -610,7 +609,7 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemo
         }
       } else if (used_item_id == POTION_ID) {
         removeArrow((int)*arrow, battle_pane);
-        usePotion(battle_pane, player, *enemy);
+        usePotionInGame(battle_pane, player, *enemy);
         playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
       }
     } else {

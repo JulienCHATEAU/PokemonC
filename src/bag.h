@@ -18,5 +18,6 @@ void initBag(Player *player);
 void removeItem(Player *player, int item_index, int count);
 bool possessAllKeys(Player *player);
 int itemCount(Player *player, int id);
+int usePotion(Player *player, int targetted_pkmn);
 
 #endif

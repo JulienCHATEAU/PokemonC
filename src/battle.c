@@ -766,7 +766,8 @@ void *playTurn(void *p) {
     } else { // test if the player has lost or has still some alive pokemon
       manageKoAnimation(player, battle_pane);
       if (hasAnyAlivePokemon(player)) {
-        managePokemonsMenu(player, 2);
+        int targetted_pkmn = 0;
+        managePokemonsMenu(player, 2, &targetted_pkmn);
         refreshBattlePane(player->pkmns[0], *enemy, battle_pane);
         clearAndPrintBattlePane(battle_pane);
         res = 0; // battle not finished there

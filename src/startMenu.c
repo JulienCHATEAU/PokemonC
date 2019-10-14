@@ -49,7 +49,8 @@ int manageStartMenu(Player *player, char *printable_map, char *dialog_box) {
 int manageSmEnterKeyPressed(Player *player, int *targetted_menu, char *dialog_box) {
   int key_pressed_status = 0;
   if (*targetted_menu == SM_POKEMONS_ID) {
-    managePokemonsMenu(player, 0);
+    int targetted_pkmn = 0;
+    managePokemonsMenu(player, 0, &targetted_pkmn);
   } else if (*targetted_menu == SM_SAC_ID) {
     manageBagMenu(player, 1);
   } else if (*targetted_menu == SM_QUITTER_ID) {
@@ -138,6 +139,8 @@ int manageSmKeyPressed(Player *player, char key_pressed, int *targetted_menu, in
 * mode : the print mode (the actions unabled in the pokemon menu are not the same from where you triggers it)
   mode = 0 -> triggered from start menu
   mode = 1 -> triggered from battle pane main menu
+  mode = 2 -> triggered when a pokemon is ko
+  mode = 3 -> triggered from bag item
 */
 void printPokemonsPane(Player *player, int targetted_pkmn, int mode) {
   tty_reset();
@@ -154,6 +157,10 @@ void printPokemonsPane(Player *player, int targetted_pkmn, int mode) {
     printf("\n\n\n    ----------------      ----------------------\n");
     printf("   | 1. Description |    | 2. Envoyer au combat |\n");
     printf("    ----------------      ----------------------\n\n\n");
+  } else if (mode == 3) {
+    printf("\n\n\n    -------------\n");
+    printf("   | 1. Utiliser |\n");
+    printf("    -------------\n\n\n");
   } else {
     printf("\n\n\n    ----------------      -----------------------------\n");
     printf("   | 1. Description |    | 2. Mettre en première place |\n");
@@ -185,17 +192,18 @@ void printPokemonDescripton(Pokemon pkmn) {
 * mode : the pokemon pane mode (the actions unabled in the pokemon menu are not the same from where you triggers it)
   mode = 0 -> triggered from start menu
   mode = 1 -> triggered from battle pane main menu
+  mode = 2 -> triggered when a pokemon is ko
+  mode = 3 -> triggered from bag item
 */
-int managePokemonsMenu(Player *player, int mode) {
-  int targetted_pkmn = 0;
+int managePokemonsMenu(Player *player, int mode, int *targetted_pkmn) {
   char key_pressed = 0;
   int key_pressed_status = 0;
   do {
     if (key_pressed_status != 2) {
-      printPokemonsPane(player, targetted_pkmn, mode);
+      printPokemonsPane(player, *targetted_pkmn, mode);
     }
     key_pressed = getchar();
-    key_pressed_status = managePmKeyPressed(player, key_pressed, &targetted_pkmn, mode);
+    key_pressed_status = managePmKeyPressed(player, key_pressed, targetted_pkmn, mode);
   } while(key_pressed_status != 1 && key_pressed_status != 3);//1 -> come back to start menu | 3 -> swap pokemon during battle
   return key_pressed_status;
 }
@@ -207,6 +215,8 @@ int managePokemonsMenu(Player *player, int mode) {
 * mode : the pokemon pane mode (the actions unabled in the pokemon menu are not the same from where you triggers it)
   mode = 0 -> triggered from start menu
   mode = 1 -> triggered from battle pane main menu
+  mode = 2 -> triggered when a pokemon is ko
+  mode = 3 -> triggered from bag item
 */
 int managePmKeyPressed(Player *player, char key_pressed, int *targetted_pkmn, int mode) {
   int key_pressed_status = 0;//keep on pokemon menu
@@ -223,18 +233,24 @@ int managePmKeyPressed(Player *player, char key_pressed, int *targetted_pkmn, in
   } else if (key_pressed == 13) {
     if (mode != 2) {
       if (*targetted_pkmn == player->pkmn_count) {
-        key_pressed_status = 1;//come back to start menu
+        key_pressed_status = 1;//come back to menu
       } else {
         key_pressed_status = 2;//does nothing
       }
     }
   } else if (key_pressed == '1') {
     if (*targetted_pkmn != player->pkmn_count) {
-      printPokemonDescripton(player->pkmns[*targetted_pkmn]);
-      char key_pressed = 0;
-      while (key_pressed != ENTER && key_pressed != DELETE) {//13 ->'Enter' | 127 -> 'Return'
-        key_pressed = getchar();
+      if (mode == 3) {
+        key_pressed_status = 1; //come back to bag
+      } else {
+        printPokemonDescripton(player->pkmns[*targetted_pkmn]);
+        char key_pressed = 0;
+        while (key_pressed != ENTER && key_pressed != DELETE)
+        { //13 ->'Enter' | 127 -> 'Return'
+          key_pressed = getchar();
+        }
       }
+      
     } else {
       key_pressed_status = 2;//does nothing
     }
@@ -324,7 +340,16 @@ int manageBagMenuKeyPressed(char key_pressed, int *targetted_item, Player *playe
     }
   } else if (key_pressed == '1') {
     if (isItemUsable(mode, (int) player->bag[*targetted_item].usable_time)) {
-      key_pressed_status = 3;//use an item
+      if (mode == 1) {//bag triggered from start menu
+        int targetted_pkmn = 0;
+        managePokemonsMenu(player, 3, &targetted_pkmn);
+        if (player->bag[*targetted_item].id == POTION_ID) {
+          usePotion(player, targetted_pkmn);
+        }
+        key_pressed_status = 3;//use an item
+      } else {
+        key_pressed_status = 1; //come back to menu
+      }
     } else {
       key_pressed_status = 2;//does nothing
     }
@@ -344,13 +369,13 @@ int manageBagMenu(Player *player, int mode) {
   int key_pressed_status = 0;
   int targetted_item = 0;
   do {
-    if (key_pressed_status == 0) {
+    if (key_pressed_status == 0 || key_pressed_status == 3) {
       printBagPane(player, targetted_item, mode);
     }
     key_pressed = getchar();
     key_pressed_status = manageBagMenuKeyPressed(key_pressed, &targetted_item, player, mode);
-  } while(key_pressed_status != 1 && key_pressed_status != 3);
-  if (targetted_item == player->bag_item_count || key_pressed_status != 3) {//if nothing happened
+  } while(key_pressed_status != 1);
+  if (targetted_item == player->bag_item_count) {//if nothing happened
     targetted_item = -1;
   }
   return targetted_item;

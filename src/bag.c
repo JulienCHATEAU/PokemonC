@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "bag.h"
+#include "pokemon.h"
 #include "typedef.h"
 #include "fileManager.h"
 
@@ -122,4 +123,16 @@ void removeItem(Player *player, int item_index, int count) {
     }
     player->bag_item_count--;
   }
+}
+
+/* Uses a potion on the targetted pokemon
+* player : the player
+* targetted_pkmn : the index of the pokemon to heal
+*/
+int usePotion(Player *player, int targetted_pkmn) {
+  removeItem(player, possessBagItem(player, POTION_ID), 1);
+  Pokemon *pkmn_to_heal = &(player->pkmns[targetted_pkmn]);
+  int heal_amount = pkmn_to_heal->stats.hp_max * POTION_HEAL / 100;
+  heal(pkmn_to_heal, heal_amount);
+  return heal_amount;
 }

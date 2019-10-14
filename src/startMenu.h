@@ -32,7 +32,7 @@ void eraseSmPipes(char *dialog_box);
 int manageSmEnterKeyPressed(Player *player, int *targetted_menu, char *dialog_box);
 int manageSmKeyPressed(Player *player, char key_pressed, int *targetted_menu, int arrows_xys[], char *dialog_box);
 void printPokemonsPane(Player *player, int targetted_pkmn, int mode);
-int managePokemonsMenu(Player *player, int mode);
+int managePokemonsMenu(Player *player, int mode, int *targetted_pkmn);
 int managePmKeyPressed(Player *player, char key_pressed, int *targetted_pkmn, int mode);
 void printBagPane(Player *player, int targetted_item, int mode);
 int manageBagMenuKeyPressed(char key_pressed, int *targetted_item, Player *player, int mode);
