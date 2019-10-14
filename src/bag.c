@@ -87,8 +87,13 @@ int itemCount(Player *player, int id) {
   return index;
 }
 
-bool isItemUsable(int mode, int usable_time) {
-  return ((mode == 0 && usable_time == 0) || (mode == 1 && (usable_time == 1 || usable_time == 2)));
+/* Checks wheter the item is usable in the current game state
+* game_state : the current game state
+* usable_time : time when a bag item is useable : 0 in battle, 1 out battle, 2 both, 3 nowhere
+* return true if the item is usable, false otherwise
+*/
+bool isItemUsable(int game_state, int usable_time) {
+  return (usable_time == 2 || game_state == usable_time) && usable_time != 3;
 }
 
 /* Adds a specified count of a bag item to the player bag

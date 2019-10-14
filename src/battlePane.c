@@ -67,6 +67,21 @@ void clearAndPrintBattlePane(char *battle_pane) {
   printBattlePane(battle_pane);
 }
 
+/* Adds information texts to both top and bottom line, clears and prints the battle pane and perform an animation wait
+* top_text : the top text to add
+* top_text_length : the length of top text
+* bot_text : the bottom text to add
+* bot_text_length : the length of bottom text
+* battle_pane : the battle pane
+* anim_wait : the animation wait value in ms
+*/
+void addInfoTextClearAndWait(char *top_text, int top_text_length, char *bot_text, int bot_text_length, char *battle_pane, int anim_wait)
+{
+  addInfoText(top_text, top_text_length, bot_text, bot_text_length, battle_pane);
+  clearAndPrintBattlePane(battle_pane);
+  waitNMs(anim_wait);
+}
+
 /* Erases a line of the battle pane
 * pos : a coordinate on the right from the beggining of the line
 * battle_pane : the battle pane
@@ -158,7 +173,7 @@ void addLineText(char *text, int text_length, int pos, char *battle_pane) {
   }
 }
 
-/* Adds information texts to bothe top and bottom line
+/* Adds information texts to both top and bottom line
 * top_text : the top text to add
 * top_text_length : the length of top text
 * bot_text : the bottom text to add
@@ -494,18 +509,14 @@ bool isCatchSuccessful(Player *player, Pokemon *enemy) {
 
 int catchPokemon(char *battle_pane, Player *player, Pokemon *enemy) {
   int catched = 0;
-  removeItem(player, possessBagItem(player, 0), 1);
-  addInfoText(THROW_POKEBALL, THROW_POKEBALL_LENGTH, " ", 1, battle_pane);
-  clearAndPrintBattlePane(battle_pane);
-  waitNMs(WAIT_BETWEEN_ANIM*2);
+  removeItem(player, possessBagItem(player, POKEBALL_ID), 1);
+  addInfoTextClearAndWait(THROW_POKEBALL, THROW_POKEBALL_LENGTH, " ", 1, battle_pane, WAIT_BETWEEN_ANIM * 2);
 
   if (isCatchSuccessful(player, enemy)) {
     int gratz_catch_length = enemy->name_length+3;
     char *gratz_catch_string = malloc(sizeof(char)*gratz_catch_length+1);
     sprintf(gratz_catch_string, "un %s", enemy->name);
-    addInfoText(GRATZ_CATCH, GRATZ_CATCH_LENGTH, gratz_catch_string, gratz_catch_length, battle_pane);
-    clearAndPrintBattlePane(battle_pane);
-    waitNMs(WAIT_BETWEEN_ANIM*2);
+    addInfoTextClearAndWait(GRATZ_CATCH, GRATZ_CATCH_LENGTH, gratz_catch_string, gratz_catch_length, battle_pane, WAIT_BETWEEN_ANIM * 2);
     free(gratz_catch_string);
     copyPokemon(*enemy, &player->pkmns[player->pkmn_count]);
     player->pkmn_count++;
@@ -514,14 +525,25 @@ int catchPokemon(char *battle_pane, Player *player, Pokemon *enemy) {
     int fail_catch_length = enemy->name_length+10;
     char *fail_catch_string = malloc(sizeof(char)*fail_catch_length+1);
     sprintf(fail_catch_string, "%s est sorti", enemy->name);
-    addInfoText(fail_catch_string, fail_catch_length, FAIL_CATCH, FAIL_CATCH_LENGTH, battle_pane);
-    clearAndPrintBattlePane(battle_pane);
-    waitNMs(WAIT_BETWEEN_ANIM);
     free(fail_catch_string);
   }
   eraseInfoText(battle_pane);
   clearAndPrintBattlePane(battle_pane);
   return catched;
+}
+
+/* Uses a potion during a battle
+* battle_pane : the battle pane
+* player : the player
+*/
+void usePotion(char *battle_pane, Player *player, Pokemon enemy) {
+  removeItem(player, possessBagItem(player, POTION_ID), 1);
+  Pokemon *pkmn_in_battle = &player->pkmns[0];
+  heal(pkmn_in_battle, pkmn_in_battle->stats.hp_max * 20 / 100);
+  addInfoTextClearAndWait(USE_POTION, USE_POTION_LENGTH, " ", 1, battle_pane, WAIT_BETWEEN_ANIM * 2);
+  eraseInfoText(battle_pane);
+  refreshBattlePane(player->pkmns[0], enemy, battle_pane);
+  clearAndPrintBattlePane(battle_pane);
 }
 
 void playOnlyEnemyTurn(MenuArrow *arrow, char *battle_pane, Player *player, Pokemon *enemy, int *stop) {
@@ -547,9 +569,7 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemo
   if (*arrow == FUITE) {
     srand(time(NULL));
     if (rand()%100 < 25 || !flee_possible) {
-      addInfoText(CANT_FLY, CANT_FLY_LENGTH, " ", 1, battle_pane);
-      clearAndPrintBattlePane(battle_pane);
-      waitNMs(WAIT_BETWEEN_ANIM);
+      addInfoTextClearAndWait(CANT_FLY, CANT_FLY_LENGTH, " ", 1, battle_pane, WAIT_BETWEEN_ANIM);
       removeArrow((int)*arrow, battle_pane);
       playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
     } else {
@@ -572,7 +592,7 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemo
         used_item_id = player->bag[used_item_index].id;
       }
       clearAndPrintBattlePane(battle_pane);
-      if (used_item_id == 0) {//if pokeball used
+      if (used_item_id == POKEBALL_ID) {//if pokeball used
         if (player->pkmn_count < 6) {
           removeArrow((int)*arrow, battle_pane);
           stop = catchPokemon(battle_pane, player, enemy);
@@ -580,19 +600,19 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player, Pokemo
             playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
           }
         } else {
-          addInfoText(TO_MUCH_POKEMON1, TO_MUCH_POKEMON1_LENGTH, TO_MUCH_POKEMON2, TO_MUCH_POKEMON2_LENGTH, battle_pane);
-          clearAndPrintBattlePane(battle_pane);
-          waitNMs(WAIT_BETWEEN_ANIM);
+          addInfoTextClearAndWait(TO_MUCH_POKEMON1, TO_MUCH_POKEMON1_LENGTH, TO_MUCH_POKEMON2, TO_MUCH_POKEMON2_LENGTH, battle_pane, WAIT_BETWEEN_ANIM);
           eraseInfoText(battle_pane);
         }
+      } else if (used_item_id == POTION_ID) {
+        removeArrow((int)*arrow, battle_pane);
+        usePotion(battle_pane, player, *enemy);
+        playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
       }
     } else {
       int cant_use_bag_length = 28;
       char *cant_use_bag_string = malloc(sizeof(char)*cant_use_bag_length+1);
       sprintf(cant_use_bag_string, "Impossible d'utiliser le sac");
-      addInfoText(cant_use_bag_string, cant_use_bag_length, " ", 1, battle_pane);
-      clearAndPrintBattlePane(battle_pane);
-      waitNMs(WAIT_BETWEEN_ANIM);
+      addInfoTextClearAndWait(cant_use_bag_string, cant_use_bag_length, " ", 1, battle_pane, WAIT_BETWEEN_ANIM);
       eraseInfoText(battle_pane);
       free(cant_use_bag_string);
     }

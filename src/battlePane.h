@@ -8,6 +8,8 @@
 #define BATTLE_PANE_PATH "data/battlePane.txt"
 #define TYPE_COUNT 18
 
+#define USE_POTION "Vous utilisez une potion"
+#define USE_POTION_LENGTH 24
 #define THROW_POKEBALL "Vous lancez une Pokeball !"
 #define THROW_POKEBALL_LENGTH 26
 #define GRATZ_CATCH "Bravo ! Vous avez capturez"
@@ -73,6 +75,7 @@ void showYesNoMenu(char *battle_pane);
 int nDigits(unsigned int n);
 bool hasAnyAlivePokemon(Player *player);
 void clearAndPrintBattlePane(char *battle_pane);
+void addInfoTextClearAndWait(char *top_text, int top_text_length, char *bot_text, int bot_text_length, char *battle_pane, int anim_wait);
 void printBattlePane(char *battle_pane);
 void loadBattlePane(char *battle_pane);
 void addInfoText(char *top_text, int top_text_length, char *bot_text,

@@ -5,6 +5,8 @@
 #define BAG_H
 
 #define BAG_ITEM_PATH "data/bag_items.txt"
+#define POKEBALL_ID 0
+#define POTION_ID 1
 
 int possessBagItem(Player *player, int item);
 BagItem createBagItem(int id);

@@ -463,6 +463,18 @@ void setBackHealthToZero(Pokemon *pkmn) {
   }
 }
 
+/* Heals a pokemon with a given amount of hp
+* pkmn : the pokemon
+* heal : the heal amount
+*/
+void heal(Pokemon *pkmn, int heal)
+{
+  pkmn->stats.hp += heal;
+  if (pkmn->stats.hp > pkmn->stats.hp_max) {
+    pkmn->stats.hp = pkmn->stats.hp_max;
+  }
+}
+
 /* Heals and resets the stats of a pokemon
 * pkmn : the concerned pokemon
 */
