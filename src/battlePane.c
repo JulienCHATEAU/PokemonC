@@ -539,10 +539,15 @@ int catchPokemon(char *battle_pane, Player *player, Pokemon *enemy) {
 void usePotion(char *battle_pane, Player *player, Pokemon enemy) {
   removeItem(player, possessBagItem(player, POTION_ID), 1);
   Pokemon *pkmn_in_battle = &player->pkmns[0];
-  heal(pkmn_in_battle, pkmn_in_battle->stats.hp_max * 20 / 100);
-  addInfoTextClearAndWait(USE_POTION, USE_POTION_LENGTH, " ", 1, battle_pane, WAIT_BETWEEN_ANIM * 2);
-  eraseInfoText(battle_pane);
+  int heal_amount = pkmn_in_battle->stats.hp_max * POTION_HEAL / 100;
+  heal(pkmn_in_battle, heal_amount);
+  addInfoTextClearAndWait(USE_POTION, USE_POTION_LENGTH, " ", 1, battle_pane, WAIT_BETWEEN_ANIM);
   refreshBattlePane(player->pkmns[0], enemy, battle_pane);
+  int potions_heal_length = player->pkmns[0].name_length + 14 + nDigits(heal_amount);
+  char *potions_heal_string = malloc(sizeof(char) * potions_heal_length + 1);
+  sprintf(potions_heal_string, "%s recupere %d Pdv", player->pkmns[0].name, heal_amount);
+  addInfoTextClearAndWait(potions_heal_string, potions_heal_length, " ", 1, battle_pane, WAIT_BETWEEN_ANIM);
+  eraseInfoText(battle_pane);
   clearAndPrintBattlePane(battle_pane);
 }
 
