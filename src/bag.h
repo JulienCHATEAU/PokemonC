@@ -1,5 +1,5 @@
-#include <stdbool.h>
 #include "typedef.h"
+#include <stdbool.h>
 
 #ifndef BAG_H
 #define BAG_H
@@ -13,7 +13,7 @@
 int possessBagItem(Player *player, int item);
 BagItem createBagItem(int id);
 void fillBagItem(int id, BagItem *bag_item);
-void addBagItemPlayer(Player *player, int id, int count);
+BagItem addBagItemPlayer(Player *player, int id, int count);
 void initBag(Player *player);
 void removeItem(Player *player, int item_index, int count);
 bool possessAllKeys(Player *player);

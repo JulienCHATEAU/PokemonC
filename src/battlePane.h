@@ -5,7 +5,7 @@
 #ifndef BATTLE_PANE_H
 #define BATTLE_PANE_H
 
-#define BATTLE_PANE_PATH "data/battlePane.txt"
+#define BATTLE_PANE_PATH "data/battle_pane.txt"
 #define TYPE_COUNT 18
 
 #define USE_POTION "Vous utilisez une potion"
@@ -75,7 +75,9 @@ void showYesNoMenu(char *battle_pane);
 int nDigits(unsigned int n);
 bool hasAnyAlivePokemon(Player *player);
 void clearAndPrintBattlePane(char *battle_pane);
-void addInfoTextClearAndWait(char *top_text, int top_text_length, char *bot_text, int bot_text_length, char *battle_pane, int anim_wait);
+void addInfoTextClearAndWait(char *top_text, int top_text_length,
+                             char *bot_text, int bot_text_length,
+                             char *battle_pane, int anim_wait);
 void printBattlePane(char *battle_pane);
 void loadBattlePane(char *battle_pane);
 void addInfoText(char *top_text, int top_text_length, char *bot_text,

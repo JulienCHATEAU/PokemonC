@@ -1,11 +1,11 @@
+#include "map.h"
 #include "pokemon.h"
 #include "util.h"
-#include "map.h"
 
 #ifndef PRINT_H
 #define PRINT_H
 
-#define DIALOG_BOX_PATH "data/dialogBox.txt"
+#define DIALOG_BOX_PATH "data/dialog_box.txt"
 #define DIALOG_BOX_LENGTH 376
 #define DIALOG_BOX_LINE_COUNT 6
 #define DIALOG_BOX_LINE 63
@@ -26,6 +26,7 @@ void loadDialogBox(char *dialog_box);
 void printDialogBox(char *dialog_box);
 void eraseDialogBoxLine(int xy_line_start, char *dialog_box);
 void eraseDialogBoxLines(char *dialog_box);
-void addTextInDialogBox(int xy_start, char *text, int text_length, char *dialogBox);
+void addTextInDialogBox(int xy_start, char *text, int text_length,
+                        char *dialogBox);
 
 #endif

@@ -9,3 +9,4 @@
 6|Clef X|50|Cette clef en forme de X porte l'inscription : 3DS|3
 7|Clef Tranchante|78|Cette clef est en forme d'épée et porte l'inscription : Switch|3
 16|Fragment de clef|66|Le fragment d'une clef cassée pouvant sans doute etre reconstituee|3
+10|Total-Soin|45|Soigne le pokemon de tous problèmes de status|2

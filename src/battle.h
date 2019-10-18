@@ -8,7 +8,7 @@
 #define CRIT_PERCENTAGE 7
 #define WAIT_BETWEEN_ANIM 1300
 
-#define TYPES_TABLE_PATH "data/typesTable.txt"
+#define TYPES_TABLE_PATH "data/types_table.txt"
 #define TYPES_TABLE_LGTH TYPE_COUNT *TYPE_COUNT
 
 #define MISS_STRING " rate son attaque !"
