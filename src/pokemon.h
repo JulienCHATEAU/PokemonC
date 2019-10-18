@@ -1,7 +1,7 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
 #include "typedef.h"
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #ifndef GAME_H
 #define GAME_H
@@ -31,6 +31,8 @@ int getMaxLevel(Player *player);
 int gainExperience(Pokemon *winner, Pokemon *loser);
 void addAilment(Pokemon *pkmn, AilmentEnum ailment);
 void removeFirstAilment(Pokemon *pkmn);
+void removeAllAilments(Pokemon *pkmn);
+void resetAilementStatDebuf(Pokemon *pkmn, AilmentEnum ailment);
 void setBackHealthToZero(Pokemon *pkmn);
 void heal(Pokemon *pkmn, int heal);
 void resetPokemonStats(Pokemon *pkmn);

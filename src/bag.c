@@ -140,3 +140,13 @@ int usePotion(Player *player, int targetted_pkmn) {
   heal(pkmn_to_heal, heal_amount);
   return heal_amount;
 }
+
+/* Uses a total soin on the targetted pokemon
+ * player : the player
+ * targetted_pkmn : the index of the pokemon to heal
+ */
+void useTotalSoin(Player *player, int targetted_pkmn) {
+  removeItem(player, possessBagItem(player, TOTAL_SOIN_ID), 1);
+  Pokemon *pkmn_to_heal = &(player->pkmns[targetted_pkmn]);
+  removeAllAilments(pkmn_to_heal);
+}

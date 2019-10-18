@@ -290,19 +290,19 @@ int getMapItemInPokeballID(int *x_map, int *y_map) {
 }
 
 void notifyItemFound(char *dialog_box, BagItem item) {
-  int text_length = 21 + item.name_length;
-  char *text = malloc(sizeof(char) * text_length);
-  sprintf(text, "Vous avez trouve : %s !", item.name);
+  int text_length = 19 + item.name_length; // 19 = 'Vous avez trouve : ' length
+  char *text = malloc(sizeof(char) * text_length + 1);
+  sprintf(text, "Vous avez trouve : %s", item.name);
   addTextInDialogBox(FRST_LINE_START, text, text_length, dialog_box);
 }
 
 void manageItemFound(Player *player, char *dialog_box, int *x_map, int *y_map) {
   int item_id = getMapItemInPokeballID(x_map, y_map);
-  // there are more than one pokeball in the 6;-1 map,
+  // There are more than one pokeball in the 6;-1 map,
   // so this set the content of others pokeballs to Pokeball
-  if (item_id == 5) {
+  if (item_id == CRISTAL_KEY_ID) {
     if (possessBagItem(player, item_id) != -1) {
-      item_id = 0;
+      item_id = POKEBALL_ID;
     }
   }
   BagItem item = addBagItemPlayer(player, item_id, 1);
@@ -341,9 +341,9 @@ void manageDBYesNoMenu(int *yes, char *printable_map, char *dialog_box) {
 
 void manageDestroy(Player *player, char *dialog_box, char *printable_map,
                    char destroyed_object, int xy_ifo_player) {
-  int item_id = 4;
+  int item_id = PIOCHE_ID;
   if (destroyed_object == CUTABLE_TREE) {
-    item_id = 3;
+    item_id = CISAILLE_ID;
   }
   if (possessBagItem(player, item_id) != -1) {
     showDBYesNoMenu(dialog_box);
@@ -425,7 +425,7 @@ void fishing(Player *player, char *printable_map, char *dialog_box, int *x_map,
 
 void manageFishing(Player *player, char *dialog_box, char *printable_map,
                    int *x_map, int *y_map) {
-  if (possessBagItem(player, 2) != -1) {
+  if (possessBagItem(player, CANNE_ID) != -1) {
     showDBYesNoMenu(dialog_box);
     addTextInDialogBox(FRST_LINE_START, "Cette eau est d'un bleu etincellant",
                        35, dialog_box);

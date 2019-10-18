@@ -10,6 +10,8 @@
 
 #define USE_POTION "Vous utilisez une potion"
 #define USE_POTION_LENGTH 24
+#define USE_TOTAL_SOIN "Vous utilisez un total soin"
+#define USE_TOTAL_SOIN_LENGTH 27
 #define THROW_POKEBALL "Vous lancez une Pokeball !"
 #define THROW_POKEBALL_LENGTH 26
 #define GRATZ_CATCH "Bravo ! Vous avez capturez"

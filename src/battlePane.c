@@ -596,6 +596,26 @@ void usePotionInGame(char *battle_pane, Player *player, Pokemon enemy) {
   clearAndPrintBattlePane(battle_pane);
 }
 
+/* Uses a total soin during a battle
+ * battle_pane : the battle pane
+ * player : the player
+ */
+void useTotalSoinInGame(char *battle_pane, Player *player, Pokemon enemy) {
+  Pokemon *pkmn_in_battle = &player->pkmns[0];
+  useTotalSoin(player, 0);
+  addInfoTextClearAndWait(USE_TOTAL_SOIN, USE_TOTAL_SOIN_LENGTH, " ", 1,
+                          battle_pane, WAIT_BETWEEN_ANIM);
+  refreshBattlePane(player->pkmns[0], enemy, battle_pane);
+  int heal_length =
+      player->pkmns[0].name_length + 20; // 20 = "n'est plus affaibli" length
+  char *heal_string = malloc(sizeof(char) * heal_length + 1);
+  sprintf(heal_string, "%s n'est plus affaibli", player->pkmns[0].name);
+  addInfoTextClearAndWait(heal_string, heal_length, " ", 1, battle_pane,
+                          WAIT_BETWEEN_ANIM);
+  eraseInfoText(battle_pane);
+  clearAndPrintBattlePane(battle_pane);
+}
+
 void playOnlyEnemyTurn(MenuArrow *arrow, char *battle_pane, Player *player,
                        Pokemon *enemy, int *stop) {
   int tmp = 0;
@@ -607,6 +627,41 @@ void playOnlyEnemyTurn(MenuArrow *arrow, char *battle_pane, Player *player,
   addArrow(ATTAQUES, battle_pane);
   *arrow = ATTAQUES;
   clearAndPrintBattlePane(battle_pane);
+}
+
+void manageBagItemUse(int used_item_id, MenuArrow *arrow, char *battle_pane,
+                      Player *player, Pokemon *enemy, int *stop) {
+  switch (used_item_id) {
+  case POKEBALL_ID:
+    if (player->pkmn_count < 6) {
+      removeArrow((int)*arrow, battle_pane);
+      *stop = catchPokemon(battle_pane, player, enemy);
+      if (*stop == 0) { // if catch failed
+        playOnlyEnemyTurn(arrow, battle_pane, player, enemy, stop);
+      }
+    } else {
+      addInfoTextClearAndWait(TO_MUCH_POKEMON1, TO_MUCH_POKEMON1_LENGTH,
+                              TO_MUCH_POKEMON2, TO_MUCH_POKEMON2_LENGTH,
+                              battle_pane, WAIT_BETWEEN_ANIM);
+      eraseInfoText(battle_pane);
+    }
+    break;
+
+  case POTION_ID:
+    removeArrow((int)*arrow, battle_pane);
+    usePotionInGame(battle_pane, player, *enemy);
+    playOnlyEnemyTurn(arrow, battle_pane, player, enemy, stop);
+    break;
+
+  case TOTAL_SOIN_ID:
+    removeArrow((int)*arrow, battle_pane);
+    useTotalSoinInGame(battle_pane, player, *enemy);
+    playOnlyEnemyTurn(arrow, battle_pane, player, enemy, stop);
+    break;
+
+  default:
+    break;
+  }
 }
 
 /* Manages the Enter key pressed to go into a menu
@@ -647,24 +702,7 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player,
         used_item_id = player->bag[used_item_index].id;
       }
       clearAndPrintBattlePane(battle_pane);
-      if (used_item_id == POKEBALL_ID) { // if pokeball used
-        if (player->pkmn_count < 6) {
-          removeArrow((int)*arrow, battle_pane);
-          stop = catchPokemon(battle_pane, player, enemy);
-          if (stop == 0) { // if catch failed
-            playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
-          }
-        } else {
-          addInfoTextClearAndWait(TO_MUCH_POKEMON1, TO_MUCH_POKEMON1_LENGTH,
-                                  TO_MUCH_POKEMON2, TO_MUCH_POKEMON2_LENGTH,
-                                  battle_pane, WAIT_BETWEEN_ANIM);
-          eraseInfoText(battle_pane);
-        }
-      } else if (used_item_id == POTION_ID) {
-        removeArrow((int)*arrow, battle_pane);
-        usePotionInGame(battle_pane, player, *enemy);
-        playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
-      }
+      manageBagItemUse(used_item_id, arrow, battle_pane, player, enemy, &stop);
     } else {
       int cant_use_bag_length = 28;
       char *cant_use_bag_string =
