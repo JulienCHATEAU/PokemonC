@@ -519,7 +519,7 @@ int gainExperience(Pokemon *winner, Pokemon *loser) {
 void addAilment(Pokemon *pkmn, AilmentEnum ailment) {
   if (pkmn->crt_ailments[0] == NO_AILMENT) {
     pkmn->crt_ailments[0] = ailment;
-  } else if (pkmn->crt_ailments[0] == CONFUSION) {
+  } else if (pkmn->crt_ailments[0] == CONFUSION && ailment != CONFUSION) {
     pkmn->crt_ailments[1] = CONFUSION;
     pkmn->crt_ailments[0] = ailment;
   }

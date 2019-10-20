@@ -531,8 +531,13 @@ int switchThenManageSkillMenu(Player *player, char *battle_pane, Pokemon *enemy,
 }
 
 bool isCatchSuccessful(Player *player, Pokemon *enemy) {
-  int catch_percentage = 40;
-  catch_percentage += player->pkmns[0].stats.hp / 20 + 10;
+  int catch_percentage = 25;
+  float hp_percentage = enemy->stats.hp / enemy->stats.hp_max;
+  if (hp_percentage < 0.2) {
+    catch_percentage += 10;
+  } else if (hp_percentage < 0.5) {
+    catch_percentage += 5;
+  }
   if (enemy->crt_ailments[0] == POISONING || enemy->crt_ailments[0] == BURN ||
       enemy->crt_ailments[0] == PARALYSIS) {
     catch_percentage += 6;

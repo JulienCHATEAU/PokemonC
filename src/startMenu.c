@@ -206,7 +206,7 @@ void printPokemonDescripton(Pokemon pkmn) {
   tty_reset();
   clearConsole();
   printPokemon(pkmn);
-  printf("\n\n\n  ->  Retour\n");
+  printf("\n\n  ->  Retour\n");
   setRawMode('1');
 }
 
@@ -332,14 +332,14 @@ void printBagPane(Player *player, int targetted_item, int mode) {
   /*if not on Cancel field and if targetted item is currently usable*/
   if (player->bag_item_count != targetted_item &&
       isItemUsable(mode, usable_time)) {
-    printf("\n\n\n    -------------\n");
+    printf("\n\n    -------------\n");
     printf("   | 1. Utiliser |\n");
-    printf("    -------------\n\n\n");
+    printf("    -------------\n\n");
   } else {
-    printf("\n\n\n\n\n\n\n\n");
+    printf("\n\n\n\n\n\n");
   }
 
-  printf("\n\n      Argent : %d $\n\n", player->money);
+  printf("\n      Argent : %d $teamy\n\n", player->money);
 
   if (player->bag_item_count == targetted_item) {
     printf("\n  ->  Annuler\n");
@@ -465,7 +465,7 @@ void printShopPane(BagItem *shop_items, int shop_size, Player *player,
   printf("   | 1. Acheter |\n");
   printf("    ------------\n\n\n");
 
-  printf("\n\n      Argent : %d $\n\n", player->money);
+  printf("\n\n      Argent : %d $teamy\n\n", player->money);
 
   if (shop_size == targetted_item) {
     printf("\n  ->  Annuler\n");
@@ -498,10 +498,10 @@ int manageShopMenuKeyPressed(BagItem *shop_items, int shop_size,
     if (*targetted_item == shop_size) {
       key_pressed_status = 2; // does nothing
     } else {
-      if (shop_items[*targetted_item].id == 9) {
-        if (itemCount(player, 10) == 5) {
-          removeItem(player, 10, 5);
-          addBagItemPlayer(player, 9, 1);
+      if (shop_items[*targetted_item].id == SHARP_KEY_ID) {
+        if (itemCount(player, KEY_FRAG_ID) == 5) {
+          removeItem(player, KEY_FRAG_ID, 5);
+          addBagItemPlayer(player, SHARP_KEY_ID, 1);
           *targetted_item = 0;
         } else {
           key_pressed_status = 2; // does nothing

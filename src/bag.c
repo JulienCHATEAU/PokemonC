@@ -120,8 +120,8 @@ BagItem addBagItemPlayer(Player *player, int id, int count) {
 void removeItem(Player *player, int item_index, int count) {
   player->bag[item_index].count -= count;
   if (player->bag[item_index].count <= 0) {
-    // player->bag[item_index].count = 0;
-    // player->bag[item_index].id = -1;
+    player->bag[item_index].count = 0;
+    player->bag[item_index].id = -1;
     for (int i = item_index; i < player->bag_item_count - 1; i++) {
       player->bag[item_index] = player->bag[item_index + 1];
     }
@@ -134,10 +134,13 @@ void removeItem(Player *player, int item_index, int count) {
  * targetted_pkmn : the index of the pokemon to heal
  */
 int usePotion(Player *player, int targetted_pkmn) {
-  removeItem(player, possessBagItem(player, POTION_ID), 1);
   Pokemon *pkmn_to_heal = &(player->pkmns[targetted_pkmn]);
-  int heal_amount = pkmn_to_heal->stats.hp_max * POTION_HEAL / 100;
-  heal(pkmn_to_heal, heal_amount);
+  int heal_amount = -1;
+  if (pkmn_to_heal->stats.hp > 0) {
+    removeItem(player, possessBagItem(player, POTION_ID), 1);
+    heal_amount = pkmn_to_heal->stats.hp_max * POTION_HEAL / 100;
+    heal(pkmn_to_heal, heal_amount);
+  }
   return heal_amount;
 }
 
@@ -146,7 +149,9 @@ int usePotion(Player *player, int targetted_pkmn) {
  * targetted_pkmn : the index of the pokemon to heal
  */
 void useTotalSoin(Player *player, int targetted_pkmn) {
-  removeItem(player, possessBagItem(player, TOTAL_SOIN_ID), 1);
   Pokemon *pkmn_to_heal = &(player->pkmns[targetted_pkmn]);
-  removeAllAilments(pkmn_to_heal);
+  if (pkmn_to_heal->crt_ailments[0] != NO_AILMENT) {
+    removeItem(player, possessBagItem(player, TOTAL_SOIN_ID), 1);
+    removeAllAilments(pkmn_to_heal);
+  } 
 }

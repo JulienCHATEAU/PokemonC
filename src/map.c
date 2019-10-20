@@ -141,7 +141,7 @@ void printArray(char *array) {
         textColor(BRIGHT, BLACK);
         break;
       case 'T':
-        textColor(DIM, GREEN);
+        textColor(BRIGHT, GREEN);
         break;
       case '#':
         textColor(BRIGHT, MAGENTA);
@@ -406,15 +406,15 @@ void fishing(Player *player, char *printable_map, char *dialog_box, int *x_map,
              int *y_map) {
   srand(time(NULL));
   int r = rand() % 100;
-  if (r < 5 && itemCount(player, 10) == 4) {
-    addBagItemPlayer(player, 10, 1);
+  if (r < 5 && itemCount(player, KEY_FRAG_ID) == 4) {
+    addBagItemPlayer(player, KEY_FRAG_ID, 1);
     addTextInDialogBox(FRST_LINE_START,
                        "Enorme prise ! Vous recevez un Fragement de Clef !", 50,
                        dialog_box);
   } else if (r < 10) {
-    addBagItemPlayer(player, 0, 1);
+    addBagItemPlayer(player, POTION_ID, 1);
     addTextInDialogBox(FRST_LINE_START,
-                       "Cela a mordu ! Vous recevez une Pokeball !", 42,
+                       "Cela a mordu ! Vous recevez une Potion !", 40,
                        dialog_box);
   } else if (r < 50) {
     goForBattle(player, printable_map, x_map, y_map, dialog_box);
