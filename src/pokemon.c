@@ -106,8 +106,16 @@ void fillSomePokemonData(FILE *file, Pokemon *pkmn) {
   pkmn->crt_ailments[1] = NO_AILMENT;
   fscanf(file, "|%d", &pkmn->base_xp);
   fscanf(file, "|%d %d %d %d", &stats[0], &stats[1], &stats[2], &stats[3]);
-  pkmn->stats = createStats(25 + stats[0] / 5, 25 + stats[1] / 5,
-                            25 + stats[2] / 5, 25 + stats[3] / 5);
+  pkmn->stats = createStats(stats[0], stats[1], stats[2], stats[3]);
+  fscanf(file, "|%d ", &pkmn->evo_lvl);
+  if (pkmn->evo_lvl != -1) {
+    int fscanf_ret = fscanf(file, "%d ", &pkmn->evo_name_length);
+    pkmn->evo_name = malloc(sizeof(char) * pkmn->evo_name_length + 1);
+    fscanf(file, "%s", pkmn->evo_name);
+  } else {
+    pkmn->evo_name_length = 0;
+    pkmn->evo_name = "";
+  }
 }
 
 /* Fills a Pokemon structure with the data stored in the pokemons file storage
@@ -136,21 +144,35 @@ Pokemon fillPokemon(char *name) {
     }
   }
   closeFile(pkmns_file);
-  for (int i = 0; i < 4; i++) {
-    pkmn.effect_stage[i] = 0;
+  if (trouve) {
+    for (int i = 0; i < 4; i++) {
+      pkmn.effect_stage[i] = 0;
+    }
+  } else {
+    pkmn.name_length = -1;
   }
   return pkmn;
 }
 
+void copyStats(Pokemon *pkmn, Stats stats) {
+  pkmn->stats.hp_max = stats.hp_max;
+  pkmn->stats.hp = stats.hp;
+  pkmn->stats.att_max = stats.att_max;
+  pkmn->stats.att = stats.att;
+  pkmn->stats.def_max = stats.def_max;
+  pkmn->stats.def = stats.def;
+  pkmn->stats.spd_max = stats.spd_max;
+  pkmn->stats.spd = stats.spd;
+}
+
 /**/
 void copyPokemon(Pokemon pkmn, Pokemon *copy) {
-  copy->name_length = pkmn.name_length;
+  copy->name = malloc(sizeof(char) * copy->name_length + 1);
+  copy->evo_name = malloc(sizeof(char) * copy->evo_name_length + 1);
   copy->lvl = pkmn.lvl;
   copy->xp = pkmn.xp;
   copy->base_xp = pkmn.base_xp;
-  copy->stats = pkmn.stats;
-  copy->name = malloc(sizeof(char) * copy->name_length + 1);
-  strcpy(copy->name, pkmn.name);
+  copyStats(copy, pkmn.stats);
   for (int i = 0; i < 6; i++) {
     if (i < 2) {
       copy->crt_ailments[i] = pkmn.crt_ailments[i];
@@ -161,6 +183,24 @@ void copyPokemon(Pokemon pkmn, Pokemon *copy) {
     }
     copy->effect_stage[i] = pkmn.effect_stage[i];
   }
+  copyEvo(pkmn, copy);
+}
+
+void copyEvo(Pokemon pkmn, Pokemon *copy) {
+  copy->name_length = pkmn.name_length;
+  strcpy(copy->name, pkmn.name);
+  copy->evo_lvl = pkmn.evo_lvl;
+  copy->evo_name_length = pkmn.evo_name_length;
+  strcpy(copy->evo_name, pkmn.evo_name);
+}
+
+
+void evolvePokemon(Pokemon *pkmn, Pokemon evo) {
+  setPokemonLvl(&evo, pkmn->lvl);
+  copyStats(pkmn, evo.stats);
+  pkmn->type[0] = evo.type[0];
+  pkmn->type[1] = evo.type[1];
+  copyEvo(evo, pkmn);
 }
 
 /* Checks if a an array contains one skill

@@ -36,9 +36,12 @@ void resetAilementStatDebuf(Pokemon *pkmn, AilmentEnum ailment);
 void setBackHealthToZero(Pokemon *pkmn);
 void heal(Pokemon *pkmn, int heal);
 void resetPokemonStats(Pokemon *pkmn);
+void copyStats(Pokemon *pkmn, Stats stats);
 void copyPokemon(Pokemon pkmn, Pokemon *copy);
 void resetAllPokemonsStats(Player *player);
 Skill fillSkill(int random);
 Pokemon fillPokemon(char *name);
+void copyEvo(Pokemon pkmn, Pokemon *copy);
+void evolvePokemon(Pokemon *pkmn, Pokemon evo);
 
 #endif

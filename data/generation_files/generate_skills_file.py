@@ -64,6 +64,7 @@ def del_accent(line):
                     'E': ['É', 'È', 'Ê', 'Ë'],
                     'I': ['Î', 'Ï'],
                     'U': ['Ù', 'Ü', 'Û'],
+                    'Oe': ['Œ'],
                     'O': ['Ô', 'Ö'],
                     '\'' : ['’'] }
         for (char, accented_chars) in accents.items():

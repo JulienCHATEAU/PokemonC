@@ -275,8 +275,21 @@ void readOnePokemonLine(FILE *save_file, Pokemon *pkmn) {
   pkmn->crt_ailments[1] = NO_AILMENT;
   fscanf(save_file, "|%d %d %d %d", &stats[0], &stats[1], &stats[2], &stats[3]);
   pkmn->stats = createStats(stats[0], stats[1], stats[2], stats[3]);
-  fscanf(save_file, "%d %d %d %d\n", &pkmn->stats.hp, &pkmn->stats.att,
+  fscanf(save_file, "%d %d %d %d", &pkmn->stats.hp, &pkmn->stats.att,
          &pkmn->stats.def, &pkmn->stats.spd);
+  fscanf(save_file, "|%d ", &pkmn->evo_lvl);
+  if (pkmn->evo_lvl != -1)
+  {
+    int fscanf_ret = fscanf(save_file, "%d ", &pkmn->evo_name_length);
+    pkmn->evo_name = malloc(sizeof(char) * pkmn->evo_name_length + 1);
+    fscanf(save_file, "%[^\n]\n", pkmn->evo_name);
+  }
+  else
+  {
+    pkmn->evo_name_length = 0;
+    pkmn->evo_name = "";
+    fscanf(save_file, "%*[^\n]\n");
+  }
 }
 
 /* In the file containing the player data, read one bag item line and add it to
@@ -355,8 +368,9 @@ void writeOnePokemonLine(FILE *save_file, Pokemon pkmn) {
   fprintf(save_file, "%d|", (int)pkmn.crt_ailments[0]);
   fprintf(save_file, "%d %d %d %d ", pkmn.stats.hp_max, pkmn.stats.att_max,
           pkmn.stats.def_max, pkmn.stats.spd_max);
-  fprintf(save_file, "%d %d %d %d\n", pkmn.stats.hp, pkmn.stats.att,
+  fprintf(save_file, "%d %d %d %d|", pkmn.stats.hp, pkmn.stats.att,
           pkmn.stats.def, pkmn.stats.spd);
+  fprintf(save_file, "%d %d %s\n", pkmn.evo_lvl, pkmn.evo_name_length, pkmn.evo_name);
 }
 
 /* In the file containing the player data, write one bag item line

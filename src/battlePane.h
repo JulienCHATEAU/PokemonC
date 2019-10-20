@@ -109,8 +109,8 @@ int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow,
 void battle(Player *player, int *x_map, int *y_map);
 void printAndManageBattlePane(char *battle_pane, Player *player, Pokemon *enemy,
                               bool flee_possible);
-bool goForBattle(Player *player, char *printable_map, int *x_map, int *y_map);
-void isBattle(Player *player, char *printable_map, int *x_map, int *y_map);
+bool goForBattle(Player *player, char *printable_map, int *x_map, int *y_map, char *dialog_box);
+void isBattle(Player *player, char *printable_map, int *x_map, int *y_map, char *dialog_box);
 void addAilments(Pokemon pkmn, char *battle_pane, int pos, bool left_erase);
 
 #endif

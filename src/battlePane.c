@@ -11,6 +11,7 @@
 #include <pthread.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <stdlib.h>
 
 /* Creates a thread and wait for its ending
@@ -822,17 +823,56 @@ void printAndManageBattlePane(char *battle_pane, Player *player, Pokemon *enemy,
   }
 }
 
-bool goForBattle(Player *player, char *printable_map, int *x_map, int *y_map) {
+void handleEvolve(Player *player, char *printable_map, char *dialog_box) {
+  Pokemon *pkmn = &player->pkmns[0];
+  if (pkmn->lvl == pkmn->evo_lvl) {
+    Pokemon evo = fillPokemon(pkmn->evo_name);
+    if (evo.name_length != -1) {
+      addTextInDialogBox(FRST_LINE_START, "Quoi ??", 7, dialog_box);
+      clearAndPrintMap(printable_map, dialog_box);
+      printf("\n");
+      sleep(1);
+
+      int evolve_length = player->pkmns[0].name_length + 9;
+      char *evolve = malloc(sizeof(char) * (evolve_length + 1));
+      sprintf(evolve, "%s evolue !", player->pkmns[0].name);
+      addTextInDialogBox(FRST_LINE_START, evolve, evolve_length, dialog_box);
+      free(evolve);
+      clearAndPrintMap(printable_map, dialog_box);
+      printf("\n");
+      sleep(1);
+
+      eraseDialogBoxLines(dialog_box);
+      addTextInDialogBox(FRST_LINE_START, "...", 3, dialog_box);
+      clearAndPrintMap(printable_map, dialog_box);
+      printf("\n");
+      sleep(3);    
+
+      int evolve_done_length = player->pkmns[0].name_length + player->pkmns[0].evo_name_length + 13;
+      char *evolve_done = malloc(sizeof(char) * (evolve_done_length + 1));
+      sprintf(evolve_done, "%s a evolue en %s", player->pkmns[0].name, player->pkmns[0].evo_name);
+      addTextInDialogBox(FRST_LINE_START, evolve_done, evolve_done_length, dialog_box);
+      free(evolve_done);
+      clearAndPrintMap(printable_map, dialog_box);
+
+      evolvePokemon(pkmn, evo);
+    }
+  }
+}
+
+bool goForBattle(Player *player, char *printable_map, int *x_map, int *y_map, char *dialog_box) {
   bool lost = false;
   int money_temp = player->money;
   battle(player, x_map, y_map);
   resetPlayerPkmnsStatsAfterBattle(player);
   if (player->money < money_temp) {
-    comeBackFirstMap(player, printable_map, x_map, y_map);
+    comeBackFirstMap(player, printable_map, x_map, y_map, dialog_box);
     if (player->money < 0) {
       player->money = 0;
     }
     lost = true;
+  } else {
+    handleEvolve(player, printable_map, dialog_box);
   }
   return lost;
 }
@@ -840,10 +880,10 @@ bool goForBattle(Player *player, char *printable_map, int *x_map, int *y_map) {
 /* Checks if the player triggered a battle
  * player : the player
  */
-void isBattle(Player *player, char *printable_map, int *x_map, int *y_map) {
+void isBattle(Player *player, char *printable_map, int *x_map, int *y_map, char *dialog_box) {
   if (isEqual(player->char_at_pos, LONG_GRASS)) {
     if (rand() % 100 < BATTLE_PERCENTAGE) {
-      goForBattle(player, printable_map, x_map, y_map);
+      goForBattle(player, printable_map, x_map, y_map, dialog_box);
     }
   }
 }

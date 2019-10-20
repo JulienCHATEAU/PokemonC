@@ -28,7 +28,7 @@ while i < nbarg
 
   begin
     while line = read_file.readline
-        if line =~ /(int|char|double|float|Boolean|void)\s.*(\(([^,\s]* [^,\s]*, )*.* .*\)|\(\)) {/
+        if line =~ /(int|char|double|float|Boolean|bool|BagItem|void)\s.*(\(([^,\s]* [^,\s]*, )*.* .*\)|\(\)) {/
           output_file.print(line.sub(" {", ";"))
         end
     end

@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <time.h>
 
 /* Waits until the user press the 'Enter' key
@@ -215,7 +216,7 @@ void movePlayer(Player *player, char new_pos, int xy_sub, char *printable_map,
     player->xy = player->xy + xy_sub;
   } else {
     player->char_at_pos = char_at_new_xy;
-    isBattle(player, printable_map, x_map, y_map);
+    isBattle(player, printable_map, x_map, y_map, dialog_box);
   }
 }
 
@@ -232,7 +233,7 @@ void movePlayer(Player *player, char new_pos, int xy_sub, char *printable_map,
  */
 void changeMap(Player *player, int *x_map, int *y_map, int x_map_sub,
                int y_map_sub, char new_pos, int xy_player_sub,
-               char *printable_map, char *map_structure) {
+               char *printable_map, char *map_structure, char *dialog_box) {
   // set the current map coordinates to the new map ones
   *x_map = *x_map - x_map_sub;
   *y_map = *y_map - y_map_sub;
@@ -248,16 +249,16 @@ void changeMap(Player *player, int *x_map, int *y_map, int x_map_sub,
   player->char_at_pos = char_at_new_xy;
 
   createPrintableMap(printable_map, map_structure, *player);
-  isBattle(player, printable_map, x_map, y_map);
+  isBattle(player, printable_map, x_map, y_map, dialog_box);
 }
 
 void comeBackFirstMap(Player *player, char *printable_map, int *x_map,
-                      int *y_map) {
+                      int *y_map, char* dialog_box) {
   char map_structure[MAP_SIZE];
   *x_map = 0;
   *y_map = 0;
   changeMap(player, x_map, y_map, 0, 0, PLAYER_N, player->xy - PLAYER_START_POS,
-            printable_map, map_structure);
+            printable_map, map_structure, dialog_box);
 }
 
 /* Save the xy coordinate of an interactive object the player has taken to
@@ -416,7 +417,7 @@ void fishing(Player *player, char *printable_map, char *dialog_box, int *x_map,
                        "Cela a mordu ! Vous recevez une Pokeball !", 42,
                        dialog_box);
   } else if (r < 50) {
-    goForBattle(player, printable_map, x_map, y_map);
+    goForBattle(player, printable_map, x_map, y_map, dialog_box);
   } else {
     addTextInDialogBox(FRST_LINE_START, "Cela ne mord pas...", 19, dialog_box);
   }
@@ -462,7 +463,7 @@ int checkIfInteractionPossible(Player *player, char *printable_map,
   char char_ifo_player = printable_map[xy_ifo_player];
   if (char_ifo_player == POKEBALL) {
     if (*x_map == 2 && *y_map == -3) { // trapped pokeball
-      bool lost = goForBattle(player, printable_map, x_map, y_map);
+      bool lost = goForBattle(player, printable_map, x_map, y_map, dialog_box);
       if (!lost) {
         addTextInDialogBox(
             FRST_LINE_START,
@@ -471,7 +472,7 @@ int checkIfInteractionPossible(Player *player, char *printable_map,
         addTextInDialogBox(SCD_LINE_START,
                            "Bravo, vous avez obtenu une Clef de Diamand !", 45,
                            dialog_box);
-        addBagItemPlayer(player, 7, 1);
+        addBagItemPlayer(player, DIAMOND_KEY_ID, 1);
         clearAndPrintMap(printable_map, dialog_box);
         saveMapSpecificData(player, *x_map, *y_map,
                             (xy_ifo_player - TO_PRINTABLE_MAP2) / 2);
@@ -521,7 +522,7 @@ int manageKeyPressed(char key_pressed, Player *player, char *dialog_box,
   if (key_pressed == MOVE_Z) {
     if (player->xy > 0 && player->xy < LINE_SEPARATOR) {
       changeMap(player, x_map, y_map, 0, -1, PLAYER_N, -(11 * LINE_SEPARATOR),
-                printable_map, map_structure);
+                printable_map, map_structure, dialog_box);
     } else {
       movePlayer(player, PLAYER_N, LINE_SEPARATOR, printable_map, dialog_box,
                  x_map, y_map);
@@ -529,14 +530,14 @@ int manageKeyPressed(char key_pressed, Player *player, char *dialog_box,
   } else if (key_pressed == MOVE_Q) {
     if (player->xy % LINE_SEPARATOR == 0) {
       changeMap(player, x_map, y_map, 1, 0, PLAYER_W, -(LINE_SEPARATOR - 3),
-                printable_map, map_structure);
+                printable_map, map_structure, dialog_box);
     } else {
       movePlayer(player, PLAYER_W, 1, printable_map, dialog_box, x_map, y_map);
     }
   } else if (key_pressed == MOVE_S) {
     if (player->xy > (MAP_SIZE - LINE_SEPARATOR) && player->xy < MAP_SIZE) {
       changeMap(player, x_map, y_map, 0, 1, PLAYER_S, 11 * LINE_SEPARATOR,
-                printable_map, map_structure);
+                printable_map, map_structure, dialog_box);
     } else {
       movePlayer(player, PLAYER_S, -(LINE_SEPARATOR), printable_map, dialog_box,
                  x_map, y_map);
@@ -544,7 +545,7 @@ int manageKeyPressed(char key_pressed, Player *player, char *dialog_box,
   } else if (key_pressed == MOVE_D) {
     if (player->xy % LINE_SEPARATOR == 12) {
       changeMap(player, x_map, y_map, -1, 0, PLAYER_E, LINE_SEPARATOR - 3,
-                printable_map, map_structure);
+                printable_map, map_structure, dialog_box);
     } else {
       movePlayer(player, PLAYER_E, -1, printable_map, dialog_box, x_map, y_map);
     }
