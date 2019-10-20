@@ -6,7 +6,7 @@ _Ce document est à lire attentivement et vous permettra de comprendre le foncti
 
 ## Prérequis
 
-* Ce jeu est uniquement jouable sur Linux
+* Ce jeu est uniquement jouable sur Linux (ou avec le [Windows Subsystem for Linux](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux) de Windows)
 * Vous devez être en possession :
   * du compilateur C : gcc (`sudo apt-get install gcc`)
   * du logiciel make (`sudo apt-get install make`)
