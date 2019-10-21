@@ -461,10 +461,27 @@ void printShopPane(BagItem *shop_items, int shop_size, Player *player,
     i++;
   }
 
-  printf("\n\n\n    ------------\n");
-  printf("   | 1. Acheter |\n");
-  printf("    ------------\n\n\n");
-
+  bool canBuy = false;
+  if (shop_size != targetted_item) {
+    if (shop_items[targetted_item].id == SHARP_KEY_ID) {
+      if (itemCount(player, KEY_FRAG_ID) == 5) {
+        canBuy = true;      
+      }
+    } else {
+      if (shop_items[targetted_item].price <= player->money) {
+        canBuy = true;
+      }
+    }
+  }
+  
+  if (canBuy) {
+    printf("\n\n    ------------\n");
+    printf("   | 1. Acheter |\n");
+    printf("    ------------\n\n");
+  } else {
+    printf("\n\n\n\n\n\n");
+  }
+            
   printf("\n\n      Argent : %d $teamy\n\n", player->money);
 
   if (shop_size == targetted_item) {
