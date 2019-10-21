@@ -196,6 +196,14 @@ void freePokemon(Pokemon pkmn) {
   }
 }
 
+void getSpacesString(char *string, int length) {
+  int i = 0;
+  for (i; i < length; ++i) {
+    string[i] = ' ';
+  }
+  string[i] = '\0';
+}
+
 void copyEffect(Effect effect, Effect *copy) {
  copy->stat_to_change = effect.stat_to_change;
  copy->change_value = effect.change_value;

@@ -80,9 +80,9 @@ void askPseudoOrPw(char *array, int array_max_length) {
              "acceptés\n");
     }
     if (array_max_length == PSEUDO_MAX_LENGTH) {
-      printf("\n  Pseudo (%d caractère max) : ", array_max_length);
+      printf("\n  Pseudo (%d caractères max) : ", array_max_length);
     } else {
-      printf("\n  Mot de passe (%d caractère max) : ", array_max_length);
+      printf("\n  Mot de passe (%d caractères max) : ", array_max_length);
     }
     fgets(array, array_max_length, stdin);
     int array_length = strlen(array);

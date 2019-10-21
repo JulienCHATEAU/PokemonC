@@ -1,0 +1,2 @@
+0;0 192|6 Steamy|4|35 Hey, bienvenue ! J'espere que tu va|27 aimer ce jeu, il est cool !|39 Je te conseille d'aller vers l'est pour|19 chopper la cisaille|
+-1;0 184|5 Cursy|2|39 La case '#' permet de soigner toute ton|28 equipe. Cool n'est ce pas ?!|

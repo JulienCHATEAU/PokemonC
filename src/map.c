@@ -6,6 +6,7 @@
 #include "pokemon.h"
 #include "print.h"
 #include "startMenu.h"
+#include "pnj.h"
 #include "ttyraw.h"
 #include "util.h"
 #include <ncurses.h>
@@ -171,7 +172,7 @@ void clearAndPrintMap(char *printable_map, char *dialog_box) {
 }
 
 bool isObstacle(char char_at_new_xy) {
-  int obstacle_count = 9;
+  int obstacle_count = 13;
   char obstacles[obstacle_count];
   obstacles[0] = TREE;
   obstacles[1] = POKEBALL;
@@ -182,6 +183,10 @@ bool isObstacle(char char_at_new_xy) {
   obstacles[6] = DOOR_LEFT_PILAR;
   obstacles[7] = DOOR_RIGHT_PILAR;
   obstacles[8] = DOOR;
+  obstacles[9] = PLAYER_N;
+  obstacles[10] = PLAYER_S;
+  obstacles[11] = PLAYER_E;
+  obstacles[12] = PLAYER_W;
   bool is_obstacle = false;
   int i = 0;
   while (!is_obstacle && i < obstacle_count) {
@@ -446,23 +451,10 @@ void manageFishing(Player *player, char *dialog_box, char *printable_map,
   clearAndPrintMap(printable_map, dialog_box);
 }
 
-/* Check if an interacion is possible
- * player : the player
- * printable_map : the printable map
- * dialog_box : the dialog box
- * x_map : the x coordinate of the current map
- * y_map : the y coordinate of the current map
- * return 2 to clear and print back the map, 0 to do nothing
- */
-int checkIfInteractionPossible(Player *player, char *printable_map,
-                               char *dialog_box, int *x_map, int *y_map) {
-  printable_map[TO_PRINTABLE_MAP1 * player->xy + TO_PRINTABLE_MAP2] =
-      player->pos;
-  int interaction_found = 2; // clear and print
-  int xy_ifo_player = getXYIfoPlayer(player);
-  char char_ifo_player = printable_map[xy_ifo_player];
-  if (char_ifo_player == POKEBALL) {
-    if (*x_map == 2 && *y_map == -3) { // trapped pokeball
+
+void pickPokeball(Player *player, char *printable_map,
+                               char *dialog_box, int *x_map, int *y_map, int xy_ifo_player) {
+  if (*x_map == 2 && *y_map == -3) { // trapped pokeball
       bool lost = goForBattle(player, printable_map, x_map, y_map, dialog_box);
       if (!lost) {
         addTextInDialogBox(
@@ -486,18 +478,61 @@ int checkIfInteractionPossible(Player *player, char *printable_map,
       printable_map[xy_ifo_player] = ' ';
       manageItemFound(player, dialog_box, x_map, y_map);
     }
-  } else if (char_ifo_player == STONE) {
+}
+
+
+/* Check if an interacion is possible
+ * player : the player
+ * printable_map : the printable map
+ * dialog_box : the dialog box
+ * x_map : the x coordinate of the current map
+ * y_map : the y coordinate of the current map
+ * return 2 to clear and print back the map, 0 to do nothing
+ */
+int checkIfInteractionPossible(Player *player, char *printable_map,
+                               char *dialog_box, int *x_map, int *y_map) {
+  printable_map[TO_PRINTABLE_MAP1 * player->xy + TO_PRINTABLE_MAP2] =
+      player->pos;
+  int interaction_found = 2; // clear and print
+  int xy_ifo_player = getXYIfoPlayer(player);
+  char char_ifo_player = printable_map[xy_ifo_player];
+  switch (char_ifo_player) {
+  case POKEBALL:
+    pickPokeball(player, printable_map, dialog_box, x_map, y_map, xy_ifo_player);
+    break;
+
+  case STONE:
     manageDestroy(player, dialog_box, printable_map, char_ifo_player,
                   xy_ifo_player);
-  } else if (char_ifo_player == CUTABLE_TREE) {
+    break;
+
+  case CUTABLE_TREE:
     manageDestroy(player, dialog_box, printable_map, char_ifo_player,
                   xy_ifo_player);
-  } else if (char_ifo_player == DOOR) {
+    break;
+
+  case DOOR:
     manageDoorOpenning(player, dialog_box, printable_map);
-  } else if (char_ifo_player == WATER_) {
+    break;
+
+  case WATER_:
     manageFishing(player, dialog_box, printable_map, x_map, y_map);
-  } else {
+    break;
+  
+  case PLAYER_N://or
+  case PLAYER_S://or
+  case PLAYER_E://or
+  case PLAYER_W:
+    printf("%d", xy_ifo_player);
+    managePnjOrientation(printable_map, player->pos, xy_ifo_player);
+    Pnj pnj;
+    findPnj(*x_map, *y_map, xy_ifo_player, &pnj);
+    pnjDialog(printable_map, dialog_box, &pnj);
+    break;
+
+  default:
     interaction_found = 0; // do not clear and print
+    break;
   }
   printable_map[TO_PRINTABLE_MAP1 * player->xy + TO_PRINTABLE_MAP2] =
       player->char_at_pos;

@@ -146,4 +146,15 @@ typedef struct {
   int bag_item_count;
 } Player;
 
+typedef struct {
+  int x_map;
+  int y_map;
+  int xy;
+  int name_length;
+  char *name;
+  int texts_count;
+  int *texts_length;
+  char **dialog_texts;
+} Pnj;
+
 #endif
