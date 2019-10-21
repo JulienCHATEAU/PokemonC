@@ -32,5 +32,6 @@ void copyEffect(Effect effect, Effect *copy);
 void copySkill(Skill skill, Skill *copy);
 bool isItemUsable(int mode, int usable_time);
 void getSpacesString(char *string, int length);
+void enterKey();
 
 #endif

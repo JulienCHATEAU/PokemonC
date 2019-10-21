@@ -196,6 +196,13 @@ void freePokemon(Pokemon pkmn) {
   }
 }
 
+void enterKey() {
+  int enter = -1;
+  do {
+      enter = getchar();
+  } while (enter != ENTER);
+}
+
 void getSpacesString(char *string, int length) {
   int i = 0;
   for (i; i < length; ++i) {

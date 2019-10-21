@@ -29,25 +29,21 @@ void managePnjOrientation(char *printable_map, char player_orientation, int xy_i
 
 void pnjDialog(char *printable_map, char *dialog_box, Pnj *pnj) {
   printf("pnjDialog");
-  int enter = -1;
   int txt_length = 2;
   for (int i = 0; i < pnj->texts_count; i += 2) {    
-    txt_length = pnj->name_length + 4 + pnj->texts_length[i];
+    txt_length = pnj->name_length + 3 + pnj->texts_length[i];
     char *first_txt = malloc(sizeof(char) * txt_length + 1);
-    sprintf(first_txt, "%s : '%s", pnj->name, pnj->dialog_texts[i]);
+    sprintf(first_txt, "%s : %s", pnj->name, pnj->dialog_texts[i]);
     addTextInDialogBox(FRST_LINE_START, first_txt, txt_length, dialog_box);
-    txt_length = pnj->name_length + 4 + pnj->texts_length[i+1] + 1;
+    txt_length = pnj->name_length + 3 + pnj->texts_length[i+1];
     char *scd_txt = malloc(sizeof(char) * txt_length + 1);
     char *spaces = malloc(sizeof(char) * pnj->name_length + 1);
     getSpacesString(spaces, pnj->name_length);
-    sprintf(scd_txt, "%s    %s'", spaces, pnj->dialog_texts[i+1]);
+    sprintf(scd_txt, "%s   %s", spaces, pnj->dialog_texts[i+1]);
     addTextInDialogBox(SCD_LINE_START, scd_txt, txt_length, dialog_box);
 
     clearAndPrintMap(printable_map, dialog_box);
-    enter = -1;
-    do {
-        enter = getchar();
-    } while (enter != ENTER);
+    enterKey();
     eraseDialogBoxLines(dialog_box);
   }
   clearAndPrintMap(printable_map, dialog_box);
