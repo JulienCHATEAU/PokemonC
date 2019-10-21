@@ -526,8 +526,10 @@ int checkIfInteractionPossible(Player *player, char *printable_map,
     printf("%d", xy_ifo_player);
     managePnjOrientation(printable_map, player->pos, xy_ifo_player);
     Pnj pnj;
-    findPnj(*x_map, *y_map, xy_ifo_player, &pnj);
-    pnjDialog(printable_map, dialog_box, &pnj);
+    bool trouve = findPnj(*x_map, *y_map, xy_ifo_player, &pnj);
+    if (trouve) {
+      pnjDialog(printable_map, dialog_box, &pnj);
+    }
     break;
 
   default:

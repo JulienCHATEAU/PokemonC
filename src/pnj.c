@@ -53,7 +53,7 @@ void pnjDialog(char *printable_map, char *dialog_box, Pnj *pnj) {
   clearAndPrintMap(printable_map, dialog_box);
 }
 
-void findPnj(int x_map, int y_map, int xy_pnj, Pnj *pnj) {
+bool findPnj(int x_map, int y_map, int xy_pnj, Pnj *pnj) {
     FILE *pnjs_file = openFile(PNJS_PATH, "r");
     bool trouve = false;
     int fscanf_ret = 0;
@@ -77,6 +77,7 @@ void findPnj(int x_map, int y_map, int xy_pnj, Pnj *pnj) {
     }
     // printPnj(pnj);
     closeFile(pnjs_file);
+    return trouve;
 }
 
 void printPnj(Pnj *pnj) {

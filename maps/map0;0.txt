@@ -2,9 +2,9 @@
 @@@@@@@@@@@@@
 @WWWW@@@  @@@
 @WWWW@@   @@@
-@WW  @@   WW@
-@         WW@
-     v   WWW@
+@WW @@@   WW@
+@    v    WW@
+         WWW@
           WW@
 @@@@     WWW@
 @@@@@    W@@@
