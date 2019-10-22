@@ -18,5 +18,6 @@ bool possessAllKeys(Player *player);
 int itemCount(Player *player, int id);
 int usePotion(Player *player, int targetted_pkmn);
 void useTotalSoin(Player *player, int targetted_pkmn);
+void initPikedItem(Player *player);
 
 #endif

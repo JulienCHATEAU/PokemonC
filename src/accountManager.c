@@ -123,7 +123,7 @@ int manageConnexionKeyPressed(char *pseudo, char *password, char key_pressed) {
       getRandomPokemonName(&random_name);
       Player player = createPlayer(pseudo, PLAYER_START_POS, '^', random_name);
       savePlayerData(0, 0, &player);
-      printf("\n\n\n  ");
+      printf("\n\n\n ");
       key_pressed_status = 0;
       waitForEnter();
     } else if (exist == 1) {
@@ -224,20 +224,6 @@ FILE *openPlayerSaveFile(Player *player, char *mode) {
   return save_file;
 }
 
-/* Opens the file used temporarly to sasve all the given player data
- * player : the player_pos
- * mode : the oppening mode
- */
-FILE *openPlayerNewSaveFile(Player *player, char *mode) {
-  char *save_file_path =
-      malloc(sizeof(char) *
-             (13 + player->pseudo_length + 1)); // 13 -> 'save/_new.txt' length
-  sprintf(save_file_path, "save/%s_new.txt", player->pseudo);
-  FILE *save_file = openFile(save_file_path, mode);
-  free(save_file_path);
-  return save_file;
-}
-
 /* In the file containing the player data, skip the first lines describing the
  * player save_file : the concerned file
  */
@@ -245,7 +231,7 @@ void skipPlayerData(FILE *save_file) {
   int pkmn_count = 0;
   int bag_item_count = 0;
   fscanf(save_file, "%*d|%*d|%*d|");
-  fscanf(save_file, "%*c|%*c|%d|%d|%*d\n", &bag_item_count, &pkmn_count);
+  fscanf(save_file, "%*c|%*c|%d|%d|%*d|%*d\n", &bag_item_count, &pkmn_count);
   skipLines(save_file, pkmn_count + bag_item_count);
 }
 
@@ -278,14 +264,11 @@ void readOnePokemonLine(FILE *save_file, Pokemon *pkmn) {
   fscanf(save_file, "%d %d %d %d", &pkmn->stats.hp, &pkmn->stats.att,
          &pkmn->stats.def, &pkmn->stats.spd);
   fscanf(save_file, "|%d ", &pkmn->evo_lvl);
-  if (pkmn->evo_lvl != -1)
-  {
+  if (pkmn->evo_lvl != -1) {
     int fscanf_ret = fscanf(save_file, "%d ", &pkmn->evo_name_length);
     pkmn->evo_name = malloc(sizeof(char) * pkmn->evo_name_length + 1);
     fscanf(save_file, "%[^\n]\n", pkmn->evo_name);
-  }
-  else
-  {
+  } else {
     pkmn->evo_name_length = 0;
     pkmn->evo_name = "";
     fscanf(save_file, "%*[^\n]\n");
@@ -302,6 +285,17 @@ void readOneBagItemLine(FILE *save_file, Player *player) {
   addBagItemPlayer(player, item_id, item_count);
 }
 
+/* In the file containing the player data, read one bag item line and add it
+ * to the player's bag save_file : the concerned file player : the player
+ */
+void readOnePickedItemLine(FILE *save_file, Player *player) {
+  int xy = 0;
+  int y_map = 0;
+  int x_map = 0;
+  fscanf(save_file, "%d;%d %d\n", &x_map, &y_map, &xy);
+  addPickedItemPlayer(player, x_map, y_map, xy);
+}
+
 /* Loads the player data from his save file
  * x_map : the x coordinate of the map where the user exited the game
  * y_map : the y coordinate of the map where the user exited the game
@@ -310,48 +304,25 @@ void readOneBagItemLine(FILE *save_file, Player *player) {
 void loadPlayerData(int *x_map, int *y_map, Player *player) {
   initBag(player);
   int bag_item_count = 0;
+  int item_picked_count = 0;
   player->pseudo[player->pseudo_length] = '\0';
   player->bag_item_count = 0;
+  player->item_picked_count = 0;
   FILE *save_file = openPlayerSaveFile(player, "r");
   fscanf(save_file, "%d|%d|%d|", x_map, y_map, &player->xy);
-  fscanf(save_file, "%c|%c|%d|%d|%d\n", &player->pos, &player->char_at_pos,
-         &bag_item_count, &player->pkmn_count, &player->money);
-
+  fscanf(save_file, "%c|%c|%d|%d|%d|%d\n", &player->pos, &player->char_at_pos,
+         &bag_item_count, &player->pkmn_count, &player->money,
+         &item_picked_count);
   for (int i = 0; i < player->pkmn_count; i++) {
     readOnePokemonLine(save_file, &player->pkmns[i]);
   }
   for (int i = 0; i < bag_item_count; i++) {
     readOneBagItemLine(save_file, player);
   }
-
-  closeFile(save_file);
-}
-
-/* Saves the current data of the player in a temporary file
- * player : the player
- */
-void saveMapDataFromFile(Player *player) {
-  char *save_file_path = malloc(sizeof(char) * (9 + player->pseudo_length +
-                                                1)); // 9 -> 'save/.txt' length
-  sprintf(save_file_path, "save/%s.txt", player->pseudo);
-  char *new_save_file_path =
-      malloc(sizeof(char) *
-             (13 + player->pseudo_length + 1)); // 9 -> 'save/.txt' length
-  sprintf(new_save_file_path, "save/%s_new.txt", player->pseudo);
-  FILE *save_file = openFile(save_file_path, "r");
-  FILE *new_save_file = openFile(new_save_file_path, "a");
-
-  skipPlayerData(save_file);
-  char tmp_array[20];
-  while (fscanf(save_file, "%[^\n]\n", tmp_array) != EOF) {
-    fprintf(new_save_file, "%s\n", tmp_array);
+  for (int i = 0; i < item_picked_count; i++) {
+    readOnePickedItemLine(save_file, player);
   }
   closeFile(save_file);
-  closeFile(new_save_file);
-  remove(save_file_path);
-  rename(new_save_file_path, save_file_path);
-  free(save_file_path);
-  free(new_save_file_path);
 }
 
 /* In the file containing the player data, write one pokemon line with the data
@@ -370,7 +341,8 @@ void writeOnePokemonLine(FILE *save_file, Pokemon pkmn) {
           pkmn.stats.def_max, pkmn.stats.spd_max);
   fprintf(save_file, "%d %d %d %d|", pkmn.stats.hp, pkmn.stats.att,
           pkmn.stats.def, pkmn.stats.spd);
-  fprintf(save_file, "%d %d %s\n", pkmn.evo_lvl, pkmn.evo_name_length, pkmn.evo_name);
+  fprintf(save_file, "%d %d %s\n", pkmn.evo_lvl, pkmn.evo_name_length,
+          pkmn.evo_name);
 }
 
 /* In the file containing the player data, write one bag item line
@@ -381,22 +353,34 @@ void writeOneBagItemLine(FILE *save_file, BagItem bag_item) {
   fprintf(save_file, "%d|%d\n", bag_item.id, bag_item.count);
 }
 
+/* In the file containing the player data, write one picked item line
+ * save_file : the concerned file
+ * picked_item : the picked item
+ */
+void writeOnePickedItemLine(FILE *save_file, MapSquare picked_item) {
+  fprintf(save_file, "%d;%d %d\n", picked_item.x_map, picked_item.y_map,
+          picked_item.xy);
+}
+
 /* save the player data in his save file
  * x_map : the x coordinate of the map where the user currently is
  * y_map : the y coordinate of the map where the user currently is
  * player : the player
  */
 void savePlayerData(int x_map, int y_map, Player *player) {
-  FILE *save_file = openPlayerNewSaveFile(player, "w+");
+  FILE *save_file = openPlayerSaveFile(player, "w+");
   fprintf(save_file, "%d|%d|%d|", x_map, y_map, player->xy);
-  fprintf(save_file, "%c|%c|%d|%d|%d\n", player->pos, player->char_at_pos,
-          player->bag_item_count, player->pkmn_count, player->money);
+  fprintf(save_file, "%c|%c|%d|%d|%d|%d\n", player->pos, player->char_at_pos,
+          player->bag_item_count, player->pkmn_count, player->money,
+          player->item_picked_count);
   for (int i = 0; i < player->pkmn_count; i++) {
     writeOnePokemonLine(save_file, player->pkmns[i]);
   }
   for (int i = 0; i < player->bag_item_count; i++) {
     writeOneBagItemLine(save_file, player->bag[i]);
   }
+  for (int i = 0; i < player->bag_item_count; i++) {
+    writeOnePickedItemLine(save_file, player->item_picked[i]);
+  }
   closeFile(save_file);
-  saveMapDataFromFile(player);
 }

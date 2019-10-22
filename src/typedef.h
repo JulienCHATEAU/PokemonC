@@ -2,7 +2,7 @@
 #define TYPEDEF_H
 
 #define BAG_SIZE 50
-
+#define ITEM_COUNT 100
 typedef enum {
   NO_TYPE = -1,
   NORMAL,   // 0
@@ -134,6 +134,12 @@ typedef struct {
 } BagItem;
 
 typedef struct {
+  int x_map;
+  int y_map;
+  int xy;
+} MapSquare;
+
+typedef struct {
   int xy;
   char pos;
   char char_at_pos;
@@ -144,12 +150,12 @@ typedef struct {
   int money;
   BagItem bag[BAG_SIZE];
   int bag_item_count;
+  MapSquare item_picked[ITEM_COUNT];
+  int item_picked_count;
 } Player;
 
 typedef struct {
-  int x_map;
-  int y_map;
-  int xy;
+  MapSquare square;
   int name_length;
   char *name;
   int texts_count;

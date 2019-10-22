@@ -1,4 +1,5 @@
 #include "typedef.h"
+#include <stdbool.h>
 
 #ifndef MAP_H
 #define MAP_H
@@ -69,5 +70,6 @@ void manageDoorOpenning(Player *player, char *dialog_box, char *printable_map);
 void comeBackFirstMap(Player *player, char *printable_map, int *x_map,
                       int *y_map, char *dialog_box);
 void blinkScreen(char *printable_map, char *dialog_box);
+bool isMapSquareEqual(MapSquare ms1, MapSquare ms2);
 
 #endif

@@ -1,5 +1,5 @@
-#include <stdbool.h>
 #include "typedef.h"
+#include <stdbool.h>
 
 #ifndef UTIL_H
 #define UTIL_H
@@ -12,12 +12,13 @@
 #define MOVE_S 's'
 #define MOVE_D 'd'
 
-void waitNMs(int n);/*n millisecond*/
+void waitNMs(int n); /*n millisecond*/
 bool isEqual(char character, char comp);
 void textColor(int attr, int fg);
 void addArrow(int arrow_xy, char *battle_pane);
 void removeArrow(int arrow_xy, char *battle_pane);
-void shiftMenuPipes(char *battle_pane, int top_pipe_xy_to_add, int top_pipe_xy_to_erase, int next_line, int pipe_count);
+void shiftMenuPipes(char *battle_pane, int top_pipe_xy_to_add,
+                    int top_pipe_xy_to_erase, int next_line, int pipe_count);
 void addStringToArray(char *string, int string_length, int start, char *array);
 bool contains(int *tab, int count, int elem);
 void setStringToTab(char *tab, char *string);
@@ -33,5 +34,6 @@ void copySkill(Skill skill, Skill *copy);
 bool isItemUsable(int mode, int usable_time);
 void getSpacesString(char *string, int length);
 void enterKey();
+void addPickedItemPlayer(Player *player, int x_map, int y_map, int xy);
 
 #endif

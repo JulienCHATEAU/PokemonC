@@ -50,6 +50,17 @@ void initBag(Player *player) {
   }
 }
 
+/* Inits the player picked items
+ * player : the player
+ */
+void initPikedItem(Player *player) {
+  for (int i = 0; i < ITEM_COUNT; i++) {
+    player->item_picked[i].x_map = 0;
+    player->item_picked[i].y_map = 0;
+    player->item_picked[i].xy = 0;
+  }
+}
+
 /* Checks if the player possesses a specified item in his bag
  * player : the player
  * id : the item's id
@@ -153,5 +164,5 @@ void useTotalSoin(Player *player, int targetted_pkmn) {
   if (pkmn_to_heal->crt_ailments[0] != NO_AILMENT) {
     removeItem(player, possessBagItem(player, TOTAL_SOIN_ID), 1);
     removeAllAilments(pkmn_to_heal);
-  } 
+  }
 }

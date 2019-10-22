@@ -3,10 +3,10 @@
 #include "bag.h"
 #include "battle.h"
 #include "fileManager.h"
+#include "pnj.h"
 #include "pokemon.h"
 #include "print.h"
 #include "startMenu.h"
-#include "pnj.h"
 #include "ttyraw.h"
 #include "util.h"
 #include <ncurses.h>
@@ -14,8 +14,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
 #include <time.h>
+#include <unistd.h>
 
 /* Waits until the user press the 'Enter' key
  */
@@ -57,20 +57,16 @@ int getXYIfoPlayer(Player *player) {
  */
 void removeInteractiveObject(int x_map, int y_map, Player *player,
                              char *map_structure) {
-  FILE *save_file = openPlayerSaveFile(player, "r");
-  int scan_status = 0;
-  skipPlayerData(save_file);
-  int x_map_tmp;
-  int y_map_tmp;
-  int xy_tmp;
-  while (scan_status != EOF) {
-    scan_status =
-        fscanf(save_file, "%d;%d %d\n", &x_map_tmp, &y_map_tmp, &xy_tmp);
-    if (x_map == x_map_tmp && y_map == y_map_tmp) {
-      map_structure[xy_tmp] = ' ';
+  MapSquare item;
+  int i = 0;
+  while (i < player->item_picked_count) {
+    item = player->item_picked[i];
+    if (x_map == item.x_map && y_map == item.y_map) {
+      map_structure[item.xy] = ' ';
+      break;
     }
+    i++;
   }
-  closeFile(save_file);
 }
 
 /* Fills an array with all the character of the n-th map file
@@ -258,7 +254,7 @@ void changeMap(Player *player, int *x_map, int *y_map, int x_map_sub,
 }
 
 void comeBackFirstMap(Player *player, char *printable_map, int *x_map,
-                      int *y_map, char* dialog_box) {
+                      int *y_map, char *dialog_box) {
   char map_structure[MAP_SIZE];
   *x_map = 0;
   *y_map = 0;
@@ -451,35 +447,32 @@ void manageFishing(Player *player, char *dialog_box, char *printable_map,
   clearAndPrintMap(printable_map, dialog_box);
 }
 
-
-void pickPokeball(Player *player, char *printable_map,
-                               char *dialog_box, int *x_map, int *y_map, int xy_ifo_player) {
+void pickPokeball(Player *player, char *printable_map, char *dialog_box,
+                  int *x_map, int *y_map, int xy_ifo_player) {
   if (*x_map == 2 && *y_map == -3) { // trapped pokeball
-      bool lost = goForBattle(player, printable_map, x_map, y_map, dialog_box);
-      if (!lost) {
-        addTextInDialogBox(
-            FRST_LINE_START,
-            "Le Pokemon s'enfuit en laissant une clef par terre.", 51,
-            dialog_box);
-        addTextInDialogBox(SCD_LINE_START,
-                           "Bravo, vous avez obtenu une Clef de Diamand !", 45,
-                           dialog_box);
-        addBagItemPlayer(player, DIAMOND_KEY_ID, 1);
-        clearAndPrintMap(printable_map, dialog_box);
-        saveMapSpecificData(player, *x_map, *y_map,
-                            (xy_ifo_player - TO_PRINTABLE_MAP2) / 2);
-        printable_map[xy_ifo_player] = ' ';
-      } else {
-        eraseDialogBoxLines(dialog_box);
-      }
-    } else {
-      saveMapSpecificData(player, *x_map, *y_map,
+    bool lost = goForBattle(player, printable_map, x_map, y_map, dialog_box);
+    if (!lost) {
+      addTextInDialogBox(FRST_LINE_START,
+                         "Le Pokemon s'enfuit en laissant une clef par terre.",
+                         51, dialog_box);
+      addTextInDialogBox(SCD_LINE_START,
+                         "Bravo, vous avez obtenu une Clef de Diamand !", 45,
+                         dialog_box);
+      addBagItemPlayer(player, DIAMOND_KEY_ID, 1);
+      clearAndPrintMap(printable_map, dialog_box);
+      addPickedItemPlayer(player, *x_map, *y_map,
                           (xy_ifo_player - TO_PRINTABLE_MAP2) / 2);
       printable_map[xy_ifo_player] = ' ';
-      manageItemFound(player, dialog_box, x_map, y_map);
+    } else {
+      eraseDialogBoxLines(dialog_box);
     }
+  } else {
+    addPickedItemPlayer(player, *x_map, *y_map,
+                        (xy_ifo_player - TO_PRINTABLE_MAP2) / 2);
+    printable_map[xy_ifo_player] = ' ';
+    manageItemFound(player, dialog_box, x_map, y_map);
+  }
 }
-
 
 /* Check if an interacion is possible
  * player : the player
@@ -498,7 +491,8 @@ int checkIfInteractionPossible(Player *player, char *printable_map,
   char char_ifo_player = printable_map[xy_ifo_player];
   switch (char_ifo_player) {
   case POKEBALL:
-    pickPokeball(player, printable_map, dialog_box, x_map, y_map, xy_ifo_player);
+    pickPokeball(player, printable_map, dialog_box, x_map, y_map,
+                 xy_ifo_player);
     break;
 
   case STONE:
@@ -518,15 +512,16 @@ int checkIfInteractionPossible(Player *player, char *printable_map,
   case WATER_:
     manageFishing(player, dialog_box, printable_map, x_map, y_map);
     break;
-  
-  case PLAYER_N://or
-  case PLAYER_S://or
-  case PLAYER_E://or
+
+  case PLAYER_N: // or
+  case PLAYER_S: // or
+  case PLAYER_E: // or
   case PLAYER_W:
     printf("%d", xy_ifo_player);
     managePnjOrientation(printable_map, player->pos, xy_ifo_player);
     Pnj pnj;
-    bool trouve = findPnj(*x_map, *y_map, xy_ifo_player, &pnj);
+    MapSquare pnj_pos = {*x_map, *y_map, xy_ifo_player};
+    bool trouve = findPnj(pnj_pos, &pnj);
     if (trouve) {
       pnjDialog(printable_map, dialog_box, &pnj);
     }
@@ -608,4 +603,8 @@ int manageKeyPressed(char key_pressed, Player *player, char *dialog_box,
   }
 
   return key_status;
+}
+
+bool isMapSquareEqual(MapSquare ms1, MapSquare ms2) {
+  return ms1.x_map == ms2.x_map && ms1.y_map == ms2.y_map && ms1.xy == ms2.xy;
 }
