@@ -15,7 +15,7 @@ _Ce document est à lire attentivement et vous permettra de comprendre le foncti
 
 ## L'initialisation et le lancement du jeu
 
-Pour installer le jeu, placer vous dans le répertoire de votre choix et effectuez la suite de commande suivante :
+Pour installer la version du jeu de votre choix, placer vous dans un répertoire et effectuez la suite de commande suivante :
 
 1. `$ git clone --branch <tag_version> https://github.com/JulienCHATEAU/PokemonC.git`
 2. `$ cd PokemonC`
@@ -35,4 +35,4 @@ Pour lancer le jeu effectuez la commande :
 - Enter : Valider / Intéragir
 - Retour : Annuler un action
 
-*PS : Si vous remarquez quelque chose semblant être erroné n'hésitez pas à me contacter via steamygamecontact@gmail.com ou à ouvrir une issue, je me ferai un plaisir de vous répondre *
+*PS : Si vous remarquez quelque chose semblant être erroné n'hésitez pas à me contacter via steamygamecontact@gmail.com ou à ouvrir une issue, je me ferai un plaisir de vous répondre*
