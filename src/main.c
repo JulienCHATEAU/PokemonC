@@ -61,6 +61,11 @@ int main(int argc, char const *argv[]) {
           (xy_temp == player.xy && pos_temp != player.pos) ||
           first_print) { // key_status == 2 means an interacion happened
         clearAndPrintMap(printable_map, dialog_box);
+        if (key_pressed == ENTER) {
+          enterKey();
+          eraseDialogBoxLines(dialog_box);
+          clearAndPrintMap(printable_map, dialog_box);
+        }
         first_print = false;
       }
       xy_temp = player.xy;

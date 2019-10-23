@@ -347,17 +347,20 @@ void manageDestroy(Player *player, char *dialog_box, char *printable_map,
   if (destroyed_object == CUTABLE_TREE) {
     item_id = CISAILLE_ID;
   }
+  if (destroyed_object == CUTABLE_TREE) {
+    addTextInDialogBox(FRST_LINE_START, "Cet arbre semble vieux et fragile", 33,
+                       dialog_box);
+  } else {
+    addTextInDialogBox(FRST_LINE_START, "Ce rocher ne semble pas tres solide",
+                       35, dialog_box);
+  }
   if (possessBagItem(player, item_id) != -1) {
     showDBYesNoMenu(dialog_box);
     if (destroyed_object == CUTABLE_TREE) {
-      addTextInDialogBox(FRST_LINE_START, "Cet arbre semble vieux et fragile",
-                         33, dialog_box);
       addTextInDialogBox(SCD_LINE_START,
                          "Voulez-vous le couper avec votre Cisaille ?", 43,
                          dialog_box);
     } else {
-      addTextInDialogBox(FRST_LINE_START, "Ce rocher ne semble pas tres solide",
-                         35, dialog_box);
       addTextInDialogBox(SCD_LINE_START,
                          "Voulez-vous le casser avec votre Pioche ?", 41,
                          dialog_box);
@@ -368,14 +371,6 @@ void manageDestroy(Player *player, char *dialog_box, char *printable_map,
     eraseDialogBoxLines(dialog_box);
     if (yes == 1) {
       printable_map[xy_ifo_player] = ' ';
-    }
-  } else {
-    if (destroyed_object == CUTABLE_TREE) {
-      addTextInDialogBox(FRST_LINE_START, "Cet arbre semble vieux et fragile",
-                         33, dialog_box);
-    } else {
-      addTextInDialogBox(FRST_LINE_START, "Ce rocher ne semble pas tres solide",
-                         35, dialog_box);
     }
   }
 }
@@ -581,7 +576,7 @@ int manageKeyPressed(char key_pressed, Player *player, char *dialog_box,
     } else {
       movePlayer(player, PLAYER_E, -1, printable_map, dialog_box, x_map, y_map);
     }
-  } else if (key_pressed == 13) {
+  } else if (key_pressed == ENTER) {
     key_status = checkIfInteractionPossible(
         player, printable_map, dialog_box, x_map,
         y_map); // 2 -> interaction found / 0 otherwise

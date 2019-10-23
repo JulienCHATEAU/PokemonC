@@ -44,7 +44,9 @@ void pnjDialog(char *printable_map, char *dialog_box, Pnj *pnj) {
     addTextInDialogBox(SCD_LINE_START, scd_txt, txt_length, dialog_box);
 
     clearAndPrintMap(printable_map, dialog_box);
-    enterKey();
+    if (i + 2 < pnj->texts_count) {
+      enterKey();
+    }
     eraseDialogBoxLines(dialog_box);
   }
   clearAndPrintMap(printable_map, dialog_box);
