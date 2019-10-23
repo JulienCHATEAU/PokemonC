@@ -5,6 +5,10 @@
 #ifndef BATTLE_PANE_H
 #define BATTLE_PANE_H
 
+#define NORMAL_BATTLE 0
+#define TRAINER_BATTLE 1
+#define HARD_BATTLE 2
+
 #define BATTLE_PANE_PATH "data/battle_pane.txt"
 #define TYPE_COUNT 18
 
@@ -22,8 +26,14 @@
 #define TO_MUCH_POKEMON1_LENGTH 24
 #define TO_MUCH_POKEMON2 "plus de 6 pokemons"
 #define TO_MUCH_POKEMON2_LENGTH 18
-#define CANT_FLY "Fuite impossible !"
-#define CANT_FLY_LENGTH 18
+#define IMPOSSIBLE_FLY "Fuite impossible !"
+#define IMPOSSIBLE_FLY_LENGTH 18
+#define CANT_FLY "Vous n'avez pas reussi a fuire !"
+#define CANT_FLY_LENGTH 32
+#define TRAINER_CATCH1 "Vous n'aller tout de meme pas"
+#define TRAINER_CATCH1_LENGTH 29
+#define TRAINER_CATCH2 "capturer son pokemon !"
+#define TRAINER_CATCH2_LENGTH 22
 
 #define PLAYER_PKMN_NAME_POS 716
 #define PLAYER_HLTH_BAR_STRTNG_POS 764
@@ -102,14 +112,14 @@ int manageSkillMenuKeyPressed(int *targetted_skill, int key_pressed,
                               int arrows_xys[], char *battle_pane,
                               Player *player, Pokemon *enemy, int state);
 int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player,
-                     Pokemon *enemy, bool flee_possible);
+                     Pokemon *enemy, int mode);
 int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow,
                                char *battle_pane, Player *player,
-                               Pokemon *enemy, bool flee_possible);
-void battle(Player *player, int *x_map, int *y_map);
+                               Pokemon *enemy, int mode);
+void battle(Player *player, int *x_map, int *y_map, int mode);
 void printAndManageBattlePane(char *battle_pane, Player *player, Pokemon *enemy,
-                              bool flee_possible);
-bool goForBattle(Player *player, Map *map);
+                              int mode);
+bool goForBattle(Player *player, Map *map, int mode);
 void isBattle(Player *player, Map *map);
 void addAilments(Pokemon pkmn, char *battle_pane, int pos, bool left_erase);
 

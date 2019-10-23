@@ -1,4 +1,5 @@
-0;0 162|0 0|6 Steamy|4|44 Hey, bienvenue ! Je suis le createur du jeu.|39 j'espere que tu vas kiffer l'aventure !|35 Je te conseille d'aller vers l'est,|22 tu gagnera du temps ;)|
--4;1 186|0 0|4 Hugo|4|42 Il parait qu'on peut pecher des fragements|42 de clef. 'Fin c'est ce que dit la legende.|42 Mon pere en a deja pecher un une fois mais|41 il avait deja 4 fragments dans son sac...|
-6;-1 82|0 0|5 Marie|6|43 Il y avait une bouteille sur la plage quand|44 je suis arrivee. Y a un mot dedans qui dit :|45 'Aux vestiges du temple un tresor est retenu,|42 Le gardien est dechainee tu as deja perdu'|44 J'ai pas la moindre idee de ce que cela peut|40 bien vouloir dire. Tu sais p'tetre toi ?|
--2;2 54|0 0|8 Corentin|2|40 AAAaaHHHhhh, j'arrive plus a me souvenir|42 ou est cette boutique. Peut-etre au sud...
+0;0 80|v|0 0|6 Steamy|4|44 Hey, bienvenue ! Je suis le createur du jeu.|39 j'espere que tu vas kiffer l'aventure !|35 Je te conseille d'aller vers l'est,|22 tu gagnera du temps ;)|
+-4;1 92|^|0 0|4 Hugo|4|42 Il parait qu'on peut pecher des fragements|42 de clef. 'Fin c'est ce que dit la legende.|42 Mon pere en a deja pecher un une fois mais|41 il avait deja 4 fragments dans son sac...|
+6;-1 40|>|0 0|5 Marie|6|43 Il y avait une bouteille sur la plage quand|44 je suis arrivee. Y a un mot dedans qui dit :|45 'Aux vestiges du temple un tresor est retenu,|42 Le gardien est dechainee tu as deja perdu'|44 J'ai pas la moindre idee de ce que cela peut|40 bien vouloir dire. Tu sais p'tetre toi ?|
+-2;2 26|>|0 0|8 Corentin|2|40 AAAaaHHHhhh, j'arrive plus a me souvenir|42 ou est cette boutique. Peut-etre au sud...|
+0;-1 101|<|1 3|8 Thibault|2|41 Tu m'as mis la misaire, mais la prochaine|39 fois tu m'arriveras pas a la cheville !|

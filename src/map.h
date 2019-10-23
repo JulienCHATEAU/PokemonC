@@ -52,8 +52,7 @@
 void waitForEnter();
 void clearConsole();
 int getXYIfoPlayer(Player *player);
-void removeInteractiveObject(int x_map, int y_map, Player *player,
-                             char *map_structure);
+void removeInteractiveObject(Map *map, Player *player, char *map_structure);
 void loadMap(Map *map, char *map_structure, Player *player);
 void createPrintableMap(char *printable_map, char *map_structure,
                         Player player);
@@ -67,5 +66,6 @@ void manageDoorOpenning(Player *player, char *dialog_box, char *printable_map);
 void comeBackFirstMap(Player *player, Map *map);
 void blinkScreen(char *printable_map, char *dialog_box);
 bool isMapSquareEqual(MapSquare ms1, MapSquare ms2);
+void clearW8NErase(char *printable_map, char *dialog_box);
 
 #endif

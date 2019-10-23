@@ -289,11 +289,9 @@ void readOneBagItemLine(FILE *save_file, Player *player) {
  * to the player's bag save_file : the concerned file player : the player
  */
 void readOnePickedItemLine(FILE *save_file, Player *player) {
-  int xy = 0;
-  int y_map = 0;
-  int x_map = 0;
-  fscanf(save_file, "%d;%d %d\n", &x_map, &y_map, &xy);
-  addPickedItemPlayer(player, x_map, y_map, xy);
+  MapSquare square;
+  fscanf(save_file, "%d;%d %d\n", &square.x_map, &square.y_map, &square.xy);
+  addPickedItemPlayer(player, square);
 }
 
 /* Loads the player data from his save file
@@ -379,7 +377,7 @@ void savePlayerData(int x_map, int y_map, Player *player) {
   for (int i = 0; i < player->bag_item_count; i++) {
     writeOneBagItemLine(save_file, player->bag[i]);
   }
-  for (int i = 0; i < player->bag_item_count; i++) {
+  for (int i = 0; i < player->item_picked_count; i++) {
     writeOnePickedItemLine(save_file, player->item_picked[i]);
   }
   closeFile(save_file);

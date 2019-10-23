@@ -34,6 +34,11 @@ void copySkill(Skill skill, Skill *copy);
 bool isItemUsable(int mode, int usable_time);
 void getSpacesString(char *string, int length);
 void enterKey();
-void addPickedItemPlayer(Player *player, int x_map, int y_map, int xy);
-
+void addPickedItemPlayer(Player *player, MapSquare square);
+bool isVertical(int xy, int xy2);
+bool isHorizontal(int xy, int xy2);
+void copyMapSquare(MapSquare tmp, MapSquare *item);
+bool containsPickedItem(Player *player, MapSquare picked_item, MapSquare *item);
+int getColumn(int xy);
+int getLine(int xy);
 #endif

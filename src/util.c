@@ -3,6 +3,7 @@
 #include "bag.h"
 #include "fileManager.h"
 #include "map.h"
+#include "pnj.h"
 #include "pokemon.h"
 #include <stdbool.h>
 #include <string.h>
@@ -69,11 +70,32 @@ void shiftMenuPipes(char *battle_pane, int top_pipe_xy_to_add,
   }
 }
 
-void addPickedItemPlayer(Player *player, int x_map, int y_map, int xy) {
-  player->item_picked[player->item_picked_count].x_map = x_map;
-  player->item_picked[player->item_picked_count].y_map = y_map;
-  player->item_picked[player->item_picked_count].xy = xy;
+void copyMapSquare(MapSquare tmp, MapSquare *item) {
+  item->x_map = tmp.x_map;
+  item->y_map = tmp.y_map;
+  item->xy = tmp.xy;
+}
+
+void addPickedItemPlayer(Player *player, MapSquare square) {
+  copyMapSquare(square, &player->item_picked[player->item_picked_count]);
   player->item_picked_count++;
+}
+
+bool containsPickedItem(Player *player, MapSquare picked_item,
+                        MapSquare *item) {
+  MapSquare tmp;
+  bool trouve = false;
+  int i = 0;
+  while (i < player->item_picked_count) {
+    tmp = player->item_picked[i];
+    if (isMapSquareEqual(picked_item, tmp)) {
+      copyMapSquare(tmp, item);
+      trouve = true;
+      break;
+    }
+    i++;
+  }
+  return trouve;
 }
 
 /* Adds a string in an array starting from a point
@@ -247,3 +269,11 @@ void copySkill(Skill skill, Skill *copy) {
   strcpy(copy->description, skill.description);
   copy->id = skill.id;
 }
+
+int getColumn(int xy) { return xy % LINE_SEPARATOR; }
+
+int getLine(int xy) { return xy / LINE_SEPARATOR; }
+
+bool isVertical(int xy, int xy2) { return getColumn(xy) == getColumn(xy2); }
+
+bool isHorizontal(int xy, int xy2) { return getLine(xy) == getLine(xy2); }

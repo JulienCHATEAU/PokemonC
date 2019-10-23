@@ -65,7 +65,7 @@
 5 Repli|0 100 40 10 0|1 1 100|-1 0|1|73 Le lanceur se recroqueville dans sa carapace, ce qui augmente sa Defense.
 11 Boul'Armure|0 100 40 0 0|1 1 100|-1 0|1|80 Le lanceur s'enroule pour cacher ses points faibles, ce qui augmente sa Defense.
 8 Bouclier|0 100 20 13 0|1 2 100|-1 0|1|64 Le lanceur erige un mur solide qui augmente beaucoup sa Defense.
-8 Bomb'Œuf|100 75 10 0 0|-1 0 100|-1 0|0|93 De toutes ses forces, le lanceur jette un gros œuf sur l'ennemi pour lui infliger des degats.
+9 Bomb'Oeuf|100 75 10 0 0|-1 0 100|-1 0|0|93 De toutes ses forces, le lanceur jette un gros œuf sur l'ennemi pour lui infliger des degats.
 10 Lechouille|30 100 30 7 0|-1 0 100|0 30|0|83 Un grand coup de langue qui inflige des degats a l'ennemi. Peut aussi le paralyser.
 9 Puredpois|30 70 20 3 0|-1 0 100|4 40|0|94 Le lanceur attaque a l'aide d'une eruption de gaz repugnants. Peut aussi empoisonner l'ennemi.
 8 Detritus|65 100 20 3 0|-1 0 100|4 30|0|75 Des detritus toxiques sont projetes sur l'ennemi. Peut aussi l'empoisonner.

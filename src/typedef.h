@@ -156,6 +156,7 @@ typedef struct {
 
 typedef struct {
   MapSquare square;
+  char orientation;
   int is_trainer;
   int look_range; // square count between pnj and player to trigger a battle
   int name_length;

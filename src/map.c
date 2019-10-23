@@ -55,15 +55,15 @@ int getXYIfoPlayer(Player *player) {
  * player : the player
  * map_structure : an array storing the map
  */
-void removeInteractiveObject(int x_map, int y_map, Player *player,
-                             char *map_structure) {
-  MapSquare item;
+void removeInteractiveObject(Map *map, Player *player, char *map_structure) {
+  MapSquare tmp;
   int i = 0;
   while (i < player->item_picked_count) {
-    item = player->item_picked[i];
-    if (x_map == item.x_map && y_map == item.y_map) {
-      map_structure[item.xy] = ' ';
-      break;
+    tmp = player->item_picked[i];
+    if (tmp.x_map == map->x && tmp.y_map == map->y) {
+      if (!isMapSquareEqual(map->pnj.square, tmp)) {
+        map_structure[tmp.xy] = ' ';
+      }
     }
     i++;
   }
@@ -74,14 +74,16 @@ void removeInteractiveObject(int x_map, int y_map, Player *player,
  * map_structure : the array to fill representing the map
  */
 void loadMap(Map *map, char *map_structure, Player *player) {
-  printf("loadMap : %d;%d", map->x, map->y);
   char map_path[20];
   sprintf(map_path, "maps/map%d;%d.txt", map->x, map->y);
   FILE *map_file = openFile(map_path, "r");
   fread(map_structure, sizeof(char), MAP_SIZE, map_file);
   closeFile(map_file);
-  removeInteractiveObject(map->x, map->y, player, map_structure);
   findPnj(map->x, map->y, &map->pnj);
+  if (map->x == map->pnj.square.x_map && map->y == map->pnj.square.y_map) {
+    map_structure[map->pnj.square.xy] = map->pnj.orientation;
+  }
+  removeInteractiveObject(map, player, map_structure);
 }
 
 /* Prints the map on the console
@@ -196,6 +198,12 @@ bool isObstacle(char char_at_new_xy) {
   return is_obstacle;
 }
 
+void clearW8NErase(char *printable_map, char *dialog_box) {
+  clearAndPrintMap(printable_map, dialog_box);
+  enterKey();
+  eraseDialogBoxLines(dialog_box);
+}
+
 /* Moves the player
  * player : the player
  * new_pos : the new orientation of the player
@@ -220,6 +228,7 @@ void movePlayer(Player *player, char new_pos, int xy_sub, Map *map) {
   } else {
     player->char_at_pos = char_at_new_xy;
     isBattle(player, map);
+    handlePnjBattle(map, player);
   }
 }
 
@@ -410,7 +419,7 @@ void fishing(Player *player, Map *map) {
                        "Cela a mordu ! Vous recevez une Potion !", 40,
                        map->dialog_box);
   } else if (r < 50) {
-    goForBattle(player, map);
+    goForBattle(player, map, NORMAL_BATTLE);
   } else {
     addTextInDialogBox(FRST_LINE_START, "Cela ne mord pas...", 19,
                        map->dialog_box);
@@ -442,7 +451,7 @@ void manageFishing(Player *player, Map *map) {
 
 void pickPokeball(Player *player, Map *map, int xy_ifo_player) {
   if (map->x == 2 && map->y == -3) { // trapped pokeball
-    bool lost = goForBattle(player, map);
+    bool lost = goForBattle(player, map, HARD_BATTLE);
     if (!lost) {
       addTextInDialogBox(FRST_LINE_START,
                          "Le Pokemon s'enfuit en laissant une clef par terre.",
@@ -452,15 +461,17 @@ void pickPokeball(Player *player, Map *map, int xy_ifo_player) {
                          map->dialog_box);
       addBagItemPlayer(player, DIAMOND_KEY_ID, 1);
       clearAndPrintMap(map->printable_map, map->dialog_box);
-      addPickedItemPlayer(player, map->x, map->y,
-                          (xy_ifo_player - TO_PRINTABLE_MAP2) / 2);
+      MapSquare square = {map->x, map->y,
+                          (xy_ifo_player - TO_PRINTABLE_MAP2) / 2};
+      addPickedItemPlayer(player, square);
       map->printable_map[xy_ifo_player] = ' ';
     } else {
       eraseDialogBoxLines(map->dialog_box);
     }
   } else {
-    addPickedItemPlayer(player, map->x, map->y,
-                        (xy_ifo_player - TO_PRINTABLE_MAP2) / 2);
+    MapSquare square = {map->x, map->y,
+                        (xy_ifo_player - TO_PRINTABLE_MAP2) / 2};
+    addPickedItemPlayer(player, square);
     map->printable_map[xy_ifo_player] = ' ';
     manageItemFound(player, map->dialog_box, &map->x, &map->y);
   }
@@ -505,8 +516,12 @@ int checkIfInteractionPossible(Player *player, Map *map) {
   case PLAYER_E: // or
   case PLAYER_W:
     printf("%d", xy_ifo_player);
-    managePnjOrientation(map->printable_map, player->pos, xy_ifo_player);
-    pnjDialog(map->printable_map, map->dialog_box, &map->pnj);
+    managePnjOrientation(map, player->pos, xy_ifo_player);
+    if (pnjWantsBattle(map)) {
+      pnjBattle(map, player);
+    } else {
+      pnjDialog(map->printable_map, map->dialog_box, &map->pnj);
+    }
     break;
 
   default:
@@ -582,5 +597,5 @@ int manageKeyPressed(char key_pressed, Player *player, Map *map) {
 }
 
 bool isMapSquareEqual(MapSquare ms1, MapSquare ms2) {
-  return ms1.x_map == ms2.x_map && ms1.y_map == ms2.y_map;
+  return ms1.x_map == ms2.x_map && ms1.y_map == ms2.y_map && ms1.xy == ms2.xy;
 }

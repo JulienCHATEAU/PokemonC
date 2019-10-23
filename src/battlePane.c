@@ -574,6 +574,8 @@ int catchPokemon(char *battle_pane, Player *player, Pokemon *enemy) {
     int fail_catch_length = enemy->name_length + 10;
     char *fail_catch_string = malloc(sizeof(char) * fail_catch_length + 1);
     sprintf(fail_catch_string, "%s est sorti", enemy->name);
+    addInfoTextClearAndWait(fail_catch_string, fail_catch_length, " ", 1,
+                            battle_pane, WAIT_BETWEEN_ANIM * 2);
     free(fail_catch_string);
   }
   eraseInfoText(battle_pane);
@@ -636,14 +638,21 @@ void playOnlyEnemyTurn(MenuArrow *arrow, char *battle_pane, Player *player,
 }
 
 void manageBagItemUse(int used_item_id, MenuArrow *arrow, char *battle_pane,
-                      Player *player, Pokemon *enemy, int *stop) {
+                      Player *player, Pokemon *enemy, int *stop, int mode) {
   switch (used_item_id) {
   case POKEBALL_ID:
     if (player->pkmn_count < 6) {
-      removeArrow((int)*arrow, battle_pane);
-      *stop = catchPokemon(battle_pane, player, enemy);
-      if (*stop == 0) { // if catch failed
-        playOnlyEnemyTurn(arrow, battle_pane, player, enemy, stop);
+      if (mode != TRAINER_BATTLE) {
+        removeArrow((int)*arrow, battle_pane);
+        *stop = catchPokemon(battle_pane, player, enemy);
+        if (*stop == 0) { // if catch failed
+          playOnlyEnemyTurn(arrow, battle_pane, player, enemy, stop);
+        }
+      } else {
+        addInfoTextClearAndWait(TRAINER_CATCH1, TRAINER_CATCH1_LENGTH,
+                                TRAINER_CATCH2, TRAINER_CATCH2_LENGTH,
+                                battle_pane, WAIT_BETWEEN_ANIM);
+        eraseInfoText(battle_pane);
       }
     } else {
       addInfoTextClearAndWait(TO_MUCH_POKEMON1, TO_MUCH_POKEMON1_LENGTH,
@@ -678,18 +687,29 @@ void manageBagItemUse(int used_item_id, MenuArrow *arrow, char *battle_pane,
  * return 1 if the battle is finished, 0 to come back to main menu
  */
 int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player,
-                     Pokemon *enemy, bool flee_possible) {
+                     Pokemon *enemy, int mode) {
   int stop = 0;
   if (*arrow == FUITE) {
     srand(time(NULL));
-    if (rand() % 100 < 25 || !flee_possible) {
-      addInfoTextClearAndWait(CANT_FLY, CANT_FLY_LENGTH, " ", 1, battle_pane,
-                              WAIT_BETWEEN_ANIM);
+    if (mode == HARD_BATTLE || mode == TRAINER_BATTLE) {
       removeArrow((int)*arrow, battle_pane);
-      playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
+      addInfoTextClearAndWait(IMPOSSIBLE_FLY, IMPOSSIBLE_FLY_LENGTH, " ", 1,
+                              battle_pane, WAIT_BETWEEN_ANIM);
+      eraseInfoText(battle_pane);
+      addArrow((int)*arrow, battle_pane);
+      clearAndPrintBattlePane(battle_pane);
     } else {
-      stop = 1;
+      if (rand() % 100 < 25) {
+        removeArrow((int)*arrow, battle_pane);
+        addInfoTextClearAndWait(CANT_FLY, CANT_FLY_LENGTH, " ", 1, battle_pane,
+                                WAIT_BETWEEN_ANIM);
+        addArrow((int)*arrow, battle_pane);
+        playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
+      } else {
+        stop = 1;
+      }
     }
+
   } else if (*arrow == ATTAQUES) {
     stop = switchThenManageSkillMenu(player, battle_pane, enemy, NULL, 0);
   } else if (*arrow == POKEMON) {
@@ -701,14 +721,15 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player,
       playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
     }
   } else if (*arrow == SAC) {
-    if (flee_possible) {
+    if (mode != HARD_BATTLE) {
       int used_item_index = manageBagMenu(player, 0);
       int used_item_id = -1;
       if (used_item_index != -1) {
         used_item_id = player->bag[used_item_index].id;
       }
       clearAndPrintBattlePane(battle_pane);
-      manageBagItemUse(used_item_id, arrow, battle_pane, player, enemy, &stop);
+      manageBagItemUse(used_item_id, arrow, battle_pane, player, enemy, &stop,
+                       mode);
     } else {
       int cant_use_bag_length = 28;
       char *cant_use_bag_string =
@@ -734,7 +755,7 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player,
  */
 int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow,
                                char *battle_pane, Player *player,
-                               Pokemon *enemy, bool flee_possible) {
+                               Pokemon *enemy, int mode) {
   int stop = 0;
   if (key_pressed == MOVE_Z) {
     removeArrow((int)*arrow, battle_pane);
@@ -769,7 +790,7 @@ int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow,
     }
     addArrow((int)*arrow, battle_pane);
   } else if (key_pressed == ENTER) {
-    stop = manageMenuChoice(arrow, battle_pane, player, enemy, flee_possible);
+    stop = manageMenuChoice(arrow, battle_pane, player, enemy, mode);
   } else if (key_pressed == 'e') {
     stop = 2; // does nothing
     // exit(0);
@@ -782,7 +803,7 @@ int manageBattleMenuKeyPressed(char key_pressed, MenuArrow *arrow,
 /* Manages the battle
  * player : the player
  */
-void battle(Player *player, int *x_map, int *y_map) {
+void battle(Player *player, int *x_map, int *y_map, int mode) {
   char battle_pane[BATTLE_PANE_LGTH];
   loadBattlePane(battle_pane);
   char *random_name;
@@ -792,16 +813,19 @@ void battle(Player *player, int *x_map, int *y_map) {
   srand(time(NULL));
   int average_pkmns_level = getAverageLevel(player);
   int key_count = getKeyCount(player);
-  int enemy_lvl = ((rand() % 2)) + average_pkmns_level + key_count;
-  if (*x_map == 2 && *y_map == -3) { // trapped pokeball
+  int trainer_add = 0;
+  if (mode == TRAINER_BATTLE) {
+    trainer_add = 2;
+  }
+  int enemy_lvl =
+      ((rand() % 2)) + average_pkmns_level + key_count + trainer_add;
+  if (mode == HARD_BATTLE) { // trapped pokeball
     enemy_lvl = getMaxLevel(player) + 5;
   }
   setPokemonLvl(&enemy, enemy_lvl);
   refreshBattlePane(player->pkmns[0], enemy, battle_pane);
-  printAndManageBattlePane(
-      battle_pane, player, &enemy,
-      !(*x_map == 2 &&
-        *y_map == -3)); // x_map==2 && y_map==-3 --> mini-boss map
+  printAndManageBattlePane(battle_pane, player, &enemy,
+                           mode); // x_map==2 && y_map==-3 --> mini-boss map
   freePokemon(enemy);
 }
 
@@ -811,7 +835,7 @@ void battle(Player *player, int *x_map, int *y_map) {
  * enemy : the enemy pokemon
  */
 void printAndManageBattlePane(char *battle_pane, Player *player, Pokemon *enemy,
-                              bool flee_possible) {
+                              int mode) {
   clearAndPrintBattlePane(battle_pane);
   MenuArrow arrow = ATTAQUES;
   MenuArrow arrow_temp = arrow;
@@ -821,7 +845,7 @@ void printAndManageBattlePane(char *battle_pane, Player *player, Pokemon *enemy,
     key_pressed = getchar();
     arrow_temp = arrow;
     stop = manageBattleMenuKeyPressed(key_pressed, &arrow, battle_pane, player,
-                                      enemy, flee_possible);
+                                      enemy, mode);
     if (stop != 2 && arrow_temp != arrow) {
       clearAndPrintBattlePane(battle_pane);
     }
@@ -868,11 +892,10 @@ void handleEvolve(Player *player, char *printable_map, char *dialog_box) {
   }
 }
 
-bool goForBattle(Player *player, Map *map) {
+bool goForBattle(Player *player, Map *map, int mode) {
   bool lost = false;
   int money_temp = player->money;
-  battle(player, &map->x, &map->y);
-  // exit(0);
+  battle(player, &map->x, &map->y, mode);
   resetPlayerPkmnsStatsAfterBattle(player);
   if (player->money < money_temp) {
     comeBackFirstMap(player, map);
@@ -892,7 +915,7 @@ bool goForBattle(Player *player, Map *map) {
 void isBattle(Player *player, Map *map) {
   if (isEqual(player->char_at_pos, LONG_GRASS)) {
     if (rand() % 100 < BATTLE_PERCENTAGE) {
-      goForBattle(player, map);
+      goForBattle(player, map, NORMAL_BATTLE);
     }
   }
 }
