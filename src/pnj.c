@@ -51,15 +51,16 @@ void pnjDialog(char *printable_map, char *dialog_box, Pnj *pnj) {
   clearAndPrintMap(printable_map, dialog_box);
 }
 
-bool findPnj(MapSquare pnj_pos, Pnj *pnj) {
-  FILE *pnjs_file = openFile(PNJS_PATH, "r");
+bool findPnj(int x_map, int y_map, Pnj *pnj) {
   bool trouve = false;
+  FILE *pnjs_file = openFile(PNJS_PATH, "r");
   int fscanf_ret = 0;
   while (!trouve && fscanf_ret != EOF) {
     fscanf_ret = fscanf(pnjs_file, "%d;%d %d|", &pnj->square.x_map,
                         &pnj->square.y_map, &pnj->square.xy);
-    if (isMapSquareEqual(pnj_pos, pnj->square)) {
+    if (pnj->square.x_map == x_map && pnj->square.y_map == y_map) {
       trouve = true;
+      fscanf(pnjs_file, "%d %d|", &pnj->is_trainer, &pnj->look_range);
       fscanf(pnjs_file, "%d ", &pnj->name_length);
       pnj->name = malloc(sizeof(char) * pnj->name_length + 1);
       fscanf(pnjs_file, "%[^|]|", pnj->name);
@@ -76,11 +77,14 @@ bool findPnj(MapSquare pnj_pos, Pnj *pnj) {
   }
   // printPnj(pnj);
   closeFile(pnjs_file);
+  printf("trouve = %d", trouve);
+  printPnj(pnj);
   return trouve;
 }
 
 void printPnj(Pnj *pnj) {
   printf("%d;%d %d\n", pnj->square.x_map, pnj->square.y_map, pnj->square.xy);
+  printf("%d %d\n", pnj->is_trainer, pnj->look_range);
   printf("%d %s\n", pnj->name_length, pnj->name);
   printf("%d\n", pnj->texts_count);
   for (int i = 0; i < pnj->texts_count; ++i) {

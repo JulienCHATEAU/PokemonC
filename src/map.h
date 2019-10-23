@@ -54,21 +54,17 @@ void clearConsole();
 int getXYIfoPlayer(Player *player);
 void removeInteractiveObject(int x_map, int y_map, Player *player,
                              char *map_structure);
-void loadMap(int x_map, int y_map, char *map_structure, Player *player);
+void loadMap(Map *map, char *map_structure, Player *player);
 void createPrintableMap(char *printable_map, char *map_structure,
                         Player player);
 void clearAndPrintMap(char *printable_map, char *dialog_box);
 void printArray(char *array);
-void movePlayer(Player *player, char new_pos, int xy_sub, char *printable_map,
-                char *dialog_box, int *x_map, int *y_map);
+void movePlayer(Player *player, char new_pos, int xy_sub, Map *map);
 void saveMapSpecificData(Player *player, int x_map, int y_map, int xy);
-int checkIfInteractionPossible(Player *player, char *printable_map,
-                               char *dialog_box, int *x_map, int *y_map);
-int manageKeyPressed(char key_pressed, Player *player, char *dialog_box,
-                     char *printable_map, int *x_map, int *y_map);
+int checkIfInteractionPossible(Player *player, Map *map);
+int manageKeyPressed(char key_pressed, Player *player, Map *map);
 void manageDoorOpenning(Player *player, char *dialog_box, char *printable_map);
-void comeBackFirstMap(Player *player, char *printable_map, int *x_map,
-                      int *y_map, char *dialog_box);
+void comeBackFirstMap(Player *player, Map *map);
 void blinkScreen(char *printable_map, char *dialog_box);
 bool isMapSquareEqual(MapSquare ms1, MapSquare ms2);
 

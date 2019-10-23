@@ -17,6 +17,10 @@ play:
 	@ sleep 1
 	@ ./bin/main 1
 
+rowMode:
+	@ echo "Row mode to 0"
+	./bin/main 0
+
 clean:
 	@ echo "Suppression du dossier binaire"
 	@ rm -rf bin

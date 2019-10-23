@@ -9,7 +9,7 @@
 void managePnjOrientation(char *printable_map, char player_orientation,
                           int xy_ifo_player);
 void pnjDialog(char *printable_map, char *dialog_box, Pnj *pnj);
-bool findPnj(MapSquare pnj_pos, Pnj *pnj);
+bool findPnj(int x_map, int y_map, Pnj *pnj);
 void printPnj(Pnj *pnj);
 
 #endif
