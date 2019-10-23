@@ -29,7 +29,6 @@ void managePnjOrientation(char *printable_map, char player_orientation,
 }
 
 void pnjDialog(char *printable_map, char *dialog_box, Pnj *pnj) {
-  printf("pnjDialog");
   int txt_length = 2;
   for (int i = 0; i < pnj->texts_count; i += 2) {
     txt_length = pnj->name_length + 3 + pnj->texts_length[i];
@@ -46,8 +45,8 @@ void pnjDialog(char *printable_map, char *dialog_box, Pnj *pnj) {
     clearAndPrintMap(printable_map, dialog_box);
     if (i + 2 < pnj->texts_count) {
       enterKey();
+      eraseDialogBoxLines(dialog_box);
     }
-    eraseDialogBoxLines(dialog_box);
   }
   clearAndPrintMap(printable_map, dialog_box);
 }
