@@ -517,7 +517,7 @@ int checkIfInteractionPossible(Player *player, Map *map) {
   case PLAYER_W:
     printf("%d", xy_ifo_player);
     managePnjOrientation(map, player->pos, xy_ifo_player);
-    if (pnjWantsBattle(map)) {
+    if (pnjWantsBattle(map, player)) {
       pnjBattle(map, player);
     } else {
       pnjDialog(map->printable_map, map->dialog_box, &map->pnj);

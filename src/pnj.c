@@ -45,10 +45,8 @@ void pnjDialog(char *printable_map, char *dialog_box, Pnj *pnj) {
     addTextInDialogBox(SCD_LINE_START, scd_txt, txt_length, dialog_box);
 
     clearAndPrintMap(printable_map, dialog_box);
-    if (i + 2 < pnj->texts_count) {
-      enterKey();
-      eraseDialogBoxLines(dialog_box);
-    }
+    enterKey();
+    eraseDialogBoxLines(dialog_box);
   }
   clearAndPrintMap(printable_map, dialog_box);
 }
@@ -101,63 +99,54 @@ bool pnjBattle(Map *map, Player *player) {
   return lost;
 }
 
-bool pnjWantsBattle(Map *map) {
+bool pnjWantsBattle(Map *map, Player *player) {
+  MapSquare item;
+  bool trouve = containsPickedItem(player, map->pnj.square, &item);
   return map->x == map->pnj.square.x_map && map->y == map->pnj.square.y_map &&
-         map->pnj.is_trainer;
+         map->pnj.is_trainer && !trouve;
 }
 
 void handlePnjBattle(Map *map, Player *player) {
-  if (pnjWantsBattle(map)) {
-    MapSquare item;
-    bool trouve = containsPickedItem(player, map->pnj.square, &item);
-    if (!trouve) {
-      bool seen = false;
-      if (isHorizontal(map->pnj.square.xy, player->xy)) {
-        if (map->pnj.orientation == PLAYER_E) {
-          int player_column = getColumn(player->xy);
-          if (player_column <=
-                  getColumn(map->pnj.square.xy) + map->pnj.look_range &&
-              player_column > getColumn(map->pnj.square.xy)) {
-            seen = true;
-            player->pos = '<';
-          }
-        } else if (map->pnj.orientation == PLAYER_W) {
-          int player_column = getColumn(player->xy);
-          if (player_column >=
-                  getColumn(map->pnj.square.xy) - map->pnj.look_range &&
-              player_column < getColumn(map->pnj.square.xy)) {
-            seen = true;
-            player->pos = '>';
-          }
+  if (pnjWantsBattle(map, player)) {
+    bool seen = false;
+    if (isHorizontal(map->pnj.square.xy, player->xy)) {
+      if (map->pnj.orientation == PLAYER_E) {
+        int player_column = getColumn(player->xy);
+        if (player_column <=
+                getColumn(map->pnj.square.xy) + map->pnj.look_range &&
+            player_column > getColumn(map->pnj.square.xy)) {
+          seen = true;
+          player->pos = '<';
         }
-      } else if (isVertical(map->pnj.square.xy, player->xy)) {
-        if (map->pnj.orientation == PLAYER_N) {
-          int player_line = getLine(player->xy);
-          if (player_line >=
-                  getLine(map->pnj.square.xy) - map->pnj.look_range &&
-              player_line < getLine(map->pnj.square.xy)) {
-            player->pos = 'v';
-            seen = true;
-          }
-        } else if (map->pnj.orientation == PLAYER_S) {
-          int player_line = getLine(player->xy);
-          if (player_line <=
-                  getLine(map->pnj.square.xy) + map->pnj.look_range &&
-              player_line > getLine(map->pnj.square.xy)) {
-            seen = true;
-            player->pos = '^';
-          }
+      } else if (map->pnj.orientation == PLAYER_W) {
+        int player_column = getColumn(player->xy);
+        if (player_column >=
+                getColumn(map->pnj.square.xy) - map->pnj.look_range &&
+            player_column < getColumn(map->pnj.square.xy)) {
+          seen = true;
+          player->pos = '>';
+        }
+      }
+    } else if (isVertical(map->pnj.square.xy, player->xy)) {
+      if (map->pnj.orientation == PLAYER_N) {
+        int player_line = getLine(player->xy);
+        if (player_line >= getLine(map->pnj.square.xy) - map->pnj.look_range &&
+            player_line < getLine(map->pnj.square.xy)) {
+          player->pos = 'v';
+          seen = true;
+        }
+      } else if (map->pnj.orientation == PLAYER_S) {
+        int player_line = getLine(player->xy);
+        if (player_line <= getLine(map->pnj.square.xy) + map->pnj.look_range &&
+            player_line > getLine(map->pnj.square.xy)) {
+          seen = true;
+          player->pos = '^';
         }
       }
       if (seen) {
         map->printable_map[TO_PRINTABLE_MAP1 * player->xy + TO_PRINTABLE_MAP2] =
             player->pos;
         bool lost = pnjBattle(map, player);
-        if (!lost) {
-          enterKey();
-          eraseDialogBoxLines(map->dialog_box);
-          clearAndPrintMap(map->printable_map, map->dialog_box);
-        }
       }
     }
   }

@@ -692,18 +692,15 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player,
   if (*arrow == FUITE) {
     srand(time(NULL));
     if (mode == HARD_BATTLE || mode == TRAINER_BATTLE) {
-      removeArrow((int)*arrow, battle_pane);
       addInfoTextClearAndWait(IMPOSSIBLE_FLY, IMPOSSIBLE_FLY_LENGTH, " ", 1,
                               battle_pane, WAIT_BETWEEN_ANIM);
       eraseInfoText(battle_pane);
-      addArrow((int)*arrow, battle_pane);
       clearAndPrintBattlePane(battle_pane);
     } else {
       if (rand() % 100 < 25) {
         removeArrow((int)*arrow, battle_pane);
         addInfoTextClearAndWait(CANT_FLY, CANT_FLY_LENGTH, " ", 1, battle_pane,
                                 WAIT_BETWEEN_ANIM);
-        addArrow((int)*arrow, battle_pane);
         playOnlyEnemyTurn(arrow, battle_pane, player, enemy, &stop);
       } else {
         stop = 1;
@@ -815,7 +812,7 @@ void battle(Player *player, int *x_map, int *y_map, int mode) {
   int key_count = getKeyCount(player);
   int trainer_add = 0;
   if (mode == TRAINER_BATTLE) {
-    trainer_add = 2;
+    trainer_add = 1;
   }
   int enemy_lvl =
       ((rand() % 2)) + average_pkmns_level + key_count + trainer_add;
@@ -824,8 +821,7 @@ void battle(Player *player, int *x_map, int *y_map, int mode) {
   }
   setPokemonLvl(&enemy, enemy_lvl);
   refreshBattlePane(player->pkmns[0], enemy, battle_pane);
-  printAndManageBattlePane(battle_pane, player, &enemy,
-                           mode); // x_map==2 && y_map==-3 --> mini-boss map
+  printAndManageBattlePane(battle_pane, player, &enemy, mode);
   freePokemon(enemy);
 }
 
