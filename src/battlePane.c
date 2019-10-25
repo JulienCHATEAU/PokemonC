@@ -195,7 +195,7 @@ void addInfoText(char *top_text, int top_text_length, char *bot_text,
  * pos : the xy coordinate where to start writting the pokemon name
  */
 void addPokemonName(Pokemon pkmn, char *battle_pane, int pos) {
-  eraseArrayLine(pos + 20, battle_pane, 25);
+  eraseArrayLine(pos + 20, battle_pane, 30);
   int lvl_string_length = 6 + nDigits(pkmn.lvl);
   int name_n_lvl_length = lvl_string_length + pkmn.name_length;
   char *name_n_lvl = malloc(sizeof(char) * name_n_lvl_length);
@@ -504,10 +504,6 @@ int switchThenManageSkillMenu(Player *player, char *battle_pane, Pokemon *enemy,
   char key_pressed = -1;
   int key_pressed_status = 0;
   do {
-    if (state == 1) {
-      printLearningSkillInfo(player->pkmns[0].skills[targetted_skill],
-                             *new_skill);
-    }
     do {
       key_pressed = getchar();
     } while (key_pressed == -1);
@@ -518,6 +514,10 @@ int switchThenManageSkillMenu(Player *player, char *battle_pane, Pokemon *enemy,
     if (key_pressed_status == 3 &&
         targetted_skill_temp != targetted_skill) { // if arrows was moved
       clearAndPrintBattlePane(battle_pane);
+      if (state == 1) {
+        printLearningSkillInfo(player->pkmns[0].skills[targetted_skill],
+                               *new_skill);
+      }
     }
   } while (key_pressed_status != 1 && key_pressed_status != 0 &&
            key_pressed_status != 7 &&

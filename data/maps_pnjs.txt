@@ -1,7 +1,7 @@
 0;0 80|v|0 0|6 Steamy|6|43 Hey ! Bienvenue dans Pokemon C. En tant que|44 createur de ce jeu je vais te donner 2 tips.|45 Parle aux PNJs, ils ont de quoi te renseigner|45 sur le jeu mais fais attention aux dresseurs.|40 Je ne vais pas t'embeter plus longtemps,|16 Enjoy the game !|
-2;1 81|v|0 0|4 Arthur|6|42 Y a une pioche que traine sur la map, pres|42 de la boutique je crois. Toi t'es pas pres|41 de l'utiliser avec tes p'tit muscles la !|36 Va falloir venir a la salle avec moi| 
+2;1 81|v|0 0|6 Arthur|4|42 Y a une pioche que traine sur la map, pres|42 de la boutique je crois. Toi t'es pas pres|41 de l'utiliser avec tes p'tit muscles la !|36 Va falloir venir a la salle avec moi| 
 -4;1 92|^|0 0|4 Hugo|4|42 Il parait qu'on peut pecher des fragements|41 de clef. 'Fin c'est ce que dit mon livre.|42 Mon pere en a deja pecher un une fois mais|41 il avait deja 4 fragments dans son sac...|
-6;-1 40|>|0 0|5 Marie|6|43 Il y avait une bouteille sur la plage quand|44 je suis arrivee. Y a un mot dedans qui dit :|45 'Aux vestiges du temple, un tresor est retenu|43 Le gardien est dechainee, tu as deja perdu'|43 Pff j'le marave moi le gardien, suffit d'un|41 ptit coup de chouffe dans l'gosier et BIM|
+6;-1 40|>|0 0|5 Marie|6|43 Il y avait une bouteille sur la plage quand|44 je suis arrivee. Y a un mot dedans qui dit :|45 'Aux vestiges du temple, un tresor est retenu|42 Le gardien est dechaine, tu as deja perdu'|43 Pff j'le marave moi le gardien, suffit d'un|42 p'tit coup de chouffe dans l'gosier et BIM|
 -2;2 26|>|0 0|8 Corentin|2|42 Va pas a la boutique au sud, j'y ai achete|42 ma 206 et y avait des rayures sur le capot
 0;-1 101|<|1 3|8 Thibault|2|38 Raahh, tu m'as mis la misaire. En plus|41 il pleut depuis ce matin, sale journee...|
 3;2 54|<|1 5|5 Regis|2|39 Ce combat etait ouf ! Il m'a donne faim|45 par contre, faut que je trouve de quoi manger|

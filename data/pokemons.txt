@@ -26,10 +26,10 @@
 6 Raichu|1 0 12 -1|218|60 90 55 110|-1 0 
 9 Sabelette|1 0 4 -1|60|50 75 85 40|22 10 Sablaireau
 10 Sablaireau|1 0 4 -1|158|75 100 110 65|-1 0 
-8 Nidoran F|1 0 3 -1|55|55 47 52 41|16 8 Nidorina
+9 Nidoran F|1 0 3 -1|55|55 47 52 41|16 8 Nidorina
 8 Nidorina|1 0 3 -1|128|70 62 67 56|27 9 Nidoqueen
 9 Nidoqueen|1 0 4 3|227|90 92 87 76|-1 0 
-8 Nidoran M|1 0 3 -1|55|46 57 40 50|16 8 Nidorino
+9 Nidoran M|1 0 3 -1|55|46 57 40 50|16 8 Nidorino
 8 Nidorino|1 0 3 -1|128|61 72 57 65|28 8 Nidoking
 8 Nidoking|1 0 4 3|227|81 102 77 85|-1 0 
 7 Melofee|1 0 17 -1|113|70 45 48 35|23 9 Melodelfe

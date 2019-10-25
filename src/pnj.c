@@ -143,11 +143,11 @@ void handlePnjBattle(Map *map, Player *player) {
           player->pos = '^';
         }
       }
-      if (seen) {
-        map->printable_map[TO_PRINTABLE_MAP1 * player->xy + TO_PRINTABLE_MAP2] =
-            player->pos;
-        bool lost = pnjBattle(map, player);
-      }
+    }
+    if (seen) {
+      map->printable_map[TO_PRINTABLE_MAP1 * player->xy + TO_PRINTABLE_MAP2] =
+          player->pos;
+      bool lost = pnjBattle(map, player);
     }
   }
 }

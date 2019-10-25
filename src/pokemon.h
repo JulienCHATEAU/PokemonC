@@ -7,7 +7,7 @@
 #define GAME_H
 
 #define POKEDEX_LENGTH 151
-#define PKMN_SKILL_LEARN_FREQU 6
+#define PKMN_SKILL_LEARN_FREQU 4
 #define SKILLS_COUNT 218
 #define AILMENT_LABEL_LENGTH 3
 
@@ -30,7 +30,7 @@ int getKeyCount(Player *player);
 int getMaxLevel(Player *player);
 int gainExperience(Pokemon *winner, Pokemon *loser);
 void addAilment(Pokemon *pkmn, AilmentEnum ailment);
-void removeFirstAilment(Pokemon *pkmn);
+void removeAilment(Pokemon *pkmn, int i);
 void removeAllAilments(Pokemon *pkmn);
 void resetAilementStatDebuf(Pokemon *pkmn, AilmentEnum ailment);
 void setBackHealthToZero(Pokemon *pkmn);

@@ -194,7 +194,6 @@ void copyEvo(Pokemon pkmn, Pokemon *copy) {
   strcpy(copy->evo_name, pkmn.evo_name);
 }
 
-
 void evolvePokemon(Pokemon *pkmn, Pokemon evo) {
   setPokemonLvl(&evo, pkmn->lvl);
   copyStats(pkmn, evo.stats);
@@ -524,19 +523,22 @@ void addAilment(Pokemon *pkmn, AilmentEnum ailment) {
     pkmn->crt_ailments[0] = ailment;
   }
   if (pkmn->crt_ailments[0] == BURN) {
-    pkmn->stats.att /= 2;
+    pkmn->stats.att = pkmn->stats.att / 2;
   }
   if (pkmn->crt_ailments[0] == PARALYSIS) {
-    pkmn->stats.spd /= 4;
+    pkmn->stats.spd = pkmn->stats.spd / 4;
   }
 }
 
-/* Removes the first ailment of a pokemon
+/* Removes an ailment of a pokemon
  * pkmn : the pokemon
+ * i : the ailment, should be 0 or 1
  */
-void removeFirstAilment(Pokemon *pkmn) {
-  resetAilementStatDebuf(pkmn, pkmn->crt_ailments[0]);
-  pkmn->crt_ailments[0] = pkmn->crt_ailments[1];
+void removeAilment(Pokemon *pkmn, int i) {
+  resetAilementStatDebuf(pkmn, pkmn->crt_ailments[i]);
+  if (i == 0) {
+    pkmn->crt_ailments[0] = pkmn->crt_ailments[1];
+  }
   pkmn->crt_ailments[1] = NO_AILMENT;
 }
 
@@ -544,8 +546,8 @@ void removeFirstAilment(Pokemon *pkmn) {
  * pkmn : the pokemon
  */
 void removeAllAilments(Pokemon *pkmn) {
-  removeFirstAilment(pkmn);
-  removeFirstAilment(pkmn);
+  removeAilment(pkmn, 0);
+  removeAilment(pkmn, 0);
 }
 
 /* Resets the stats of a pokemon caused by the given ailment
@@ -554,10 +556,10 @@ void removeAllAilments(Pokemon *pkmn) {
  */
 void resetAilementStatDebuf(Pokemon *pkmn, AilmentEnum ailment) {
   if (ailment == BURN) {
-    pkmn->stats.att *= 2;
+    pkmn->stats.att = pkmn->stats.att * 2;
   }
   if (ailment == PARALYSIS) {
-    pkmn->stats.spd *= 4;
+    pkmn->stats.spd = pkmn->stats.att * 4;
   }
 }
 

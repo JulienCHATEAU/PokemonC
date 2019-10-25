@@ -93,24 +93,34 @@ scd_to_play Pokemon so that this function only tests if this is true or not
 */
 bool chosePlayOrder(Pokemon *frst_to_play, Pokemon *scd_to_play,
                     int *frst_player_skill, int *scd_player_skill) {
+  printf("Frst to play : %s - %d spd\n", frst_to_play->name,
+         frst_to_play->stats.spd);
+  printf("Scd to play : %s - %d spd\n", scd_to_play->name,
+         scd_to_play->stats.spd);
   int swapped = false;
   int priority1 = frst_to_play->skills[*frst_player_skill].priority;
   int priority2 = scd_to_play->skills[*scd_player_skill].priority;
-  if (priority1 = priority2) {
+  if (priority1 == priority2) {
     if (scd_to_play->stats.spd > frst_to_play->stats.spd) {
+      printf("1");
       swapPokemonPointerContent(frst_to_play, scd_to_play);
       swapped = true;
     } else if (scd_to_play->stats.spd = frst_to_play->stats.spd) {
       if (rand() % 100 < SAME_SPEED_RAND_PERCENTAGE) {
+        printf("2");
         swapPokemonPointerContent(frst_to_play, scd_to_play);
         swapped = true;
       }
     }
   } else if (priority1 < priority2) {
+    printf("3");
     swapPokemonPointerContent(frst_to_play, scd_to_play);
     swapped = true;
-  } else {
   }
+  printf("Frst to play : %s - %d spd\n", frst_to_play->name,
+         frst_to_play->stats.spd);
+  printf("Scd to play : %s - %d spd\n", scd_to_play->name,
+         scd_to_play->stats.spd);
   return swapped;
 }
 
@@ -167,6 +177,7 @@ void ailmentTextAnimation(Pokemon *skill_user, Pokemon *target,
       skill_user->name_length + 1 + frst_ailment_text_length;
   char *ailment_text = malloc(sizeof(char) * ailment_text_length + 1);
   sprintf(ailment_text, "%s %s", skill_user->name, frst_ailment_text);
+  printf("%s\n", ailment_text);
 
   int ailment_text_length2 = scd_ailment_text_length;
   char *ailment_text2 = malloc(sizeof(char) * ailment_text_length2 + 1);
@@ -180,18 +191,40 @@ void ailmentTextAnimation(Pokemon *skill_user, Pokemon *target,
     refreshBattlePane(*target, *skill_user, battle_pane);
   }
   clearAndPrintBattlePane(battle_pane);
-  free(ailment_text);
-  free(ailment_text2);
   waitNMs(WAIT_BETWEEN_ANIM);
 }
 
+bool manageConfusion(Pokemon *skill_user, Pokemon *target,
+                     bool swapped_xor_frst, char *battle_pane, int i) {
+  bool play = true;
+  if (rand() % 100 < 33) { // not confused yet
+    removeAilment(skill_user, i);
+    ailmentTextAnimation(skill_user, target, swapped_xor_frst, battle_pane,
+                         CONFUSION1_TEXT, CONFUSION1_TEXT_LENGTH, " ", 1);
+  } else { // keep confused
+    ailmentTextAnimation(skill_user, target, swapped_xor_frst, battle_pane,
+                         CONFUSION2_TEXT, CONFUSION2_TEXT_LENGTH, " ", 1);
+    srand(time(NULL));
+    if (rand() % 100 < 50) { // confusion hurts
+      skill_user->stats.hp -= skill_user->stats.hp_max / 8;
+      setBackHealthToZero(skill_user);
+      play = false;
+      printf("before blesse\n");
+      ailmentTextAnimation(skill_user, target, swapped_xor_frst, battle_pane,
+                           CONFUSION3_TEXT, CONFUSION3_TEXT_LENGTH,
+                           CONFUSION4_TEXT, CONFUSION4_TEXT_LENGTH);
+      printf("after blesse\n");
+    }
+  }
+  return play;
+}
 /* Manages the effect of the pokemon's first ailment
 * skill_user : the pokemon which is gonna use a skill
 * target : the target
 * swapped_xor_frst : this boolean describe whether the player's pokemon was
-swapped or not and whether it's the first to play or not (see playTurn()) this
-is used to know if the player is pointed by the 'skill_user' parameter or the
-'target' one
+swapped or not and whether it's the first to play or not (see playTurn())
+this is used to know if the player is pointed by the 'skill_user' parameter
+or the 'target' one
 * battle_pane : the battle pane
 */
 bool manageFirstAilment(Pokemon *skill_user, Pokemon *target,
@@ -214,7 +247,7 @@ bool manageFirstAilment(Pokemon *skill_user, Pokemon *target,
       ailmentTextAnimation(skill_user, target, swapped_xor_frst, battle_pane,
                            SLEEP_TEXT, SLEEP_TEXT_LENGTH, " ", 1);
     } else {
-      removeFirstAilment(skill_user);
+      removeAilment(skill_user, 0);
       ailmentTextAnimation(skill_user, target, swapped_xor_frst, battle_pane,
                            WAKE_UP_TEXT, WAKE_UP_TEXT_LENGTH, " ", 1);
     }
@@ -226,7 +259,7 @@ bool manageFirstAilment(Pokemon *skill_user, Pokemon *target,
       ailmentTextAnimation(skill_user, target, swapped_xor_frst, battle_pane,
                            FREEZE_TEXT, FREEZE_TEXT_LENGTH, " ", 1);
     } else {
-      removeFirstAilment(skill_user);
+      removeAilment(skill_user, 0);
       ailmentTextAnimation(skill_user, target, swapped_xor_frst, battle_pane,
                            UNFREEZE_TEXT, UNFREEZE_TEXT_LENGTH, " ", 1);
     }
@@ -247,22 +280,8 @@ bool manageFirstAilment(Pokemon *skill_user, Pokemon *target,
     break;
 
   case CONFUSION:
-    if (rand() % 100 < 33) { // not confused yet
-      removeFirstAilment(skill_user);
-      ailmentTextAnimation(skill_user, target, swapped_xor_frst, battle_pane,
-                           CONFUSION1_TEXT, CONFUSION1_TEXT_LENGTH, " ", 1);
-    } else { // keep confused
-      ailmentTextAnimation(skill_user, target, swapped_xor_frst, battle_pane,
-                           CONFUSION2_TEXT, CONFUSION2_TEXT_LENGTH, " ", 1);
-      srand(time(NULL));
-      if (rand() % 100 < 50) { // confusion hurts
-        skill_user->stats.hp -= skill_user->stats.hp_max / 8;
-        setBackHealthToZero(skill_user);
-        play = false;
-        ailmentTextAnimation(skill_user, target, swapped_xor_frst, battle_pane,
-                             CONFUSION3_TEXT, CONFUSION3_TEXT_LENGTH, " ", 1);
-      }
-    }
+    play =
+        manageConfusion(skill_user, target, swapped_xor_frst, battle_pane, 0);
     break;
   }
   return play;
@@ -281,9 +300,9 @@ bool manageAllAilments(Pokemon *skill_user, Pokemon *target,
                        bool swapped_xor_frst, char *battle_pane) {
   bool play =
       manageFirstAilment(skill_user, target, swapped_xor_frst, battle_pane);
-  if (skill_user->crt_ailments[0] == CONFUSION) {
+  if (skill_user->crt_ailments[1] == CONFUSION && play) {
     play =
-        manageFirstAilment(skill_user, target, swapped_xor_frst, battle_pane);
+        manageConfusion(skill_user, target, swapped_xor_frst, battle_pane, 1);
   }
   return play;
 }
@@ -721,7 +740,7 @@ void *playTurn(void *p) {
   bool swapped = false;
   bool failed = false;
   bool is_ko = false;
-  if (player_turn) { // if the turn of the player is skipped
+  if (player_turn) { // if the turn of the player is not skipped
     swapped = chosePlayOrder(frst_to_play, scd_to_play, frst_player_skill,
                              scd_player_skill);
     if (swapped) {
@@ -762,7 +781,7 @@ void *playTurn(void *p) {
       if (gainExperience(&player->pkmns[0], enemy) == 1) {
         manageLevelUp(player, battle_pane, frst_to_play, scd_to_play);
       }
-      player->money += 200 + enemy->lvl + rand() % 21;
+      player->money += 500 + enemy->lvl + rand() % 21;
     } else { // test if the player has lost or has still some alive pokemon
       manageKoAnimation(player, battle_pane);
       if (hasAnyAlivePokemon(player)) {
@@ -778,7 +797,7 @@ void *playTurn(void *p) {
         for (int i = 0; i < player->pkmn_count; i++) {
           player->pkmns[i].stats.hp = 1;
         }
-        player->money -= 300 + enemy->lvl + rand() % 21;
+        player->money -= 600 + enemy->lvl + rand() % 21;
       }
     }
   }

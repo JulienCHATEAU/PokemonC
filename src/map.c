@@ -147,6 +147,7 @@ void printArray(char *array) {
       case '#':
         textColor(BRIGHT, MAGENTA);
         break;
+
       default:
         textColor(RESET, WHITE);
         break;

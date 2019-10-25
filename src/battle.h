@@ -51,8 +51,10 @@
 #define CONFUSION1_TEXT_LENGTH 17
 #define CONFUSION2_TEXT "est confus"
 #define CONFUSION2_TEXT_LENGTH 10
-#define CONFUSION3_TEXT "il se blesse dans sa confusion"
-#define CONFUSION3_TEXT_LENGTH 30
+#define CONFUSION3_TEXT "se blesse dans"
+#define CONFUSION3_TEXT_LENGTH 14
+#define CONFUSION4_TEXT "sa confusion"
+#define CONFUSION4_TEXT_LENGTH 12
 
 void swapPokemonPointerContent(Pokemon *p1, Pokemon *p2);
 void swapIntPointerContent(int *p1, int *p2);
@@ -73,6 +75,8 @@ void ailmentTextAnimation(Pokemon *skill_user, Pokemon *target,
                           bool swapped_xor_frst, char *battle_pane,
                           char *frst_ailment_text, int frst_ailment_text_length,
                           char *scd_ailment_text, int scd_ailment_text_length);
+bool manageConfusion(Pokemon *skill_user, Pokemon *target,
+                     bool swapped_xor_frst, char *battle_pane, int i);
 bool manageFirstAilment(Pokemon *skill_user, Pokemon *target,
                         bool swapped_xor_frst, char *battle_pane);
 bool manageAllAilments(Pokemon *skill_user, Pokemon *target,
