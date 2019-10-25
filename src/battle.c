@@ -105,7 +105,7 @@ bool chosePlayOrder(Pokemon *frst_to_play, Pokemon *scd_to_play,
       printf("1");
       swapPokemonPointerContent(frst_to_play, scd_to_play);
       swapped = true;
-    } else if (scd_to_play->stats.spd = frst_to_play->stats.spd) {
+    } else if (scd_to_play->stats.spd == frst_to_play->stats.spd) {
       if (rand() % 100 < SAME_SPEED_RAND_PERCENTAGE) {
         printf("2");
         swapPokemonPointerContent(frst_to_play, scd_to_play);
@@ -313,7 +313,6 @@ void manageFirstTextAnimation(Pokemon *skill_user, int chosen_skill,
   sprintf(pkmn_use_skill, "%s utilise %s", skill_user->name, chosen.name);
   addInfoText(pkmn_use_skill, pkmn_use_skill_length, " ", 1, battle_pane);
   clearAndPrintBattlePane(battle_pane);
-  free(pkmn_use_skill);
   waitNMs(WAIT_BETWEEN_ANIM);
 }
 
@@ -450,7 +449,6 @@ bool manageEffect(int chosen_skill, Pokemon *skill_user, Pokemon *target,
       break;
     }
     addInfoText(message, message_length, " ", 1, battle_pane);
-    free(message);
     clearAndPrintBattlePane(battle_pane);
     waitNMs(WAIT_BETWEEN_ANIM);
   }
@@ -526,7 +524,6 @@ bool useSkill(Pokemon *skill_user, Pokemon *target, int chosen_skill,
     addInfoText(name_miss_string, name_miss_string_length, " ", 1, battle_pane);
     clearAndPrintBattlePane(battle_pane);
     waitNMs(WAIT_BETWEEN_ANIM);
-    free(name_miss_string);
   }
   if (skill_user->skills[chosen_skill].pp > 0) {
     skill_user->skills[chosen_skill].pp--;
@@ -666,7 +663,6 @@ void manageLearningSkill(Player *player, char *battle_pane,
       }
     }
   }
-  free(wants2learn);
 }
 
 /* Manages the time when a pokemon is level-upping
@@ -683,7 +679,6 @@ void manageLevelUp(Player *player, char *battle_pane, Pokemon *frst_to_play,
   sprintf(lvl_up, "%s passe au niveau %d", player->pkmns[0].name,
           player->pkmns[0].lvl);
   addInfoText(lvl_up, level_up_length, " ", 1, battle_pane);
-  free(lvl_up);
   refreshBattlePane(*frst_to_play, *scd_to_play, battle_pane);
   clearAndPrintBattlePane(battle_pane);
   waitNMs(WAIT_BETWEEN_ANIM);
@@ -701,7 +696,6 @@ void manageKoAnimation(Player *player, char *battle_pane) {
   char *is_ko = malloc(sizeof(char) * (is_ko_length + 1));
   sprintf(is_ko, "%s est K.O.", player->pkmns[0].name);
   addInfoText(is_ko, is_ko_length, " ", 1, battle_pane);
-  free(is_ko);
   clearAndPrintBattlePane(battle_pane);
   waitNMs(WAIT_BETWEEN_ANIM + 200);
 }
@@ -796,7 +790,5 @@ void *playTurn(void *p) {
   }
   eraseInfoText(battle_pane);
   addArrow(ATTAQUES, battle_pane);
-  free(frst_player_skill);
-  free(scd_player_skill);
   *key_pressed_status = res;
 }

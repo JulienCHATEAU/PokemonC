@@ -220,7 +220,6 @@ FILE *openPlayerSaveFile(Player *player, char *mode) {
                                                 1)); // 9 -> 'save/.txt' length
   sprintf(save_file_path, "save/%s.txt", player->pseudo);
   FILE *save_file = openFile(save_file_path, mode);
-  free(save_file_path);
   return save_file;
 }
 

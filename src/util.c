@@ -201,33 +201,6 @@ Player createPlayer(char *pseudo, int xy, char pos, char *pkmn_name) {
   return p;
 }
 
-/* Frees a Skill structure
- * skill : the Skill structure to free
- */
-void freeSkill(Skill skill) {
-  free(skill.name);
-  free(skill.description);
-}
-
-/* Frees a Player structure
- * player : the Player structure to free
- */
-void freePlayer(Player player) {
-  for (int i = 0; i < player.pkmn_count; i++) {
-    freePokemon(player.pkmns[i]);
-  }
-}
-
-/* Frees a Pokemon structure
- * pkmn : the Pokemon structure to free
- */
-void freePokemon(Pokemon pkmn) {
-  free(pkmn.name);
-  for (size_t i = 0; i < 4; i++) {
-    freeSkill(pkmn.skills[i]);
-  }
-}
-
 void enterKey() {
   int enter = -1;
   do {

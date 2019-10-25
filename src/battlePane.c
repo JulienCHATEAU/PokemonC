@@ -201,7 +201,6 @@ void addPokemonName(Pokemon pkmn, char *battle_pane, int pos) {
   char *name_n_lvl = malloc(sizeof(char) * name_n_lvl_length);
   sprintf(name_n_lvl, "%s  lvl %d", pkmn.name, pkmn.lvl);
   addStringToArray(name_n_lvl, name_n_lvl_length, pos, battle_pane);
-  free(name_n_lvl);
 }
 
 /* Adds the player's pokemon health bar to battle pane
@@ -570,7 +569,6 @@ int catchPokemon(char *battle_pane, Player *player, Pokemon *enemy) {
     addInfoTextClearAndWait(GRATZ_CATCH, GRATZ_CATCH_LENGTH, gratz_catch_string,
                             gratz_catch_length, battle_pane,
                             WAIT_BETWEEN_ANIM * 2);
-    free(gratz_catch_string);
     copyPokemon(*enemy, &player->pkmns[player->pkmn_count]);
     player->pkmn_count++;
     catched = 1;
@@ -580,7 +578,6 @@ int catchPokemon(char *battle_pane, Player *player, Pokemon *enemy) {
     sprintf(fail_catch_string, "%s est sorti", enemy->name);
     addInfoTextClearAndWait(fail_catch_string, fail_catch_length, " ", 1,
                             battle_pane, WAIT_BETWEEN_ANIM * 2);
-    free(fail_catch_string);
   }
   eraseInfoText(battle_pane);
   clearAndPrintBattlePane(battle_pane);
@@ -739,7 +736,6 @@ int manageMenuChoice(MenuArrow *arrow, char *battle_pane, Player *player,
       addInfoTextClearAndWait(cant_use_bag_string, cant_use_bag_length, " ", 1,
                               battle_pane, WAIT_BETWEEN_ANIM);
       eraseInfoText(battle_pane);
-      free(cant_use_bag_string);
     }
   }
   return stop;
@@ -810,7 +806,6 @@ void battle(Player *player, int *x_map, int *y_map, int mode) {
   char *random_name;
   getRandomPokemonName(&random_name);
   Pokemon enemy = fillPokemon(random_name);
-  free(random_name);
   srand(time(NULL));
   int average_pkmns_level = getAverageLevel(player);
   int key_count = getKeyCount(player);
@@ -826,7 +821,6 @@ void battle(Player *player, int *x_map, int *y_map, int mode) {
   setPokemonLvl(&enemy, enemy_lvl);
   refreshBattlePane(player->pkmns[0], enemy, battle_pane);
   printAndManageBattlePane(battle_pane, player, &enemy, mode);
-  freePokemon(enemy);
 }
 
 /* Prints and manages the battle pane
@@ -866,7 +860,6 @@ void handleEvolve(Player *player, char *printable_map, char *dialog_box) {
       char *evolve = malloc(sizeof(char) * (evolve_length + 1));
       sprintf(evolve, "%s evolue !", player->pkmns[0].name);
       addTextInDialogBox(FRST_LINE_START, evolve, evolve_length, dialog_box);
-      free(evolve);
       clearAndPrintMap(printable_map, dialog_box);
       printf("\n");
       sleep(1);
@@ -884,7 +877,6 @@ void handleEvolve(Player *player, char *printable_map, char *dialog_box) {
               player->pkmns[0].evo_name);
       addTextInDialogBox(FRST_LINE_START, evolve_done, evolve_done_length,
                          dialog_box);
-      free(evolve_done);
       clearAndPrintMap(printable_map, dialog_box);
 
       evolvePokemon(pkmn, evo);
