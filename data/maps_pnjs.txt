@@ -7,4 +7,4 @@
 3;2 54|<|1 5|5 Regis|2|39 Ce combat etait ouf ! Il m'a donne faim|45 par contre, faut que je trouve de quoi manger|
 1;-2 146|^|1 2|8 Aurelien|2|38 Tant que tu capture pas de Ramboom, je|40 serais toujours partant pour un combat !|
 -2;-2 65|v|1 0|6 Ismaco|4|40 C'etait top ! Par contre j'ai clairement|41 aucune lecon a te donner. T'es aussi fort|43 en combat Pokemon que moi en twerk. Au fait|40 si tu veux apprendre je suis ton homme !|
--4;-3 152|>|1 4|7 Quentin|43 ZZZzzzz.. Hein, oh pardon je me suis encore|41 endormi. C'est vraiment plus fort que moi|
+-4;-3 152|>|1 4|7 Quentin|2|43 ZZZzzzz.. Hein, oh pardon je me suis encore|41 endormi. C'est vraiment plus fort que moi|

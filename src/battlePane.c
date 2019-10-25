@@ -503,6 +503,10 @@ int switchThenManageSkillMenu(Player *player, char *battle_pane, Pokemon *enemy,
   int targetted_skill_temp = targetted_skill;
   char key_pressed = -1;
   int key_pressed_status = 0;
+  if (state == 1) {
+    printLearningSkillInfo(player->pkmns[0].skills[targetted_skill],
+                           *new_skill);
+  }
   do {
     do {
       key_pressed = getchar();

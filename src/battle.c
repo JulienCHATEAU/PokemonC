@@ -177,14 +177,9 @@ void ailmentTextAnimation(Pokemon *skill_user, Pokemon *target,
       skill_user->name_length + 1 + frst_ailment_text_length;
   char *ailment_text = malloc(sizeof(char) * ailment_text_length + 1);
   sprintf(ailment_text, "%s %s", skill_user->name, frst_ailment_text);
-  printf("%s\n", ailment_text);
 
-  int ailment_text_length2 = scd_ailment_text_length;
-  char *ailment_text2 = malloc(sizeof(char) * ailment_text_length2 + 1);
-  sprintf(ailment_text2, "%s", scd_ailment_text);
-
-  addInfoText(ailment_text, ailment_text_length, ailment_text2,
-              ailment_text_length2, battle_pane);
+  addInfoText(ailment_text, ailment_text_length, scd_ailment_text,
+              scd_ailment_text_length, battle_pane);
   if (swapped_xor_frst) {
     refreshBattlePane(*skill_user, *target, battle_pane);
   } else {
@@ -209,11 +204,9 @@ bool manageConfusion(Pokemon *skill_user, Pokemon *target,
       skill_user->stats.hp -= skill_user->stats.hp_max / 8;
       setBackHealthToZero(skill_user);
       play = false;
-      printf("before blesse\n");
       ailmentTextAnimation(skill_user, target, swapped_xor_frst, battle_pane,
                            CONFUSION3_TEXT, CONFUSION3_TEXT_LENGTH,
                            CONFUSION4_TEXT, CONFUSION4_TEXT_LENGTH);
-      printf("after blesse\n");
     }
   }
   return play;
