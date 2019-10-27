@@ -768,7 +768,7 @@ void *playTurn(void *p) {
       if (gainExperience(&player->pkmns[0], enemy) == 1) {
         manageLevelUp(player, battle_pane, frst_to_play, scd_to_play);
       }
-      player->money += 500 + enemy->lvl + rand() % 21;
+      player->money += 300 + enemy->evo_stage * (100 + enemy->lvl) + rand() % 21;
     } else { // test if the player has lost or has still some alive pokemon
       manageKoAnimation(player, battle_pane);
       if (hasAnyAlivePokemon(player)) {
@@ -784,7 +784,7 @@ void *playTurn(void *p) {
         for (int i = 0; i < player->pkmn_count; i++) {
           player->pkmns[i].stats.hp = 1;
         }
-        player->money -= 600 + enemy->lvl + rand() % 21;
+        player->money -= 400 + enemy->evo_stage * 100 + enemy->lvl + rand() % 21;
       }
     }
   }

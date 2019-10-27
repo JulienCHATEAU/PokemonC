@@ -109,6 +109,7 @@ typedef struct {
   int effect_stage[6];
   Type type[2];
   Stats stats;
+  int evo_stage;
   int evo_lvl;
   int evo_name_length;
   char *evo_name;

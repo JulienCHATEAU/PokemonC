@@ -1,151 +1,151 @@
-10 Bulbizarre|1 0 3 11|64|45 49 49 45|16 10 Herbizarre
-10 Herbizarre|1 0 3 11|142|60 62 63 60|32 10 Florizarre
-10 Florizarre|1 0 3 11|236|80 82 83 80|-1 0 
-9 Salameche|1 0 9 -1|62|39 52 43 65|16 9 Reptincel
-9 Reptincel|1 0 9 -1|142|58 64 58 80|36 9 Dracaufeu
-9 Dracaufeu|1 0 2 9|240|78 84 78 100|-1 0 
-8 Carapuce|1 0 10 -1|63|44 48 65 43|16 9 Carabaffe
-9 Carabaffe|1 0 10 -1|142|59 63 80 58|36 7 Tortank
-7 Tortank|1 0 10 -1|239|79 83 100 78|-1 0 
-8 Chenipan|1 0 6 -1|39|45 30 35 45|7 10 Chrysacier
-10 Chrysacier|1 0 6 -1|72|50 20 55 30|10 10 Papilusion
-10 Papilusion|1 0 2 6|178|60 45 50 70|-1 0 
-7 Aspicot|1 0 3 6|39|40 35 30 50|7 9 Coconfort
-9 Coconfort|1 0 3 6|72|45 25 50 35|10 10 Dardargnan
-10 Dardargnan|1 0 3 6|178|65 90 40 75|-1 0 
-7 Roucool|1 0 2 0|50|40 45 40 56|18 8 Roucoups
-8 Roucoups|1 0 2 0|122|63 60 55 71|36 10 Roucarnage
-10 Roucarnage|1 0 2 0|216|83 80 75 101|-1 0 
-7 Rattata|1 0 0 -1|51|30 56 35 72|20 8 Rattatac
-8 Rattatac|1 0 0 -1|145|55 81 60 97|-1 0 
-8 Piafabec|1 0 2 0|52|40 60 30 70|20 10 Rapasdepic
-10 Rapasdepic|1 0 2 0|155|65 90 65 100|-1 0 
-3 Abo|1 0 3 -1|58|35 60 44 55|22 5 Arbok
-5 Arbok|1 0 3 -1|157|60 95 69 80|-1 0 
-7 Pikachu|1 0 12 -1|112|35 55 40 90|21 6 Raichu
-6 Raichu|1 0 12 -1|218|60 90 55 110|-1 0 
-9 Sabelette|1 0 4 -1|60|50 75 85 40|22 10 Sablaireau
-10 Sablaireau|1 0 4 -1|158|75 100 110 65|-1 0 
-9 Nidoran F|1 0 3 -1|55|55 47 52 41|16 8 Nidorina
-8 Nidorina|1 0 3 -1|128|70 62 67 56|27 9 Nidoqueen
-9 Nidoqueen|1 0 4 3|227|90 92 87 76|-1 0 
-9 Nidoran M|1 0 3 -1|55|46 57 40 50|16 8 Nidorino
-8 Nidorino|1 0 3 -1|128|61 72 57 65|28 8 Nidoking
-8 Nidoking|1 0 4 3|227|81 102 77 85|-1 0 
-7 Melofee|1 0 17 -1|113|70 45 48 35|23 9 Melodelfe
-9 Melodelfe|1 0 17 -1|217|95 70 73 60|-1 0 
-6 Goupix|1 0 9 -1|60|38 41 40 65|18 7 Feunard
-7 Feunard|1 0 9 -1|177|73 76 75 100|-1 0 
-9 Rondoudou|1 0 17 0|95|115 45 20 20|29 9 Grodoudou
-9 Grodoudou|1 0 17 0|196|140 70 45 45|-1 0 
-10 Nosferapti|1 0 2 3|49|40 45 35 55|22 10 Nosferalto
-10 Nosferalto|1 0 2 3|159|75 80 70 90|36 9 Nostenfer
-9 Mystherbe|1 0 3 11|64|45 50 55 30|21 6 Ortide
-6 Ortide|1 0 3 11|138|60 65 70 40|31 9 Rafflesia
-9 Rafflesia|1 0 3 11|221|75 80 85 50|-1 0 
-5 Paras|1 0 11 6|57|35 70 55 25|24 8 Parasect
-8 Parasect|1 0 11 6|142|60 95 80 30|-1 0 
-8 Mimitoss|1 0 3 6|61|60 55 50 45|31 8 Aeromite
-8 Aeromite|1 0 3 6|158|70 65 60 90|-1 0 
-10 Taupiqueur|1 0 4 -1|53|10 55 25 95|26 10 Triopikeur
-10 Triopikeur|1 0 4 -1|149|35 100 50 120|-1 0 
-7 Miaouss|1 0 0 -1|58|40 45 35 90|28 7 Persian
-7 Persian|1 0 0 -1|154|65 70 60 115|-1 0 
-9 Psykokwak|1 0 10 -1|64|50 52 48 55|33 8 Akwakwak
-8 Akwakwak|1 0 10 -1|175|80 82 78 85|-1 0 
-9 Ferosinge|1 0 1 -1|61|40 80 35 70|28 10 Colossinge
-10 Colossinge|1 0 1 -1|159|65 105 60 95|-1 0 
-7 Caninos|1 0 9 -1|70|55 70 45 60|12 7 Arcanin
-7 Arcanin|1 0 9 -1|194|90 110 80 95|-1 0 
-7 Ptitard|1 0 10 -1|60|40 50 40 90|25 7 Tetarte
-7 Tetarte|1 0 10 -1|135|65 65 65 90|38 7 Tartard
-7 Tartard|1 0 1 10|230|90 95 95 70|-1 0 
-4 Abra|1 0 13 -1|62|25 20 15 90|16 7 Kadabra
-7 Kadabra|1 0 13 -1|140|40 35 30 105|28 8 Alakazam
-8 Alakazam|1 0 13 -1|225|55 50 45 120|-1 0 
-6 Machoc|1 0 1 -1|61|70 80 50 35|28 9 Machopeur
-9 Machopeur|1 0 1 -1|142|80 100 70 45|40 10 Mackogneur
-10 Mackogneur|1 0 1 -1|227|90 130 80 55|-1 0 
-9 Chetiflor|1 0 3 11|60|50 75 35 40|21 10 Boustiflor
-10 Boustiflor|1 0 3 11|137|65 90 50 55|36 8 Empiflor
-8 Empiflor|1 0 3 11|221|80 105 65 70|-1 0 
-9 Tentacool|1 0 3 10|67|40 40 35 70|30 10 Tentacruel
-10 Tentacruel|1 0 3 10|180|80 70 65 100|-1 0 
-9 Racaillou|1 0 4 5|60|40 80 100 20|25 10 Gravalanch
-10 Gravalanch|1 0 4 5|137|55 95 115 35|36 6 Grolem
-6 Grolem|1 0 4 5|223|80 120 130 45|-1 0 
-6 Ponyta|1 0 9 -1|82|50 85 55 90|40 6 Galopa
-6 Galopa|1 0 9 -1|175|65 100 70 105|-1 0 
-8 Ramoloss|1 0 13 10|63|90 65 65 15|37 9 Flagadoss
-9 Flagadoss|1 0 13 10|172|95 75 110 30|-1 0 
-7 Magneti|1 0 8 12|65|25 35 70 45|30 8 Magneton
-8 Magneton|1 0 8 12|163|50 60 95 70|43 9 Magnezone
-10 Canarticho|1 0 2 0|132|52 90 55 60|-1 0 
-5 Doduo|1 0 2 0|62|35 85 45 75|31 6 Dodrio
-6 Dodrio|1 0 2 0|165|60 110 70 110|-1 0 
-6 Otaria|1 0 10 -1|65|65 45 55 45|34 9 Lamantine
-9 Lamantine|1 0 14 10|166|90 70 80 70|-1 0 
-7 Tadmorv|1 0 3 -1|65|80 80 50 25|38 10 Grotadmorv
-10 Grotadmorv|1 0 3 -1|175|105 105 75 50|-1 0 
-7 Kokiyas|1 0 10 -1|61|30 65 100 40|18 9 Crustabri
-9 Crustabri|1 0 14 10|184|50 95 180 70|-1 0 
-10 Fantominus|1 0 3 7|62|30 35 30 80|25 8 Spectrum
-8 Spectrum|1 0 3 7|142|45 50 45 95|40 10 Ectoplasma
-10 Ectoplasma|1 0 3 7|225|60 65 60 110|-1 0 
-4 Onix|1 0 4 5|77|35 45 160 70|20 7 Steelix
-9 Soporifik|1 0 13 -1|66|60 48 45 42|26 9 Hypnomade
-9 Hypnomade|1 0 13 -1|169|85 73 70 67|-1 0 
-6 Krabby|1 0 10 -1|65|30 105 90 50|28 8 Krabboss
-8 Krabboss|1 0 10 -1|166|55 130 115 75|-1 0 
-8 Voltorbe|1 0 12 -1|66|40 30 50 100|30 9 Electrode
-9 Electrode|1 0 12 -1|172|60 50 70 150|-1 0 
-9 Noeunoeuf|1 0 13 11|65|60 40 80 40|19 8 Noadkoko
-8 Noadkoko|1 0 13 11|186|95 95 85 55|-1 0 
-8 Osselait|1 0 4 -1|64|50 50 95 35|28 9 Ossatueur
-9 Ossatueur|1 0 4 -1|149|60 80 110 45|-1 0 
-7 Kicklee|1 0 1 -1|159|50 120 53 87|-1 0 
+10 Bulbizarre|1 0 3 11|64|45 49 49 45|1 16 10 Herbizarre
+10 Herbizarre|1 0 3 11|142|60 62 63 60|2 32 10 Florizarre
+10 Florizarre|1 0 3 11|236|80 82 83 80|3 -1 0 
+9 Salameche|1 0 9 -1|62|39 52 43 65|1 16 9 Reptincel
+9 Reptincel|1 0 9 -1|142|58 64 58 80|2 36 9 Dracaufeu
+9 Dracaufeu|1 0 2 9|240|78 84 78 100|3 -1 0 
+8 Carapuce|1 0 10 -1|63|44 48 65 43|1 16 9 Carabaffe
+9 Carabaffe|1 0 10 -1|142|59 63 80 58|2 36 7 Tortank
+7 Tortank|1 0 10 -1|239|79 83 100 78|3 -1 0 
+8 Chenipan|1 0 6 -1|39|45 30 35 45|1 7 10 Chrysacier
+10 Chrysacier|1 0 6 -1|72|50 20 55 30|2 10 10 Papilusion
+10 Papilusion|1 0 2 6|178|60 45 50 70|3 -1 0 
+7 Aspicot|1 0 3 6|39|40 35 30 50|1 7 9 Coconfort
+9 Coconfort|1 0 3 6|72|45 25 50 35|2 10 10 Dardargnan
+10 Dardargnan|1 0 3 6|178|65 90 40 75|3 -1 0 
+7 Roucool|1 0 2 0|50|40 45 40 56|1 18 8 Roucoups
+8 Roucoups|1 0 2 0|122|63 60 55 71|2 36 10 Roucarnage
+10 Roucarnage|1 0 2 0|216|83 80 75 101|3 -1 0 
+7 Rattata|1 0 0 -1|51|30 56 35 72|1 20 8 Rattatac
+8 Rattatac|1 0 0 -1|145|55 81 60 97|2 -1 0 
+8 Piafabec|1 0 2 0|52|40 60 30 70|1 20 10 Rapasdepic
+10 Rapasdepic|1 0 2 0|155|65 90 65 100|2 -1 0 
+3 Abo|1 0 3 -1|58|35 60 44 55|1 22 5 Arbok
+5 Arbok|1 0 3 -1|157|60 95 69 80|2 -1 0 
+7 Pikachu|1 0 12 -1|112|35 55 40 90|2 20 6 Raichu
+6 Raichu|1 0 12 -1|218|60 90 55 110|3 -1 0 
+9 Sabelette|1 0 4 -1|60|50 75 85 40|1 22 10 Sablaireau
+10 Sablaireau|1 0 4 -1|158|75 100 110 65|2 -1 0 
+9 Nidoran F|1 0 3 -1|55|55 47 52 41|1 16 8 Nidorina
+8 Nidorina|1 0 3 -1|128|70 62 67 56|2 28 9 Nidoqueen
+9 Nidoqueen|1 0 4 3|227|90 92 87 76|3 -1 0 
+9 Nidoran M|1 0 3 -1|55|46 57 40 50|1 16 8 Nidorino
+8 Nidorino|1 0 3 -1|128|61 72 57 65|2 28 8 Nidoking
+8 Nidoking|1 0 4 3|227|81 102 77 85|3 -1 0 
+7 Melofee|1 0 17 -1|113|70 45 48 35|2 33 9 Melodelfe
+9 Melodelfe|1 0 17 -1|217|95 70 73 60|3 -1 0 
+6 Goupix|1 0 9 -1|60|38 41 40 65|1 12 7 Feunard
+7 Feunard|1 0 9 -1|177|73 76 75 100|2 -1 0 
+9 Rondoudou|1 0 17 0|95|115 45 20 20|2 25 9 Grodoudou
+9 Grodoudou|1 0 17 0|196|140 70 45 45|3 -1 0 
+10 Nosferapti|1 0 2 3|49|40 45 35 55|1 22 10 Nosferalto
+10 Nosferalto|1 0 2 3|159|75 80 70 90|2 35 9 Nostenfer
+9 Mystherbe|1 0 3 11|64|45 50 55 30|1 21 6 Ortide
+6 Ortide|1 0 3 11|138|60 65 70 40|2 33 9 Rafflesia
+9 Rafflesia|1 0 3 11|221|75 80 85 50|3 -1 0 
+5 Paras|1 0 11 6|57|35 70 55 25|1 24 8 Parasect
+8 Parasect|1 0 11 6|142|60 95 80 30|2 -1 0 
+8 Mimitoss|1 0 3 6|61|60 55 50 45|1 31 8 Aeromite
+8 Aeromite|1 0 3 6|158|70 65 60 90|2 -1 0 
+10 Taupiqueur|1 0 4 -1|53|10 55 25 95|1 26 10 Triopikeur
+10 Triopikeur|1 0 4 -1|149|35 100 50 120|2 -1 0 
+7 Miaouss|1 0 0 -1|58|40 45 35 90|1 28 7 Persian
+7 Persian|1 0 0 -1|154|65 70 60 115|2 -1 0 
+9 Psykokwak|1 0 10 -1|64|50 52 48 55|1 33 8 Akwakwak
+8 Akwakwak|1 0 10 -1|175|80 82 78 85|2 -1 0 
+9 Ferosinge|1 0 1 -1|61|40 80 35 70|1 28 10 Colossinge
+10 Colossinge|1 0 1 -1|159|65 105 60 95|2 -1 0 
+7 Caninos|1 0 9 -1|70|55 70 45 60|1 11 7 Arcanin
+7 Arcanin|1 0 9 -1|194|90 110 80 95|2 -1 0 
+7 Ptitard|1 0 10 -1|60|40 50 40 90|1 25 7 Tetarte
+7 Tetarte|1 0 10 -1|135|65 65 65 90|2 39 7 Tartard
+7 Tartard|1 0 1 10|230|90 95 95 70|3 -1 0 
+4 Abra|1 0 13 -1|62|25 20 15 90|1 16 7 Kadabra
+7 Kadabra|1 0 13 -1|140|40 35 30 105|2 30 8 Alakazam
+8 Alakazam|1 0 13 -1|225|55 50 45 120|3 -1 0 
+6 Machoc|1 0 1 -1|61|70 80 50 35|1 28 9 Machopeur
+9 Machopeur|1 0 1 -1|142|80 100 70 45|2 41 10 Mackogneur
+10 Mackogneur|1 0 1 -1|227|90 130 80 55|3 -1 0 
+9 Chetiflor|1 0 3 11|60|50 75 35 40|1 21 10 Boustiflor
+10 Boustiflor|1 0 3 11|137|65 90 50 55|2 33 8 Empiflor
+8 Empiflor|1 0 3 11|221|80 105 65 70|3 -1 0 
+9 Tentacool|1 0 3 10|67|40 40 35 70|1 30 10 Tentacruel
+10 Tentacruel|1 0 3 10|180|80 70 65 100|2 -1 0 
+9 Racaillou|1 0 4 5|60|40 80 100 20|1 25 10 Gravalanch
+10 Gravalanch|1 0 4 5|137|55 95 115 35|2 40 6 Grolem
+6 Grolem|1 0 4 5|223|80 120 130 45|3 -1 0 
+6 Ponyta|1 0 9 -1|82|50 85 55 90|1 40 6 Galopa
+6 Galopa|1 0 9 -1|175|65 100 70 105|2 -1 0 
+8 Ramoloss|1 0 13 10|63|90 65 65 15|1 37 9 Flagadoss
+9 Flagadoss|1 0 13 10|172|95 75 110 30|2 -1 0 
+7 Magneti|1 0 8 12|65|25 35 70 45|1 30 8 Magneton
+8 Magneton|1 0 8 12|163|50 60 95 70|2 43 9 Magnezone
+10 Canarticho|1 0 2 0|132|52 90 55 60|1 -1 0 
+5 Doduo|1 0 2 0|62|35 85 45 75|1 31 6 Dodrio
+6 Dodrio|1 0 2 0|165|60 110 70 110|2 -1 0 
+6 Otaria|1 0 10 -1|65|65 45 55 45|1 34 9 Lamantine
+9 Lamantine|1 0 14 10|166|90 70 80 70|2 -1 0 
+7 Tadmorv|1 0 3 -1|65|80 80 50 25|1 38 10 Grotadmorv
+10 Grotadmorv|1 0 3 -1|175|105 105 75 50|2 -1 0 
+7 Kokiyas|1 0 10 -1|61|30 65 100 40|1 10 9 Crustabri
+9 Crustabri|1 0 14 10|184|50 95 180 70|2 -1 0 
+10 Fantominus|1 0 3 7|62|30 35 30 80|1 25 8 Spectrum
+8 Spectrum|1 0 3 7|142|45 50 45 95|2 35 10 Ectoplasma
+10 Ectoplasma|1 0 3 7|225|60 65 60 110|3 -1 0 
+4 Onix|1 0 4 5|77|35 45 160 70|1 10 7 Steelix
+9 Soporifik|1 0 13 -1|66|60 48 45 42|1 26 9 Hypnomade
+9 Hypnomade|1 0 13 -1|169|85 73 70 67|2 -1 0 
+6 Krabby|1 0 10 -1|65|30 105 90 50|1 28 8 Krabboss
+8 Krabboss|1 0 10 -1|166|55 130 115 75|2 -1 0 
+8 Voltorbe|1 0 12 -1|66|40 30 50 100|1 30 9 Electrode
+9 Electrode|1 0 12 -1|172|60 50 70 150|2 -1 0 
+9 Noeunoeuf|1 0 13 11|65|60 40 80 40|1 18 8 Noadkoko
+8 Noadkoko|1 0 13 11|186|95 95 85 55|2 -1 0 
+8 Osselait|1 0 4 -1|64|50 50 95 35|1 28 9 Ossatueur
+9 Ossatueur|1 0 4 -1|149|60 80 110 45|2 -1 0 
+7 Kicklee|1 0 1 -1|159|50 120 53 87|2 -1 0 
 6 Tygnon|1 0 1 -1|159|50 105 79 76|-1 0 
-10 Excelangue|1 0 0 -1|77|90 55 75 30|17 10 Coudlangue
-5 Smogo|1 0 3 -1|68|40 65 95 35|35 7 Smogogo
-7 Smogogo|1 0 3 -1|172|65 90 120 60|-1 0 
-10 Rhinocorne|1 0 5 4|69|80 85 95 25|42 10 Rhinoferos
-10 Rhinoferos|1 0 5 4|170|105 130 120 40|56 9 Rhinastoc
-9 Leveinard|1 0 0 -1|395|250 5 5 50|22 9 Leuphorie
-10 Saquedeneu|1 0 11 -1|87|65 55 115 60|14 9 Bouldeneu
-9 Kangourex|1 0 0 -1|172|105 95 80 90|-1 0 
-10 Hypotrempe|1 0 10 -1|59|30 40 70 60|32 8 Hypocean
-8 Hypocean|1 0 10 -1|154|55 65 95 85|45 7 Hyporoi
-10 Poissirene|1 0 10 -1|64|45 67 60 63|33 9 Poissoroy
-9 Poissoroy|1 0 10 -1|158|80 92 65 68|-1 0 
-5 Stari|1 0 10 -1|68|30 45 55 85|15 7 Staross
-7 Staross|1 0 13 10|182|60 75 85 115|-1 0 
-7 M. Mime|1 0 17 13|161|40 45 65 90|-1 0 
-10 Insecateur|1 0 2 6|100|70 110 80 105|20 7 Cizayox
-9 Lippoutou|1 0 13 14|159|65 50 35 95|-1 0 
-7 Elektek|1 0 12 -1|172|65 83 57 105|41 8 Elekable
-6 Magmar|1 0 9 -1|173|65 95 57 93|40 7 Maganon
-10 Scarabrute|1 0 6 -1|175|65 125 100 85|-1 0 
-6 Tauros|1 0 0 -1|172|75 100 95 110|-1 0 
-9 Magicarpe|1 0 10 -1|40|20 10 55 80|20 8 Leviator
-8 Leviator|1 0 2 10|189|95 125 79 81|-1 0 
-8 Lokhlass|1 0 14 10|187|130 85 80 60|-1 0 
-9 Metamorph|1 0 0 -1|101|48 48 48 48|-1 0 
-5 Evoli|1 0 0 -1|65|55 55 50 55|20 6 Aquali
-6 Aquali|1 0 10 -1|184|130 65 60 65|-1 0 
+10 Excelangue|1 0 0 -1|77|90 55 75 30|1 16 10 Coudlangue
+5 Smogo|1 0 3 -1|68|40 65 95 35|1 35 7 Smogogo
+7 Smogogo|1 0 3 -1|172|65 90 120 60|2 -1 0 
+10 Rhinocorne|1 0 5 4|69|80 85 95 25|1 42 10 Rhinoferos
+10 Rhinoferos|1 0 5 4|170|105 130 120 40|2 55 9 Rhinastoc
+9 Leveinard|1 0 0 -1|395|250 5 5 50|2 22 9 Leuphorie
+10 Saquedeneu|1 0 11 -1|87|65 55 115 60|1 16 9 Bouldeneu
+9 Kangourex|1 0 0 -1|172|105 95 80 90|1 -1 0 
+10 Hypotrempe|1 0 10 -1|59|30 40 70 60|1 32 8 Hypocean
+8 Hypocean|1 0 10 -1|154|55 65 95 85|2 47 7 Hyporoi
+10 Poissirene|1 0 10 -1|64|45 67 60 63|1 33 9 Poissoroy
+9 Poissoroy|1 0 10 -1|158|80 92 65 68|2 -1 0 
+5 Stari|1 0 10 -1|68|30 45 55 85|1 11 7 Staross
+7 Staross|1 0 13 10|182|60 75 85 115|2 -1 0 
+7 M. Mime|1 0 17 13|161|40 45 65 90|2 -1 0 
+10 Insecateur|1 0 2 6|100|70 110 80 105|1 16 7 Cizayox
+9 Lippoutou|1 0 13 14|159|65 50 35 95|2 -1 0 
+7 Elektek|1 0 12 -1|172|65 83 57 105|2 41 8 Elekable
+6 Magmar|1 0 9 -1|173|65 95 57 93|2 40 7 Maganon
+10 Scarabrute|1 0 6 -1|175|65 125 100 85|1 -1 0 
+6 Tauros|1 0 0 -1|172|75 100 95 110|1 -1 0 
+9 Magicarpe|1 0 10 -1|40|20 10 55 80|1 20 8 Leviator
+8 Leviator|1 0 2 10|189|95 125 79 81|2 -1 0 
+8 Lokhlass|1 0 14 10|187|130 85 80 60|1 -1 0 
+9 Metamorph|1 0 0 -1|101|48 48 48 48|1 -1 0 
+5 Evoli|1 0 0 -1|65|55 55 50 55|1 18 6 Aquali
+6 Aquali|1 0 10 -1|184|130 65 60 65|2 -1 0 
 7 Voltali|1 0 12 -1|184|65 65 60 130|-1 0 
 6 Pyroli|1 0 9 -1|184|65 130 60 65|-1 0 
-7 Porygon|1 0 0 -1|79|65 60 70 40|16 8 Porygon2
-7 Amonita|1 0 10 5|71|35 40 100 35|40 9 Amonistar
-9 Amonistar|1 0 10 5|173|70 60 125 55|-1 0 
-6 Kabuto|1 0 10 5|71|30 80 90 55|40 8 Kabutops
-8 Kabutops|1 0 10 5|173|60 115 105 80|-1 0 
-5 Ptera|1 0 2 5|180|80 105 65 130|-1 0 
-7 Ronflex|1 0 0 -1|189|160 110 65 30|-1 0 
-9 Artikodin|1 0 2 14|261|90 85 100 85|-1 0 
-8 Electhor|1 0 2 12|261|90 90 85 100|-1 0 
-7 Sulfura|1 0 2 9|261|90 100 90 90|-1 0 
-9 Minidraco|1 0 15 -1|60|41 64 45 50|30 5 Draco
-5 Draco|1 0 15 -1|147|61 84 65 70|55 10 Dracolosse
-10 Dracolosse|1 0 2 15|270|91 134 95 80|-1 0 
-6 Mewtwo|1 0 13 -1|306|106 110 90 130|-1 0 
-3 Mew|1 0 13 -1|270|100 100 100 100|-1 0 
+7 Porygon|1 0 0 -1|79|65 60 70 40|1 15 8 Porygon2
+7 Amonita|1 0 10 5|71|35 40 100 35|1 40 9 Amonistar
+9 Amonistar|1 0 10 5|173|70 60 125 55|2 -1 0 
+6 Kabuto|1 0 10 5|71|30 80 90 55|1 40 8 Kabutops
+8 Kabutops|1 0 10 5|173|60 115 105 80|2 -1 0 
+5 Ptera|1 0 2 5|180|80 105 65 130|1 -1 0 
+7 Ronflex|1 0 0 -1|189|160 110 65 30|2 -1 0 
+9 Artikodin|1 0 2 14|261|90 85 100 85|1 -1 0 
+8 Electhor|1 0 2 12|261|90 90 85 100|1 -1 0 
+7 Sulfura|1 0 2 9|261|90 100 90 90|1 -1 0 
+9 Minidraco|1 0 15 -1|60|41 64 45 50|1 30 5 Draco
+5 Draco|1 0 15 -1|147|61 84 65 70|2 55 10 Dracolosse
+10 Dracolosse|1 0 2 15|270|91 134 95 80|3 -1 0 
+6 Mewtwo|1 0 13 -1|306|106 110 90 130|1 -1 0 
+3 Mew|1 0 13 -1|270|100 100 100 100|1 -1 0 

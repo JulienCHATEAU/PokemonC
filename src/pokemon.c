@@ -107,7 +107,7 @@ void fillSomePokemonData(FILE *file, Pokemon *pkmn) {
   fscanf(file, "|%d", &pkmn->base_xp);
   fscanf(file, "|%d %d %d %d", &stats[0], &stats[1], &stats[2], &stats[3]);
   pkmn->stats = createStats(stats[0], stats[1], stats[2], stats[3]);
-  fscanf(file, "|%d ", &pkmn->evo_lvl);
+  fscanf(file, "|%d %d ", &pkmn->evo_stage, &pkmn->evo_lvl);
   if (pkmn->evo_lvl != -1) {
     int fscanf_ret = fscanf(file, "%d ", &pkmn->evo_name_length);
     pkmn->evo_name = malloc(sizeof(char) * pkmn->evo_name_length + 1);
@@ -187,6 +187,7 @@ void copyPokemon(Pokemon pkmn, Pokemon *copy) {
 }
 
 void copyEvo(Pokemon pkmn, Pokemon *copy) {
+  copy->evo_stage = pkmn.evo_stage;
   copy->name_length = pkmn.name_length;
   strcpy(copy->name, pkmn.name);
   copy->evo_lvl = pkmn.evo_lvl;
@@ -502,7 +503,7 @@ void upLevel(Pokemon *pkmn) {
 int gainExperience(Pokemon *winner, Pokemon *loser) {
   int level_up = 0;
   int crt_xp_stage;
-  int xp = loser->base_xp * loser->lvl / 5;
+  int xp = loser->base_xp * loser->lvl / (7 - loser->evo_stage);
   do {
     crt_xp_stage = getCurrentExperienceStage(*winner);
     upLevel(winner);

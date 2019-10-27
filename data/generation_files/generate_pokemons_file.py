@@ -50,8 +50,8 @@ def type_to_int(type):
     return res
 
 NUMBER_OF_PERSO = 152
-TRANSLATION_FILE = "../pokedex.json"
-POKEMONS_FILE = "../pokemons.txt"
+TRANSLATION_FILE = "data/pokedex.json"
+POKEMONS_FILE = "data/pokemons.txt"
 
 # API link
 REQUEST_URL = "https://pokeapi.co/api/v2/"
@@ -71,47 +71,6 @@ def getFrenchNameFromName(name) :
         while jsonf[id]["name"]["english"] != name :
             id = id + 1
         return jsonf[id]["name"]["french"]
-
-def addEvolution(name, data) :
-    frst_evo = data["chain"]
-    if len(frst_evo["evolves_to"]) > 0 :
-        scd_evo = frst_evo["evolves_to"][0]
-        if frst_evo["species"]["name"] == name :
-            evolution_name = scd_evo["species"]["name"]
-            evo_lvl = scd_evo["evolution_details"][0]["min_level"]
-            if evo_lvl is None :
-                evo_lvl = random.randint(10, 20)
-            evolution_name = getFrenchNameFromName(evolution_name.capitalize())
-            return "|"+str(evo_lvl)+" "+str(len(evolution_name))+" "+evolution_name
-        else :
-            if len(scd_evo["evolves_to"]) > 0 :
-                thrd_evo = scd_evo["evolves_to"][0]
-                if scd_evo["species"]["name"] == name :
-                    evolution_name = thrd_evo["species"]["name"]
-                    evo_lvl = thrd_evo["evolution_details"][0]["min_level"]
-                    if evo_lvl is None :
-                        evo_lvl = scd_evo["evolution_details"][0]["min_level"]
-                        if evo_lvl is None :
-                            evo_lvl = random.randint(20, 35)
-                        else :
-                            evo_lvl += random.randint(10, 15)
-                    evolution_name = getFrenchNameFromName(evolution_name.capitalize())
-                    return "|"+str(evo_lvl)+" "+str(len(evolution_name))+" "+evolution_name
-                else :
-                    if thrd_evo["species"]["name"] == name :
-                        return "|-1 0 "
-                    else :
-                        return ""
-            else : 
-                if scd_evo["species"]["name"] == name :
-                    return "|-1 0 "
-                else :
-                    return ""
-    else :
-        if frst_evo["species"]["name"] == name :
-            return "|-1 0 "
-        else :
-            return ""
 
 def del_accent(line):
         """ delete accents """
@@ -134,6 +93,47 @@ def del_accent(line):
                 line = line.replace(accented_char, char)
         return line
 
+def addEvolution(name, data) :
+    frst_evo = data["chain"]
+    if len(frst_evo["evolves_to"]) > 0 :
+        scd_evo = frst_evo["evolves_to"][0]
+        if frst_evo["species"]["name"] == name :
+            evolution_name = scd_evo["species"]["name"]
+            evo_lvl = scd_evo["evolution_details"][0]["min_level"]
+            if evo_lvl is None :
+                evo_lvl = random.randint(10, 20)
+            evolution_name = del_accent(getFrenchNameFromName(evolution_name.capitalize()))
+            return "|1 "+str(evo_lvl)+" "+str(len(evolution_name))+" "+evolution_name
+        else :
+            if len(scd_evo["evolves_to"]) > 0 :
+                thrd_evo = scd_evo["evolves_to"][0]
+                if scd_evo["species"]["name"] == name :
+                    evolution_name = thrd_evo["species"]["name"]
+                    evo_lvl = thrd_evo["evolution_details"][0]["min_level"]
+                    if evo_lvl is None :
+                        evo_lvl = scd_evo["evolution_details"][0]["min_level"]
+                        if evo_lvl is None :
+                            evo_lvl = random.randint(20, 35)
+                        else :
+                            evo_lvl += random.randint(10, 15)
+                    evolution_name = del_accent(getFrenchNameFromName(evolution_name.capitalize()))
+                    return "|2 "+str(evo_lvl)+" "+str(len(evolution_name))+" "+evolution_name
+                else :
+                    if thrd_evo["species"]["name"] == name :
+                        return "|3 -1 0 "
+                    else :
+                        return ""
+            else : 
+                if scd_evo["species"]["name"] == name :
+                    return "|2 -1 0 "
+                else :
+                    return ""
+    else :
+        if frst_evo["species"]["name"] == name :
+            return "|1 -1 0 "
+        else :
+            return ""
+
 def getLine (id, data) :
     """
     @array data : json data
@@ -141,7 +141,7 @@ def getLine (id, data) :
     @return The line with the Julien format
     """
 
-    name = getFrenchNameFromId(id)
+    name = del_accent(getFrenchNameFromId(id))
     size_name = len(name)
     lvl = 1
     xp = 0
@@ -195,7 +195,6 @@ def getLine (id, data) :
         line += "|-1 0 "
 
     j_start = j
-    line = del_accent(line)
     print(str(id) + ": "+ line)
     return line
     
