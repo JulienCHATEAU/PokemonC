@@ -501,12 +501,13 @@ void upLevel(Pokemon *pkmn) {
  */
 int gainExperience(Pokemon *winner, Pokemon *loser) {
   int level_up = 0;
-  int crt_xp_stage = getCurrentExperienceStage(*winner);
-  int xp = loser->base_xp * loser->lvl / 7;
-  if (winner->xp + xp >= crt_xp_stage) {
+  int crt_xp_stage;
+  int xp = loser->base_xp * loser->lvl / 5;
+  do {
+    crt_xp_stage = getCurrentExperienceStage(*winner);
     upLevel(winner);
     level_up = 1;
-  }
+  } while (winner->xp + xp >= crt_xp_stage);
   winner->xp += xp;
   return level_up;
 }
