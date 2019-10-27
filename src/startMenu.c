@@ -206,7 +206,7 @@ void printPokemonDescripton(Pokemon pkmn) {
   tty_reset();
   clearConsole();
   printPokemon(pkmn);
-  printf("\n\n  ->  Retour\n");
+  printf("\n  ->  Retour\n");
   setRawMode('1');
 }
 
