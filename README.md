@@ -6,7 +6,7 @@ _Ce document est à lire attentivement et vous permettra de comprendre le foncti
 
 ## Prérequis
 
-* Ce jeu est uniquement jouable sur Linux (ou avec le [Windows Subsystem for Linux](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux) de Windows)
+* Ce jeu est uniquement jouable sur Linux (ou avec le [Windows Subsystem for Linux](https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux) de Windows mais pas garanti)
 * Vous devez être en possession :
   * du compilateur C : gcc (`$ sudo apt-get install gcc`)
   * du logiciel make (`$ sudo apt-get install make`)
@@ -17,7 +17,7 @@ _Ce document est à lire attentivement et vous permettra de comprendre le foncti
 
 Pour installer la version du jeu de votre choix, placer vous dans un répertoire et effectuez la suite de commande suivante :
 
-1. `$ git clone --branch <tag_version> https://github.com/JulienCHATEAU/PokemonC.git`
+1. `$ git clone https://github.com/JulienCHATEAU/PokemonC.git`
 2. `$ cd PokemonC`
 3. `$ make`
 
