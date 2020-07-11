@@ -70,7 +70,8 @@ bool useSkill(Pokemon *skill_user, Pokemon *target, int chosen_skill,
 bool isAnyKoPokemon(Pokemon *p1, Pokemon *p2);
 bool playOnePokemonTurn(Pokemon *skill_user, Pokemon *target, int chosen_skill,
                         bool swapped, char *battle_pane);
-void *playTurn(void *p);
+// void *playTurn(void *p);
+void *playTurn(int *targetted_skill, Player *player, Pokemon *enemy, char *battle_pane, int *key_pressed_status, bool player_turn);
 void ailmentTextAnimation(Pokemon *skill_user, Pokemon *target,
                           bool swapped_xor_frst, char *battle_pane,
                           char *frst_ailment_text, int frst_ailment_text_length,

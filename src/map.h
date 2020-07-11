@@ -23,8 +23,8 @@
 #define WATER_ '~'
 #define MAP_SIZE 178
 #define TO_PRINTABLE_MAP1 2
-#define TO_PRINTABLE_MAP2 2
-#define PRINTABLE_MAP_SIZE MAP_SIZE * 2 + 1
+#define TO_PRINTABLE_MAP2 3
+#define PRINTABLE_MAP_SIZE MAP_SIZE * 2 + 3
 #define PLAYER_START_POS 156
 
 #define PLAYER_N '^'

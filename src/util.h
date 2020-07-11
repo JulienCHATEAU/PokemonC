@@ -4,13 +4,25 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-#define ENTER 13
+#define ENTER 10
 #define DELETE 127
 
 #define MOVE_Z 'z'
 #define MOVE_Q 'q'
 #define MOVE_S 's'
 #define MOVE_D 'd'
+
+#define CLASSIC_COLOR 1
+#define POKEMON_PANE_COLOR 2
+#define TREE_COLOR 3
+#define WATER_COLOR 4
+#define GRASS_COLOR 5
+#define POKEBALL_COLOR 6
+#define HEAL_COLOR 7
+#define CUTABLE_TREE_COLOR 8
+#define DOOR_COLOR 9
+#define STONE_COLOR 10
+#define PILLAR_COLOR 11
 
 void waitNMs(int n); /*n millisecond*/
 bool isEqual(char character, char comp);
@@ -41,4 +53,8 @@ void copyMapSquare(MapSquare tmp, MapSquare *item);
 bool containsPickedItem(Player *player, MapSquare picked_item, MapSquare *item);
 int getColumn(int xy);
 int getLine(int xy);
+void getUserInput(char *key_pressed);
+void initColors();
+void setColor(int colorId);
+
 #endif

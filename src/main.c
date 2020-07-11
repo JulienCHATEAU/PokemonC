@@ -5,7 +5,7 @@
 #include "pokemon.h"
 #include "pokemonPane.h"
 #include "print.h"
-#include "ttyraw.h"
+
 #include "util.h"
 #include <ncurses.h>
 #include <stdbool.h>
@@ -16,8 +16,11 @@
 #include <unistd.h>
 
 int main(int argc, char const *argv[]) {
+  initscr();
+  start_color();
+  initColors();
   if (*argv[1] == '0') {
-    setRawMode('0');
+    //setRawMode('0');
     exit(0);
   }
   managePokemonPaneMenu();
@@ -25,13 +28,13 @@ int main(int argc, char const *argv[]) {
   manageConnexionMenu(pseudo);
   if (argc > 1) {
     if (*argv[1] == '1') {
-      setRawMode(*argv[1]);
+      // setRawMode(*argv[1]);
     } else {
       fprintf(stderr, "Wrong parameters !\n");
       exit(3);
     }
   } else {
-    setRawMode('0');
+    //setRawMode('0');
   }
   srand(time(NULL));
   Map map;
@@ -43,7 +46,6 @@ int main(int argc, char const *argv[]) {
   setPlayerPseudo(pseudo, &player);
   // setPlayerPseudo("admin", &player);
   loadPlayerData(&map.x, &map.y, &player);
-  printf("%d;%d", map.x, map.y);
   int xy_temp = player.xy; // to check if the player has moved or not
   int pos_temp =
       player.pos; // to check if the player has changed his orientation or not
@@ -56,7 +58,7 @@ int main(int argc, char const *argv[]) {
   int key_status;
   clearAndPrintMap(map.printable_map, map.dialog_box);
   do {
-    key_pressed = getchar();
+    getUserInput(&key_pressed);
     key_status = manageKeyPressed(key_pressed, &player, &map);
     if (key_status != 0) { // right key
       /*this test optimize the refresh of the console :
@@ -87,7 +89,7 @@ int main(int argc, char const *argv[]) {
 //   loadPlayerData(&x_map, &y_map, &player);
 //   loadMap(x_map, y_map, map_structure, &player);
 //   // for (int i = 0; i < MAP_SIZE; i++) {
-//   //   printf("%d\n", map_structure[i]);
+//   //   printw("%d\n", map_structure[i]);
 //   // }
 //   char dialog_box[DIALOG_BOX_LENGTH];
 //   loadDialogBox(dialog_box);

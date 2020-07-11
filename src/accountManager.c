@@ -4,10 +4,11 @@
 #include "map.h"
 #include "pokemon.h"
 #include "print.h"
-#include "ttyraw.h"
+
 #include "util.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <ncurses.h>
 #include <string.h>
 
 #define ACCOUNTS_FILE_PATH "save/accounts.txt"
@@ -20,17 +21,16 @@ void manageConnexionMenu(char *pseudo) {
   int key_status = 1;
   char key_pressed = -1;
   do {
+    echo();
     clearConsole();
-    printf("\n\n");
+    printw("\n\n");
     askPseudo(pseudo);
+    noecho();
     askPassword(password);
-    printf("\n\n     --------------       --------------------\n");
-    printf("    | 1. Connexion |     | 2. Creer le compte |\n");
-    printf("     --------------       --------------------\n");
-    setRawMode('1');
-    do {
-      key_pressed = getchar();
-    } while (key_pressed == -1);
+    printw("\n\n     --------------       --------------------\n");
+    printw("    | 1. Connexion |     | 2. Creer le compte |\n");
+    printw("     --------------       --------------------\n");
+    getUserInput(&key_pressed);
     key_status = manageConnexionKeyPressed(pseudo, password, key_pressed);
   } while (key_status != 0);
 }
@@ -76,17 +76,17 @@ void askPseudoOrPw(char *array, int array_max_length) {
     if (first_time) {
       first_time = 0;
     } else if (valid_state == 0) {
-      printf("  Seulement les caractères minuscules, majuscules et '-' sont "
+      printw("  Seulement les caractères minuscules, majuscules et '-' sont "
              "acceptés\n");
     }
     if (array_max_length == PSEUDO_MAX_LENGTH) {
-      printf("\n  Pseudo (%d caractères max) : ", array_max_length);
+      printw("\n  Pseudo (%d caractères max) : ", array_max_length);
     } else {
-      printf("\n  Mot de passe (%d caractères max) : ", array_max_length);
+      printw("\n  Mot de passe (%d caractères max) : ", array_max_length);
     }
-    fgets(array, array_max_length, stdin);
-    int array_length = strlen(array);
-    array[(array_length - 1)] = '\0';
+    getstr(array);
+    // int array_length = strlen(array);
+    // array[(array_length - 1)] = '\0';
     valid_state = isPseudoValid(array, array_max_length);
   } while (valid_state == 0);
 }
@@ -107,30 +107,30 @@ void askPassword(char *array) { askPseudoOrPw(array, PASSWORD_MAX_LENGTH); }
  */
 int manageConnexionKeyPressed(char *pseudo, char *password, char key_pressed) {
   int key_pressed_status = 1;
-  tty_reset();
+  //tty_reset();
   if (key_pressed == '1') {
     if (pseudoPasswordExists(pseudo, password, BOTH)) {
       key_pressed_status = 0;
     } else {
-      printf("\n  Pseudo ou mot de passe incorrect\n\n\n  ");
+      printw("\n  Pseudo ou mot de passe incorrect\n\n\n  ");
       waitForEnter();
     }
   } else if (key_pressed == '2') {
     int exist = addAccount(pseudo, password);
     if (exist == 0) {
-      printf("\n  Création du compte réussi !\n");
+      printw("\n  Création du compte réussi !\n");
       char *random_name;
       getRandomPokemonName(&random_name);
       Player player = createPlayer(pseudo, PLAYER_START_POS, '^', random_name);
       savePlayerData(0, 0, &player);
-      printf("\n\n\n ");
+      printw("\n\n\n ");
       key_pressed_status = 0;
       waitForEnter();
     } else if (exist == 1) {
-      printf("\n  Ce pseudo existe déjà.\n\n\n  ");
+      printw("\n  Ce pseudo existe déjà.\n\n\n  ");
       waitForEnter();
     } else if (exist == 2) {
-      printf("\n  Ce mot de passe existe déjà.\n\n\n  ");
+      printw("\n  Ce mot de passe existe déjà.\n\n\n  ");
       waitForEnter();
     }
   } else if (key_pressed == EXIT) {

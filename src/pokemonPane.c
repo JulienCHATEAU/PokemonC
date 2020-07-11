@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ncurses.h>
 #include "util.h"
 #include "pokemonPane.h"
 #include "fileManager.h"
@@ -19,10 +20,14 @@ void loadPokemonPane(char *pokemon_pane) {
 */
 void printPokemonPane(char *pokemon_pane) {
   clearConsole();
-  printf("\n\n");
-  textColor(BRIGHT, YELLOW);
-  printf("%s\n", pokemon_pane);
-  textColor(RESET, WHITE);
+  setColor(POKEMON_PANE_COLOR);
+  addch('\n');
+  for (int j = 0; j < 864; j++) {
+    if (pokemon_pane[j] != 13) {
+      addch(pokemon_pane[j]);
+    }
+  }
+  setColor(CLASSIC_COLOR);
 }
 
 /* Manages the pokemon pane menu
@@ -31,6 +36,6 @@ void managePokemonPaneMenu() {
   char pokemon_pane[POKEMON_PANE_LENGTH];
   loadPokemonPane(pokemon_pane);
   printPokemonPane(pokemon_pane);
-  printf("\n\n\n\n                            ");
+  printw("\n\n\n\n                            ");
   waitForEnter();
 }

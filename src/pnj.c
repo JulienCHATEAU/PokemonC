@@ -3,6 +3,7 @@
 #include "fileManager.h"
 #include "map.h"
 #include "print.h"
+#include <ncurses.h>
 #include "util.h"
 
 void managePnjOrientation(Map *map, char player_orientation,
@@ -153,13 +154,13 @@ void handlePnjBattle(Map *map, Player *player) {
 }
 
 void printPnj(Pnj *pnj) {
-  printf("%c\n", pnj->orientation);
-  printf("%d;%d %d\n", pnj->square.x_map, pnj->square.y_map, pnj->square.xy);
-  printf("%d %d\n", pnj->is_trainer, pnj->look_range);
-  printf("%d %s\n", pnj->name_length, pnj->name);
-  printf("%d\n", pnj->texts_count);
+  printw("%c\n", pnj->orientation);
+  printw("%d;%d %d\n", pnj->square.x_map, pnj->square.y_map, pnj->square.xy);
+  printw("%d %d\n", pnj->is_trainer, pnj->look_range);
+  printw("%d %s\n", pnj->name_length, pnj->name);
+  printw("%d\n", pnj->texts_count);
   for (int i = 0; i < pnj->texts_count; ++i) {
-    printf("%d %s", pnj->texts_length[i], pnj->dialog_texts[i]);
-    printf("\n");
+    printw("%d %s", pnj->texts_length[i], pnj->dialog_texts[i]);
+    printw("\n");
   }
 }

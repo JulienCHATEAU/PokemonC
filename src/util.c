@@ -7,25 +7,38 @@
 #include "pokemon.h"
 #include <stdbool.h>
 #include <string.h>
-#include <time.h>
+#include <ncurses.h>
+#include <unistd.h>
 
 /* Waits during n millisecond
  * n : the number of millisecond to wait
  */
 void waitNMs(int n) { /*n millisecond*/
-  int msec = 0;
-  clock_t before = clock();
+  refresh();
+  usleep(n * 1000);
+  // int msec = 0;
+  // clock_t before = clock();
+  // do {
+  //   clock_t difference = clock() - before;
+  //   msec = difference * 1000 / CLOCKS_PER_SEC;
+  // } while (msec < n);
+}
+
+void getUserInput(char *key_pressed) {
+  noecho();
   do {
-    clock_t difference = clock() - before;
-    msec = difference * 1000 / CLOCKS_PER_SEC;
-  } while (msec < n);
+    *key_pressed = getch();
+    if (*key_pressed > 0) {
+      break;
+    }
+  } while (1);
 }
 
 void textColor(int attr, int fg) {
   char command[13];
   /* Command is the control command to the terminal */
   sprintf(command, "%c[%d;%d;%dm", 0x1B, attr, fg + 30, BLACK + 40);
-  printf("%s", command);
+  printw("%s", command);
 }
 
 /* Checks if a character is equal to another
@@ -201,11 +214,34 @@ Player createPlayer(char *pseudo, int xy, char pos, char *pkmn_name) {
   return p;
 }
 
+void initColors() {
+  init_pair(CLASSIC_COLOR, COLOR_WHITE, COLOR_BLACK);
+  init_pair(POKEMON_PANE_COLOR, 226, COLOR_BLACK);
+  init_pair(TREE_COLOR, 28, COLOR_BLACK);
+  init_pair(GRASS_COLOR, 46, COLOR_BLACK);
+  init_pair(WATER_COLOR, 33, COLOR_BLACK);
+  init_pair(POKEBALL_COLOR, 9, COLOR_BLACK);
+  init_pair(HEAL_COLOR, 200, COLOR_BLACK);
+  init_pair(CUTABLE_TREE_COLOR, 70, COLOR_BLACK);
+  init_pair(DOOR_COLOR, 101, COLOR_BLACK);
+  init_pair(STONE_COLOR, 130, COLOR_BLACK);
+  init_pair(PILLAR_COLOR, 215, COLOR_BLACK);
+}
+
+void setColor(int colorId) {
+  attron(COLOR_PAIR(colorId));
+}
+
 void enterKey() {
-  int enter = -1;
+  char key_pressed;
+  noecho();
   do {
-    enter = getchar();
-  } while (enter != ENTER);
+      key_pressed = getch();
+      if (key_pressed == ENTER) {
+        break;
+      }
+    } while (1);
+  echo();
 }
 
 void getSpacesString(char *string, int length) {

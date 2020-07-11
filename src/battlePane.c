@@ -6,12 +6,13 @@
 #include "pokemon.h"
 #include "print.h"
 #include "startMenu.h"
-#include "ttyraw.h"
+
 #include "util.h"
 #include <pthread.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <ncurses.h>
 #include <unistd.h>
 
 /* Creates a thread and wait for its ending
@@ -105,9 +106,14 @@ void eraseArrayLine(int pos, char *battle_pane, int space_count) {
  * battle_pane : the battle pane
  */
 void printBattlePane(char *battle_pane) {
-  tty_reset();
-  printf("%s\n", battle_pane);
-  setRawMode('1');
+  //tty_reset();
+  // printw("%s\n", battle_pane);
+  for (int j = 0; j < BATTLE_PANE_LGTH; j++) {
+    if (battle_pane[j] != 13) {
+      addch(battle_pane[j]);
+    }
+  }
+  //setRawMode('1');
 }
 
 /* Fills an array with all the character of the battle pane file
@@ -433,15 +439,16 @@ int manageSkillMenuKeyPressed(int *targetted_skill, int key_pressed,
       *targetted_skill = 3;
     }
     addArrow(arrows_xys[*targetted_skill], battle_pane);
-  } else if (key_pressed == 13) {
+  } else if (key_pressed == ENTER) {
     if (state == 0) { // triggers a skill
       setMenuBack(battle_pane, arrows_xys, HIDDEN);
       clearAndPrintBattlePane(battle_pane);
       if (player->pkmns[0].skills[*targetted_skill].pp > 0) {
-        PlayTurnParameters play_turn_params = {
-            targetted_skill,     player, enemy, battle_pane,
-            &key_pressed_status, true};
-        createThreadNW8(&playTurn, &play_turn_params);
+        // PlayTurnParameters play_turn_params = {
+        //     targetted_skill,     player, enemy, battle_pane,
+        //     &key_pressed_status, true};
+        // createThreadNW8(&playTurn, &play_turn_params);
+        playTurn(targetted_skill, player, enemy, battle_pane, &key_pressed_status, true);
         addArrow(ATTAQUES, battle_pane);
         clearAndPrintBattlePane(battle_pane);
       } else {
@@ -507,9 +514,7 @@ int switchThenManageSkillMenu(Player *player, char *battle_pane, Pokemon *enemy,
                            *new_skill);
   }
   do {
-    do {
-      key_pressed = getchar();
-    } while (key_pressed == -1);
+    getUserInput(&key_pressed);
     targetted_skill_temp = targetted_skill;
     key_pressed_status =
         manageSkillMenuKeyPressed(&targetted_skill, key_pressed, arrows_xys,
@@ -631,9 +636,10 @@ void playOnlyEnemyTurn(MenuArrow *arrow, char *battle_pane, Player *player,
   int tmp = 0;
   removeArrow(POKEMON, battle_pane);
   clearAndPrintBattlePane(battle_pane);
-  PlayTurnParameters play_turn_params = {&tmp,        player, enemy,
-                                         battle_pane, stop,   false};
-  createThreadNW8(&playTurn, &play_turn_params);
+  // PlayTurnParameters play_turn_params = {&tmp,        player, enemy,
+  //                                        battle_pane, stop,   false};
+  // createThreadNW8(&playTurn, &play_turn_params);
+  playTurn(&tmp, player, enemy, battle_pane, stop, false);
   addArrow(ATTAQUES, battle_pane);
   *arrow = ATTAQUES;
   clearAndPrintBattlePane(battle_pane);
@@ -837,7 +843,7 @@ void printAndManageBattlePane(char *battle_pane, Player *player, Pokemon *enemy,
   char key_pressed = ' ';
   int stop = 0;
   while (stop != 1) {
-    key_pressed = getchar();
+    getUserInput(&key_pressed);
     arrow_temp = arrow;
     stop = manageBattleMenuKeyPressed(key_pressed, &arrow, battle_pane, player,
                                       enemy, mode);
@@ -854,7 +860,7 @@ void handleEvolve(Player *player, char *printable_map, char *dialog_box) {
     if (evo.name_length != -1) {
       addTextInDialogBox(FRST_LINE_START, "Quoi ??", 7, dialog_box);
       clearAndPrintMap(printable_map, dialog_box);
-      printf("\n");
+      printw("\n");
       sleep(1);
 
       int evolve_length = player->pkmns[0].name_length + 9;
@@ -862,13 +868,13 @@ void handleEvolve(Player *player, char *printable_map, char *dialog_box) {
       sprintf(evolve, "%s evolue !", player->pkmns[0].name);
       addTextInDialogBox(FRST_LINE_START, evolve, evolve_length, dialog_box);
       clearAndPrintMap(printable_map, dialog_box);
-      printf("\n");
+      printw("\n");
       sleep(1);
 
       eraseDialogBoxLines(dialog_box);
       addTextInDialogBox(FRST_LINE_START, "...", 3, dialog_box);
       clearAndPrintMap(printable_map, dialog_box);
-      printf("\n");
+      printw("\n");
       sleep(3);
 
       int evolve_done_length =

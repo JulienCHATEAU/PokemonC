@@ -6,7 +6,7 @@ main:
 	@ echo "Création du fichier de sauvegarde des comptes"
 	@ touch save/accounts.txt
 	@ echo "Compilation des fichiers sources..."
-	@ gcc -O0 -g -o bin/main src/*.c -lm -lpthread
+	@ gcc -O0 -g -o bin/main src/*.c -lm -lpthread -lncurses
 	@ echo "\n"
 	@ echo "C'est prêt !"
 	@ echo "\n"

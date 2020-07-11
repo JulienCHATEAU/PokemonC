@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <string.h>
+#include <ncurses.h>
 #include "pokemon.h"
 #include "util.h"
 #include "map.h"
 #include "battlePane.h"
 #include "print.h"
 #include "fileManager.h"
-#include "ttyraw.h"
+
 
 /* Prints the information of the targetted skill (to replace by the new_skill)
    and then the one of the new skill
@@ -14,58 +15,58 @@
 * new_skill : the new skill
 */
 void printLearningSkillInfo(Skill targetted_skill, Skill new_skill) {
-  tty_reset();
-  printf("\n\n\n\n");
+  //tty_reset();
+  printw("\n\n\n\n");
   printSkill(targetted_skill);
-  printf("\n\n");
+  printw("\n\n");
   printSkill(new_skill);
-  setRawMode('1');
+  //setRawMode('1');
 }
 
 /* Print a skill
 * skill : the skill
 */
 void printSkill(Skill skill) {
-  printf("    %s : \n", skill.name);
+  printw("    %s : \n", skill.name);
   char type_string[25];
   typeEnumToString(skill.type, type_string);
-  printf("      Description :   de type %s. %s\n", type_string, skill.description);
-  printf("      Puissance :     %d\n", skill.power);
-  printf("      Précision :     %d / 100\n", skill.accuracy);
-  printf("      PP :            %d / %d\n", skill.pp, skill.pp_max);
+  printw("      Description :   de type %s. %s\n", type_string, skill.description);
+  printw("      Puissance :     %d\n", skill.power);
+  printw("      Précision :     %d / 100\n", skill.accuracy);
+  printw("      PP :            %d / %d\n", skill.pp, skill.pp_max);
 }
 
 /* Print stats
 * stats : the stats
 */
 void printStats(Stats stats) {
-  printf("    Pdv :        %d / %d\n", stats.hp, stats.hp_max);
-  printf("    Attaque :    %d / %d\n", stats.att, stats.att_max);
-  printf("    Défense :    %d / %d\n", stats.def, stats.def_max);
-  printf("    Vitesse :    %d / %d\n", stats.spd, stats.spd_max);
+  printw("    Pdv :        %d / %d\n", stats.hp, stats.hp_max);
+  printw("    Attaque :    %d / %d\n", stats.att, stats.att_max);
+  printw("    Défense :    %d / %d\n", stats.def, stats.def_max);
+  printw("    Vitesse :    %d / %d\n", stats.spd, stats.spd_max);
 }
 
 /* Print a pokemon
 * pkmn : the pokemon
 */
 void printPokemon(Pokemon pkmn) {
-  printf("\n\n    %s : \n\n", pkmn.name);
-  printf("    Niveau :                  %d\n", pkmn.lvl);
-  printf("    Expérience :              %d / %d\n", pkmn.xp, getCurrentExperienceStage(pkmn));
+  printw("\n\n    %s : \n\n", pkmn.name);
+  printw("    Niveau :                  %d\n", pkmn.lvl);
+  printw("    Expérience :              %d / %d\n", pkmn.xp, getCurrentExperienceStage(pkmn));
   char type_string[25];
   getTypesString(pkmn, type_string);
-  printf("    Types :                   %s\n", type_string);
+  printw("    Types :                   %s\n", type_string);
   char *ailement;
   getAilmentLabel(pkmn, &ailement);
   if (strcmp(ailement, " ") == 0) {
     ailement = "Aucun";
   }
-  printf("    Problème de status :      %s\n\n", ailement);
+  printw("    Problème de status :      %s\n\n", ailement);
   printStats(pkmn.stats);
-  printf("\n\n");
+  printw("\n\n");
   for (int i = 0; i < 4; i++) {
     printSkill(pkmn.skills[i]);
-    printf("\n\n");
+    printw("\n\n");
   }
 }
 
@@ -82,8 +83,13 @@ void loadDialogBox(char *dialog_box) {
 * dialog_box : the array describing the dialog box
 */
 void printDialogBox(char *dialog_box) {
-  dialog_box[DIALOG_BOX_LENGTH] = '\0';
-  printf("\n\n%s", dialog_box);
+  // dialog_box[DIALOG_BOX_LENGTH] = '\0';
+  printw("\n\n");
+  for (int j = 0; j < DIALOG_BOX_LENGTH; j++) {
+    if (dialog_box[j] != 13) {
+      addch(dialog_box[j]);
+    }
+  }
 }
 
 /* Erases a line in the dialog box

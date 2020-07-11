@@ -7,7 +7,7 @@
 #include "pokemon.h"
 #include "print.h"
 #include "startMenu.h"
-#include "ttyraw.h"
+
 #include "util.h"
 #include <ncurses.h>
 #include <stdbool.h>
@@ -20,16 +20,21 @@
 /* Waits until the user press the 'Enter' key
  */
 void waitForEnter() {
-  printf("'Enter' pour continuer\n");
-  getchar();
+  printw("'Enter' pour continuer\n");
+  enterKey();
 }
 
 /* Clears the console
  */
 void clearConsole() {
-  printf("\e[1;1H\e[2J");
+  clear();
+  // printw("\e[1;1H\e[2J");
   // system("clear");
   // window.clrtobot();
+}
+
+int getXYPlayer(Player *player) {
+  return player->xy * 2 + 3;
 }
 
 /* Gets the xy coordinates of the square ifo the player
@@ -38,13 +43,13 @@ void clearConsole() {
 int getXYIfoPlayer(Player *player) {
   int xy_in_front_of_player = 0;
   if (player->pos == PLAYER_N) {
-    xy_in_front_of_player = player->xy * 2 + 2 - LINE_SEPARATOR * 2;
+    xy_in_front_of_player = getXYPlayer(player) - 30;
   } else if (player->pos == PLAYER_S) {
-    xy_in_front_of_player = player->xy * 2 + 2 + LINE_SEPARATOR * 2;
+    xy_in_front_of_player = getXYPlayer(player) + 30;
   } else if (player->pos == PLAYER_E) {
-    xy_in_front_of_player = player->xy * 2 + 4;
+    xy_in_front_of_player = getXYPlayer(player) + 2;
   } else if (player->pos == PLAYER_W) {
-    xy_in_front_of_player = player->xy * 2;
+    xy_in_front_of_player = getXYPlayer(player) - 2;
   }
   return xy_in_front_of_player;
 }
@@ -93,16 +98,21 @@ void loadMap(Map *map, char *map_structure, Player *player) {
  */
 void createPrintableMap(char *printable_map, char *map_structure,
                         Player player) {
-  printable_map[0] = '\n'; // first empty line (padding)
+  // printable_map[0] = '\n'; // first empty line (padding)
+  printable_map[0] = ' ';  // first space
   printable_map[1] = ' ';  // first space
+  printable_map[2] = ' ';  // first space
   int i = 0;
   for (i; i < MAP_SIZE; i++) {
     if (i == player.xy) { // if the player orientation is reached
       printable_map[TO_PRINTABLE_MAP1 * i + TO_PRINTABLE_MAP2] = player.pos;
       player.char_at_pos = map_structure[i];
     } else {
-      printable_map[TO_PRINTABLE_MAP1 * i + TO_PRINTABLE_MAP2] =
-          map_structure[i];
+      if (map_structure[i] == '\n') {
+        printable_map[TO_PRINTABLE_MAP1 * i + TO_PRINTABLE_MAP2] = ' ';
+      } else {
+        printable_map[TO_PRINTABLE_MAP1 * i + TO_PRINTABLE_MAP2] = map_structure[i];
+      }
     }
     printable_map[TO_PRINTABLE_MAP1 * i + TO_PRINTABLE_MAP2 + 1] = ' ';
   }
@@ -111,52 +121,58 @@ void createPrintableMap(char *printable_map, char *map_structure,
 
 void printArray(char *array) {
   char last_char = ' ';
+  addch('\n');
   for (int i = 0; i < strlen(array); i++) {
     if (last_char != array[i]) {
       switch (array[i]) {
-      case '@':
-        textColor(DIM, GREEN);
-        break;
-      case '~':
-        textColor(BRIGHT, BLUE);
-        break;
-      case 'W':
-        textColor(BRIGHT, GREEN);
-        break;
-      case 'o':
-        textColor(BRIGHT, RED);
-        break;
-      case '0':
-        textColor(DIM, YELLOW);
-        break;
-      case 'O':
-        textColor(DIM, YELLOW);
-        break;
-      case '[':
-        textColor(BRIGHT, BLACK);
-        break;
-      case ']':
-        textColor(BRIGHT, BLACK);
-        break;
-      case '_':
-        textColor(BRIGHT, BLACK);
-        break;
-      case 'T':
-        textColor(BRIGHT, GREEN);
-        break;
-      case '#':
-        textColor(BRIGHT, MAGENTA);
-        break;
+        case '@':
+          setColor(TREE_COLOR);
+          break;
+        case '~':
+          setColor(WATER_COLOR);
+          break;
+        case 'W':
+          setColor(GRASS_COLOR);
+          break;
+        case 'o':
+          setColor(POKEBALL_COLOR);
+          break;
+        case '0':
+          setColor(STONE_COLOR);
+          break;
+        case 'O':
+          setColor(PILLAR_COLOR);
+          break;
+        case '[':
+          setColor(DOOR_COLOR);
+          break;
+        case ']':
+          setColor(DOOR_COLOR);
+          break;
+        case '_':
+          setColor(DOOR_COLOR);
+          break;
+        case 'T':
+          setColor(CUTABLE_TREE_COLOR);
+          break;
+        case '#':
+          setColor(HEAL_COLOR);
+          break;
 
-      default:
-        textColor(RESET, WHITE);
-        break;
+        default:
+          setColor(CLASSIC_COLOR);
+          break;
       }
     }
-    printf("%c", array[i]);
+    if (i % 30 == 29) {
+      addch('\n');
+    }
+    if (array[i] != 13) {
+      addch(array[i]);
+    }
     last_char = array[i];
   }
-  textColor(RESET, WHITE);
+  setColor(CLASSIC_COLOR);
 }
 
 /* Prints the map on the console
@@ -165,11 +181,11 @@ void printArray(char *array) {
  */
 void clearAndPrintMap(char *printable_map, char *dialog_box) {
   clearConsole();
-  tty_reset();
+  // //tty_reset();
   printArray(printable_map);
-  printf("\n");
+  printw("\n");
   printDialogBox(dialog_box);
-  setRawMode('1');
+  //setRawMode('1');
 }
 
 bool isObstacle(char char_at_new_xy) {
@@ -340,7 +356,7 @@ void manageDBYesNoMenu(int *yes, char *printable_map, char *dialog_box) {
   char key_pressed;
   int key_pressed_status;
   do {
-    key_pressed = getchar();
+    getUserInput(&key_pressed);
     key_pressed_status = manageYesNoKeyPressed(key_pressed, yes);
     if (key_pressed_status == 1) {
       setDBArrowYesNo(yes, dialog_box);
@@ -516,7 +532,6 @@ int checkIfInteractionPossible(Player *player, Map *map) {
   case PLAYER_S: // or
   case PLAYER_E: // or
   case PLAYER_W:
-    printf("%d", xy_ifo_player);
     managePnjOrientation(map, player->pos, xy_ifo_player);
     if (pnjWantsBattle(map, player)) {
       pnjBattle(map, player);

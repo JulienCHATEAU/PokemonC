@@ -3,9 +3,10 @@
 #include "map.h"
 #include "pokemon.h"
 #include "print.h"
-#include "ttyraw.h"
+
 #include "util.h"
 #include <stdio.h>
+#include <ncurses.h>
 
 /**************/
 /* START MENU */
@@ -37,13 +38,13 @@ int manageStartMenu(Player *player, char *printable_map, char *dialog_box) {
   char key_pressed = 0;
   int key_pressed_status = 0;
   do {
-    key_pressed = getchar();
+    getUserInput(&key_pressed);
     key_pressed_status = manageSmKeyPressed(
         player, key_pressed, &targetted_menu, arrows_xys, dialog_box);
     if (key_pressed_status != 2) {
       clearAndPrintMap(printable_map, dialog_box);
     }
-  } while (key_pressed_status != 1 && key_pressed_status != 1337);
+  } while (key_pressed_status != 1 && key_pressed_status != EXIT);
   return key_pressed_status;
 }
 
@@ -60,7 +61,7 @@ int manageSmEnterKeyPressed(Player *player, int *targetted_menu,
   } else if (*targetted_menu == SM_SAC_ID) {
     manageBagMenu(player, 1);
   } else if (*targetted_menu == SM_QUITTER_ID) {
-    key_pressed_status = 1337;
+    key_pressed_status = EXIT;
   } else if (*targetted_menu == SM_ANNULER_ID) {
     key_pressed_status = 1; // exit start menu
     eraseDialogBoxLines(dialog_box);
@@ -135,7 +136,7 @@ int manageSmKeyPressed(Player *player, char key_pressed, int *targetted_menu,
         changeTargettedMenu(targetted_menu, SM_POKEMONS_ID, SM_SAC_ID,
                             SM_QUITTER_ID, SM_ANNULER_ID);
     addArrow(arrows_xys[*targetted_menu], dialog_box);
-  } else if (key_pressed == 13) {
+  } else if (key_pressed == ENTER) {
     key_pressed_status =
         manageSmEnterKeyPressed(player, targetted_menu, dialog_box);
   } else if (key_pressed == 127) {
@@ -162,52 +163,52 @@ same from where you triggers it) mode = 0 -> triggered from start menu mode = 1
 ko mode = 3 -> triggered from bag item
 */
 void printPokemonsPane(Player *player, int targetted_pkmn, int mode) {
-  tty_reset();
+  //tty_reset();
   clearConsole();
-  printf("\n\n          Vos Pokémons :\n\n\n");
+  printw("\n\n          Vos Pokémons :\n\n\n");
   for (int i = 0; i < player->pkmn_count; i++) {
     if (i == targetted_pkmn) {
-      printf("  ->  lvl %d - %s  %d/%d Pdv\n\n", player->pkmns[i].lvl,
+      printw("  ->  lvl %d - %s  %d/%d Pdv\n\n", player->pkmns[i].lvl,
              player->pkmns[i].name, player->pkmns[i].stats.hp,
              player->pkmns[i].stats.hp_max);
     } else {
-      printf("      lvl %d - %s  %d/%d Pdv\n\n", player->pkmns[i].lvl,
+      printw("      lvl %d - %s  %d/%d Pdv\n\n", player->pkmns[i].lvl,
              player->pkmns[i].name, player->pkmns[i].stats.hp,
              player->pkmns[i].stats.hp_max);
     }
   }
   if (mode == 1 || mode == 2) {
-    printf("\n\n\n    ----------------      ----------------------\n");
-    printf("   | 1. Description |    | 2. Envoyer au combat |\n");
-    printf("    ----------------      ----------------------\n\n\n");
+    printw("\n\n\n    ----------------      ----------------------\n");
+    printw("   | 1. Description |    | 2. Envoyer au combat |\n");
+    printw("    ----------------      ----------------------\n\n\n");
   } else if (mode == 3) {
-    printf("\n\n\n    -------------\n");
-    printf("   | 1. Utiliser |\n");
-    printf("    -------------\n\n\n");
+    printw("\n\n\n    -------------\n");
+    printw("   | 1. Utiliser |\n");
+    printw("    -------------\n\n\n");
   } else {
-    printf("\n\n\n    ----------------      -----------------------------\n");
-    printf("   | 1. Description |    | 2. Mettre en première place |\n");
-    printf("    ----------------      -----------------------------\n\n\n");
+    printw("\n\n\n    ----------------      -----------------------------\n");
+    printw("   | 1. Description |    | 2. Mettre en première place |\n");
+    printw("    ----------------      -----------------------------\n\n\n");
   }
   if (mode != 2) {
     if (targetted_pkmn == player->pkmn_count) {
-      printf("\n  ->  Annuler\n");
+      printw("\n  ->  Annuler\n");
     } else {
-      printf("\n      Annuler\n");
+      printw("\n      Annuler\n");
     }
   }
-  setRawMode('1');
+  //setRawMode('1');
 }
 
 /* Prints the given pokemon detailed description
  * pkmn : the pokemon
  */
 void printPokemonDescripton(Pokemon pkmn) {
-  tty_reset();
+  //tty_reset();
   clearConsole();
   printPokemon(pkmn);
-  printf("\n  ->  Retour\n");
-  setRawMode('1');
+  printw("\n  ->  Retour\n");
+  //setRawMode('1');
 }
 
 /* Manages the pokemon menu
@@ -224,7 +225,7 @@ int managePokemonsMenu(Player *player, int mode, int *targetted_pkmn) {
     if (key_pressed_status != 2) {
       printPokemonsPane(player, *targetted_pkmn, mode);
     }
-    key_pressed = getchar();
+    getUserInput(&key_pressed);
     key_pressed_status =
         managePmKeyPressed(player, key_pressed, targetted_pkmn, mode);
   } while (
@@ -258,7 +259,7 @@ int managePmKeyPressed(Player *player, char key_pressed, int *targetted_pkmn,
     }
   } else if (key_pressed == 127 && mode != 2) {
     key_pressed_status = 1;
-  } else if (key_pressed == 13) {
+  } else if (key_pressed == ENTER) {
     if (mode != 2) {
       if (*targetted_pkmn == player->pkmn_count) {
         key_pressed_status = 1; // come back to menu
@@ -275,7 +276,7 @@ int managePmKeyPressed(Player *player, char key_pressed, int *targetted_pkmn,
         char key_pressed = 0;
         while (key_pressed != ENTER &&
                key_pressed != DELETE) { // 13 ->'Enter' | 127 -> 'Return'
-          key_pressed = getchar();
+          getUserInput(&key_pressed);
         }
       }
 
@@ -311,42 +312,42 @@ int managePmKeyPressed(Player *player, char key_pressed, int *targetted_pkmn,
  * mode : 0 if in battle, 1 if out of battle
  */
 void printBagPane(Player *player, int targetted_item, int mode) {
-  tty_reset();
+  //tty_reset();
   clearConsole();
-  printf("\n\n          Votre Sac :\n\n\n");
+  printw("\n\n          Votre Sac :\n\n\n");
   int i = 0;
   while (i < player->bag_item_count) {
     if (targetted_item == i) {
-      printf("  ->  %s : x%d\n", player->bag[i].name, player->bag[i].count);
+      printw("  ->  %s : x%d\n", player->bag[i].name, player->bag[i].count);
     } else {
-      printf("      %s : x%d\n", player->bag[i].name, player->bag[i].count);
+      printw("      %s : x%d\n", player->bag[i].name, player->bag[i].count);
     }
-    printf("        Description : %s\n\n", player->bag[i].description);
+    printw("        Description : %s\n\n", player->bag[i].description);
     i++;
   }
   if (player->bag_item_count == 0) {
-    printf("      Vide\n\n");
+    printw("      Vide\n\n");
   }
 
   int usable_time = (int)player->bag[targetted_item].usable_time;
   /*if not on Cancel field and if targetted item is currently usable*/
   if (player->bag_item_count != targetted_item &&
       isItemUsable(mode, usable_time)) {
-    printf("\n\n    -------------\n");
-    printf("   | 1. Utiliser |\n");
-    printf("    -------------\n\n");
+    printw("\n\n    -------------\n");
+    printw("   | 1. Utiliser |\n");
+    printw("    -------------\n\n");
   } else {
-    printf("\n\n\n\n\n\n");
+    printw("\n\n\n\n\n\n");
   }
 
-  printf("\n      Argent : %d $teamy\n\n", player->money);
+  printw("\n      Argent : %d $teamy\n\n", player->money);
 
   if (player->bag_item_count == targetted_item) {
-    printf("\n  ->  Annuler\n");
+    printw("\n  ->  Annuler\n");
   } else {
-    printf("\n      Annuler\n");
+    printw("\n      Annuler\n");
   }
-  setRawMode('1');
+  //setRawMode('1');
 }
 
 int manageBagMenuKeyPressed(char key_pressed, int *targetted_item,
@@ -404,7 +405,7 @@ int manageBagMenu(Player *player, int mode) {
     if (key_pressed_status == 0 || key_pressed_status == 3) {
       printBagPane(player, targetted_item, mode);
     }
-    key_pressed = getchar();
+    getUserInput(&key_pressed);
     key_pressed_status =
         manageBagMenuKeyPressed(key_pressed, &targetted_item, player, mode);
   } while (!(key_pressed_status == 1 || key_pressed_status == 4));
@@ -442,21 +443,21 @@ int initShopItems(Player *player, BagItem *shop_items) {
 
 void printShopPane(BagItem *shop_items, int shop_size, Player *player,
                    int targetted_item) {
-  tty_reset();
+  //tty_reset();
   clearConsole();
-  printf("\n\n          Boutique :\n\n\n");
+  printw("\n\n          Boutique :\n\n\n");
   int i = 0;
   while (i < shop_size) {
     if (targetted_item == i) {
-      printf("  ->  %s :\n", shop_items[i].name);
+      printw("  ->  %s :\n", shop_items[i].name);
     } else {
-      printf("      %s :\n", shop_items[i].name);
+      printw("      %s :\n", shop_items[i].name);
     }
-    printf("        Description : %s\n", shop_items[i].description);
+    printw("        Description : %s\n", shop_items[i].description);
     if (shop_items[i].id == 9) {
-      printf("        Prix : 5 Fragments de Clef\n\n");
+      printw("        Prix : 5 Fragments de Clef\n\n");
     } else {
-      printf("        Prix : %d $teamy\n\n", shop_items[i].price);
+      printw("        Prix : %d $teamy\n\n", shop_items[i].price);
     }
     i++;
   }
@@ -475,21 +476,21 @@ void printShopPane(BagItem *shop_items, int shop_size, Player *player,
   }
 
   if (canBuy) {
-    printf("\n\n    ------------\n");
-    printf("   | 1. Acheter |\n");
-    printf("    ------------\n\n");
+    printw("\n\n    ------------\n");
+    printw("   | 1. Acheter |\n");
+    printw("    ------------\n\n");
   } else {
-    printf("\n\n\n\n\n\n");
+    printw("\n\n\n\n\n\n");
   }
 
-  printf("\n\n      Argent : %d $teamy\n\n", player->money);
+  printw("\n\n      Argent : %d $teamy\n\n", player->money);
 
   if (shop_size == targetted_item) {
-    printf("\n  ->  Annuler\n");
+    printw("\n  ->  Annuler\n");
   } else {
-    printf("\n      Annuler\n");
+    printw("\n      Annuler\n");
   }
-  setRawMode('1');
+  //setRawMode('1');
 }
 
 int manageShopMenuKeyPressed(BagItem *shop_items, int shop_size,
@@ -548,7 +549,7 @@ int manageShopMenu(Player *player) {
     if (key_pressed_status == 0) {
       printShopPane(shop_items, shop_size, player, targetted_item);
     }
-    key_pressed = getchar();
+    getUserInput(&key_pressed);
     key_pressed_status = manageShopMenuKeyPressed(
         shop_items, shop_size, key_pressed, &targetted_item, player);
     shop_size = initShopItems(player, shop_items);

@@ -4,11 +4,12 @@
 #include "map.h"
 #include "print.h"
 #include "startMenu.h"
-#include "ttyraw.h"
+
 #include "util.h"
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <ncurses.h>
 #include <stdlib.h>
 #include <string.h>
 #include <termios.h>
@@ -439,7 +440,7 @@ void typeEnumToString(Type type, char *type_string) {
     setStringToTab(type_string, "FEE");
     break;
   default:
-    printf("FAIL\n");
+    printw("FAIL\n");
     break;
   }
 }

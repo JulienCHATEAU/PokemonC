@@ -13,6 +13,7 @@
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
+#include <ncurses.h>
 
 /* The types table */
 static int types_table[TYPES_TABLE_LGTH]; // 1 is x1, 2 is x2, 3 is x0.5
@@ -93,33 +94,33 @@ scd_to_play Pokemon so that this function only tests if this is true or not
 */
 bool chosePlayOrder(Pokemon *frst_to_play, Pokemon *scd_to_play,
                     int *frst_player_skill, int *scd_player_skill) {
-  printf("Frst to play : %s - %d spd\n", frst_to_play->name,
+  printw("Frst to play : %s - %d spd\n", frst_to_play->name,
          frst_to_play->stats.spd);
-  printf("Scd to play : %s - %d spd\n", scd_to_play->name,
+  printw("Scd to play : %s - %d spd\n", scd_to_play->name,
          scd_to_play->stats.spd);
   int swapped = false;
   int priority1 = frst_to_play->skills[*frst_player_skill].priority;
   int priority2 = scd_to_play->skills[*scd_player_skill].priority;
   if (priority1 == priority2) {
     if (scd_to_play->stats.spd > frst_to_play->stats.spd) {
-      printf("1");
+      printw("1");
       swapPokemonPointerContent(frst_to_play, scd_to_play);
       swapped = true;
     } else if (scd_to_play->stats.spd == frst_to_play->stats.spd) {
       if (rand() % 100 < SAME_SPEED_RAND_PERCENTAGE) {
-        printf("2");
+        printw("2");
         swapPokemonPointerContent(frst_to_play, scd_to_play);
         swapped = true;
       }
     }
   } else if (priority1 < priority2) {
-    printf("3");
+    printw("3");
     swapPokemonPointerContent(frst_to_play, scd_to_play);
     swapped = true;
   }
-  printf("Frst to play : %s - %d spd\n", frst_to_play->name,
+  printw("Frst to play : %s - %d spd\n", frst_to_play->name,
          frst_to_play->stats.spd);
-  printf("Scd to play : %s - %d spd\n", scd_to_play->name,
+  printw("Scd to play : %s - %d spd\n", scd_to_play->name,
          scd_to_play->stats.spd);
   return swapped;
 }
@@ -362,7 +363,7 @@ bool manageEffect(int chosen_skill, Pokemon *skill_user, Pokemon *target,
   int message_length = 6; //"  de l" length
   char *message;
   int written_something = false;
-  printf("%d\n", effect.stat_to_change);
+  printw("%d\n", effect.stat_to_change);
   if (effect.stat_to_change != NO_STATENUM && rand() % 100 < effect.accuracy) {
     written_something = true;
     double base = 1;
@@ -444,7 +445,7 @@ bool manageEffect(int chosen_skill, Pokemon *skill_user, Pokemon *target,
       break;
 
     default:
-      printf("ERROR MANAGING EFFECT\n");
+      printw("ERROR MANAGING EFFECT\n");
       exit(4);
       break;
     }
@@ -570,7 +571,7 @@ int manageYesNoKeyPressed(char key_pressed, int *yes) {
     *yes = 1;
   } else if (key_pressed == MOVE_S) {
     *yes = 0;
-  } else if (key_pressed == 13) { // enter
+  } else if (key_pressed == ENTER) { // enter
     key_pressed_status = 0;
   } else { // wrong key
     key_pressed_status = 2;
@@ -587,7 +588,7 @@ void manageYesNoMenu(int *yes, char *battle_pane) {
   int key_pressed_status;
   do {
     do {
-      key_pressed = getchar();
+      getUserInput(&key_pressed);
     } while (key_pressed == -1);
     key_pressed_status = manageYesNoKeyPressed(key_pressed, yes);
     if (key_pressed_status == 1) {
@@ -703,15 +704,15 @@ void manageKoAnimation(Player *player, char *battle_pane) {
 /* Plays a battle turn (this function is used in a thread)
  * p : p is a PlayTurnParameters structure
  */
-void *playTurn(void *p) {
-  PlayTurnParameters *params = p;
-  int *targetted_skill = params->targetted_skill;
-  Player *player = params->player;
-  Pokemon *enemy = params->enemy;
-  char *battle_pane = params->battle_pane;
-  int *key_pressed_status = params->key_pressed_status;
-  bool player_turn = params->player_turn;
-
+// void *playTurn(void *params) {
+void *playTurn(int *targetted_skill, Player *player, Pokemon *enemy, char *battle_pane, int *key_pressed_status, bool player_turn) {
+  // PlayTurnParameters *params = p;
+  // int *targetted_skill = params->targetted_skill;
+  // Player *player = params->player;
+  // Pokemon *enemy = params->enemy;
+  // char *battle_pane = params->battle_pane;
+  // int *key_pressed_status = params->key_pressed_status;
+  // bool player_turn = params->player_turn;
   int res = 0;
   // considering firstly that the player is faster than the enemy
   Pokemon *frst_to_play = &player->pkmns[0];
