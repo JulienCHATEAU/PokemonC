@@ -15,7 +15,7 @@ _Ce document est à lire attentivement et vous permettra de comprendre le foncti
 
 ## L'initialisation et le lancement du jeu
 
-Pour installer la version du jeu de votre choix, placer vous dans un répertoire et effectuez la suite de commande suivante :
+Pour installer la version du jeu de votre choix, placez vous dans un répertoire et effectuez la suite de commande suivante :
 
 1. `$ git clone https://github.com/JulienCHATEAU/PokemonC.git`
 2. `$ cd PokemonC`
