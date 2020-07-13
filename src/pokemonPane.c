@@ -22,7 +22,7 @@ void printPokemonPane(char *pokemon_pane) {
   clearConsole();
   setColor(POKEMON_PANE_COLOR);
   addch('\n');
-  for (int j = 0; j < 864; j++) {
+  for (int j = 0; j < POKEMON_PANE_LENGTH; j++) {
     if (pokemon_pane[j] != 13) {
       addch(pokemon_pane[j]);
     }
