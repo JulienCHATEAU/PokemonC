@@ -85,9 +85,9 @@ bool pnjBattle(Map *map, Player *player) {
   addTextInDialogBox(FRST_LINE_START, "!!!", 3, map->dialog_box);
   clearW8NErase(map->printable_map, map->dialog_box);
   int want_battle_length =
-      17 + map->pnj.name_length; // 17 = ' veux se battre !' length
+      17 + map->pnj.name_length; // 17 = ' veut se battre !' length
   char *want_battle = malloc(sizeof(char) * want_battle_length + 1);
-  sprintf(want_battle, "%s veux se battre !", map->pnj.name);
+  sprintf(want_battle, "%s veut se battre !", map->pnj.name);
   addTextInDialogBox(FRST_LINE_START, want_battle, want_battle_length,
                      map->dialog_box);
   clearW8NErase(map->printable_map, map->dialog_box);
